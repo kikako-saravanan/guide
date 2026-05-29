@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2-Year CS Learning Roadmap — From Zero to Product Company</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0c0f;
+    --surface: #13151a;
+    --surface2: #1a1d24;
+    --border: #2a2d36;
+    --accent-gold: #f5c842;
+    --accent-teal: #2dd4bf;
+    --accent-rose: #fb7185;
+    --accent-violet: #a78bfa;
+    --accent-orange: #fb923c;
+    --text-primary: #f0f0f0;
+    --text-secondary: #8b8fa8;
+    --text-muted: #4a4e63;
+    --phase1: #f5c842;
+    --phase2: #2dd4bf;
+    --phase3: #fb7185;
+    --phase4: #a78bfa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Lora', Georgia, serif;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 80px 60px 60px;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 80% 20%, rgba(245,200,66,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(45,212,191,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent-teal);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    max-width: 820px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 span.gold { color: var(--accent-gold); }
+  .hero h1 span.teal { color: var(--accent-teal); }
+
+  .hero-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 680px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .meta-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 16px;
+    background: var(--surface);
+  }
+
+  .meta-pill .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+
+  /* ── FIRST PRINCIPLES BLOCK ── */
+  .principles {
+    padding: 60px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .principle-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    background: var(--bg);
+    position: relative;
+  }
+
+  .principle-card::before {
+    content: attr(data-num);
+    font-family: 'Syne', sans-serif;
+    font-size: 80px;
+    font-weight: 800;
+    color: var(--border);
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .principle-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--accent-gold);
+  }
+
+  .principle-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ── TIMELINE OVERVIEW ── */
+  .timeline-section {
+    padding: 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .timeline-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    letter-spacing: -0.02em;
+  }
+
+  .timeline-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .tl-phase {
+    padding: 24px 20px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+
+  .tl-phase:last-child { border-right: none; }
+
+  .tl-phase .phase-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+
+  .tl-phase h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .tl-phase .duration {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .tl-phase.p1 { border-top: 3px solid var(--phase1); }
+  .tl-phase.p2 { border-top: 3px solid var(--phase2); }
+  .tl-phase.p3 { border-top: 3px solid var(--phase3); }
+  .tl-phase.p4 { border-top: 3px solid var(--phase4); }
+
+  .tl-phase.p1 .phase-num { color: var(--phase1); }
+  .tl-phase.p2 .phase-num { color: var(--phase2); }
+  .tl-phase.p3 .phase-num { color: var(--phase3); }
+  .tl-phase.p4 .phase-num { color: var(--phase4); }
+
+  /* ── PHASE SECTIONS ── */
+  .phase-section {
+    padding: 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-section:nth-child(even) {
+    background: var(--surface);
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-badge {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+  }
+
+  .phase-badge .p-num { font-size: 28px; line-height: 1; }
+  .phase-badge .p-label { font-size: 9px; letter-spacing: 0.15em; opacity: 0.7; }
+
+  .phase-badge.p1 { background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.3); color: var(--phase1); }
+  .phase-badge.p2 { background: rgba(45,212,191,0.1); border: 1px solid rgba(45,212,191,0.3); color: var(--phase2); }
+  .phase-badge.p3 { background: rgba(251,113,133,0.1); border: 1px solid rgba(251,113,133,0.3); color: var(--phase3); }
+  .phase-badge.p4 { background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.3); color: var(--phase4); }
+
+  .phase-title-block h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .phase-title-block .why {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+    max-width: 680px;
+    border-left: 2px solid var(--border);
+    padding-left: 16px;
+    margin-top: 10px;
+  }
+
+  /* ── TOPIC BLOCKS ── */
+  .topic-group {
+    margin-bottom: 48px;
+  }
+
+  .topic-group-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .topic-group-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .topic-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .topic-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    background: var(--bg);
+    position: relative;
+  }
+
+  .topic-card .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .topic-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .week-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+  }
+
+  .w1 { background: rgba(245,200,66,0.12); color: var(--phase1); }
+  .w2 { background: rgba(45,212,191,0.12); color: var(--phase2); }
+  .w3 { background: rgba(251,113,133,0.12); color: var(--phase3); }
+  .w4 { background: rgba(167,139,250,0.12); color: var(--phase4); }
+  .w5 { background: rgba(251,146,60,0.12); color: var(--accent-orange); }
+
+  .why-box {
+    background: rgba(245,200,66,0.05);
+    border: 1px solid rgba(245,200,66,0.1);
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: #c9a930;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .why-box strong {
+    color: var(--accent-gold);
+    font-style: normal;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .topics-list {
+    margin-bottom: 14px;
+  }
+
+  .topics-list li {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 3px 0;
+    padding-left: 16px;
+    position: relative;
+    list-style: none;
+  }
+
+  .topics-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+  }
+
+  .resources {
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .resource-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .res-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    padding: 5px 0;
+    border-radius: 4px;
+    transition: color 0.2s;
+    line-height: 1.4;
+  }
+
+  .res-link:hover { color: var(--text-primary); }
+
+  .res-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+
+  .yt { background: rgba(251,113,133,0.15); color: #fb7185; }
+  .blog { background: rgba(45,212,191,0.15); color: #2dd4bf; }
+  .practice { background: rgba(167,139,250,0.15); color: #a78bfa; }
+  .doc { background: rgba(245,200,66,0.15); color: #f5c842; }
+  .course { background: rgba(251,146,60,0.15); color: var(--accent-orange); }
+
+  /* ── HOW TO STUDY BLOCK ── */
+  .study-method {
+    margin: 40px 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .study-method-header {
+    padding: 20px 28px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .study-method-header span {
+    font-size: 18px;
+  }
+
+  .study-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .study-step {
+    padding: 24px 20px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+
+  .study-step:last-child { border-right: none; }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .study-step h5 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--accent-teal);
+  }
+
+  .study-step p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── REVISION SYSTEM ── */
+  .revision-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    margin: 40px 0;
+  }
+
+  .revision-block h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent-violet);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .spaced-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .spaced-item {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+    text-align: center;
+    background: var(--bg);
+  }
+
+  .spaced-item .day {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent-violet);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .spaced-item .what {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    line-height: 1.4;
+  }
+
+  /* ── WEEKLY SCHEDULE ── */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 24px 0;
+  }
+
+  .sched-day {
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .sched-day:last-child { border-right: none; }
+
+  .sched-day-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    text-align: center;
+  }
+
+  .sched-slots {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .slot {
+    border-radius: 4px;
+    padding: 7px 8px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    line-height: 1.4;
+  }
+
+  .slot.learn { background: rgba(45,212,191,0.1); color: #2dd4bf; }
+  .slot.practice { background: rgba(167,139,250,0.1); color: #a78bfa; }
+  .slot.revise { background: rgba(245,200,66,0.1); color: #f5c842; }
+  .slot.project { background: rgba(251,113,133,0.1); color: #fb7185; }
+  .slot.rest { background: rgba(255,255,255,0.03); color: var(--text-muted); font-style: italic; }
+  .slot.mock { background: rgba(251,146,60,0.12); color: var(--accent-orange); }
+
+  /* ── PLATFORMS ── */
+  .platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .platform-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    background: var(--surface);
+    text-align: center;
+  }
+
+  .platform-card .plat-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .platform-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .platform-card p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .platform-card a {
+    color: var(--accent-teal);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-decoration: none;
+    display: block;
+    margin-top: 8px;
+  }
+
+  /* ── MILESTONE TRACKER ── */
+  .milestones {
+    padding: 60px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .milestone-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+
+  .m-month {
+    width: 80px;
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    padding-top: 4px;
+  }
+
+  .m-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .m-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .m-content h5 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .m-content p {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 20px;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  footer strong {
+    color: var(--accent-gold);
+    font-weight: 500;
+  }
+
+  /* ── UTILS ── */
+  .big-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 80px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .hero, .principles, .timeline-section, .phase-section, .milestones { padding: 40px 24px; }
+    .two-col { grid-template-columns: 1fr; }
+    .timeline-bar { grid-template-columns: 1fr 1fr; }
+    .schedule-grid { grid-template-columns: repeat(4, 1fr); }
+    .phase-header { flex-direction: column; gap: 16px; }
+    footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-label">// 2-Year CS Career Roadmap · Built for BCA · Target: Product Companies</div>
+  <h1>From <span class="gold">First Principles</span><br>to <span class="teal">Product Company</span><br>Interview Ready</h1>
+  <p class="hero-sub">
+    A zero-to-hero plan for a BCA student with 2 years, covering Python mastery, Data Structures &amp; Algorithms, and System Design — built so you understand the <em>why</em> behind everything you study, not just the what.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-pill"><div class="dot" style="background:var(--phase1)"></div> Phase 1 · Python Foundation (Months 1–5)</div>
+    <div class="meta-pill"><div class="dot" style="background:var(--phase2)"></div> Phase 2 · DSA Mastery (Months 5–14)</div>
+    <div class="meta-pill"><div class="dot" style="background:var(--phase3)"></div> Phase 3 · System Design (Months 15–20)</div>
+    <div class="meta-pill"><div class="dot" style="background:var(--phase4)"></div> Phase 4 · Interview Sprint (Months 21–24)</div>
+  </div>
+</section>
+
+<!-- ── FIRST PRINCIPLES ── -->
+<section class="principles">
+  <div class="section-label">// Why you study what you study — the mental model</div>
+  <div class="principles-grid">
+    <div class="principle-card" data-num="1">
+      <h3>Language First, Not Framework</h3>
+      <p>Companies don't test frameworks — they test <em>thinking</em>. Python is the language that gets out of your way so your brain can focus on solving problems, not syntax. Once you own Python, you can pick up any language in weeks.</p>
+    </div>
+    <div class="principle-card" data-num="2">
+      <h3>DSA is How Computers Think</h3>
+      <p>Every program, every app, every AI model is built on Arrays, Trees, Graphs and the algorithms that walk through them. Understanding DSA means understanding how to make software <em>fast</em> and <em>correct</em> — the two things interviewers test.</p>
+    </div>
+    <div class="principle-card" data-num="3">
+      <h3>System Design is How Companies Think</h3>
+      <p>Building a feature is engineering. Building something that serves 10 million users reliably is <em>system design</em>. Senior companies care about this because software fails at scale — and they need people who understand why.</p>
+    </div>
+    <div class="principle-card" data-num="4">
+      <h3>Practice &gt; Passive Learning</h3>
+      <p>Reading code doesn't teach you to code. Watching a lecture doesn't make you solve problems. The only way to learn is to build something, break it, debug it, and fix it. Every topic in this plan has deliberate practice built in.</p>
+    </div>
+    <div class="principle-card" data-num="5">
+      <h3>Spaced Repetition is Not Optional</h3>
+      <p>Your brain forgets 70% of what you learn in 24 hours without review. Spaced repetition — reviewing at Day 1, Day 3, Day 7, Day 30 — is how you move knowledge from short-term to permanent memory. This is not a hack; it's neuroscience.</p>
+    </div>
+    <div class="principle-card" data-num="6">
+      <h3>Show Don't Tell — Build Projects</h3>
+      <p>When you walk into an interview, a GitHub full of projects is worth more than a certificate. Projects prove you can apply knowledge, handle ambiguity, and ship real things. Every phase ends with a project.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── TIMELINE OVERVIEW ── -->
+<section class="timeline-section">
+  <h2>24-Month Overview</h2>
+  <div class="timeline-bar">
+    <div class="tl-phase p1">
+      <div class="phase-num">PHASE 01</div>
+      <h4>Python Foundation</h4>
+      <div class="duration">Months 1 – 5 (20 weeks)</div>
+    </div>
+    <div class="tl-phase p2">
+      <div class="phase-num">PHASE 02</div>
+      <h4>DSA Mastery</h4>
+      <div class="duration">Months 5 – 14 (36 weeks)</div>
+    </div>
+    <div class="tl-phase p3">
+      <div class="phase-num">PHASE 03</div>
+      <h4>System Design</h4>
+      <div class="duration">Months 15 – 20 (24 weeks)</div>
+    </div>
+    <div class="tl-phase p4">
+      <div class="phase-num">PHASE 04</div>
+      <h4>Mock &amp; Interview Sprint</h4>
+      <div class="duration">Months 21 – 24 (12 weeks)</div>
+    </div>
+  </div>
+
+  <!-- Weekly Schedule -->
+  <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:16px;color:var(--text-secondary)">Suggested Daily Schedule (3 hrs/day on weekdays, 4 hrs on weekends)</h3>
+  <div class="schedule-grid">
+    <div class="sched-day">
+      <div class="sched-day-name">MON</div>
+      <div class="sched-slots">
+        <div class="slot learn">📖 1.5hr Learn new concept</div>
+        <div class="slot practice">💻 1hr Code it yourself</div>
+        <div class="slot revise">🔁 30m Revise yesterday</div>
+      </div>
+    </div>
+    <div class="sched-day">
+      <div class="sched-day-name">TUE</div>
+      <div class="sched-slots">
+        <div class="slot practice">💻 2hr LeetCode Problems</div>
+        <div class="slot revise">🔁 1hr Flash cards / notes</div>
+      </div>
+    </div>
+    <div class="sched-day">
+      <div class="sched-day-name">WED</div>
+      <div class="sched-slots">
+        <div class="slot learn">📖 1.5hr Learn new concept</div>
+        <div class="slot practice">💻 1.5hr Implement + debug</div>
+      </div>
+    </div>
+    <div class="sched-day">
+      <div class="sched-day-name">THU</div>
+      <div class="sched-slots">
+        <div class="slot practice">💻 2hr Problems (timed)</div>
+        <div class="slot revise">🔁 1hr Week's revision</div>
+      </div>
+    </div>
+    <div class="sched-day">
+      <div class="sched-day-name">FRI</div>
+      <div class="sched-slots">
+        <div class="slot learn">📖 1hr New concept</div>
+        <div class="slot project">🔨 2hr Project work</div>
+      </div>
+    </div>
+    <div class="sched-day">
+      <div class="sched-day-name">SAT</div>
+      <div class="sched-slots">
+        <div class="slot mock">🎯 2hr Mock interview</div>
+        <div class="slot practice">💻 2hr Competitive problems</div>
+      </div>
+    </div>
+    <div class="sched-day">
+      <div class="sched-day-name">SUN</div>
+      <div class="sched-slots">
+        <div class="slot revise">🔁 1.5hr Full week review</div>
+        <div class="slot project">🔨 2hr Project / blog</div>
+        <div class="slot rest">🌿 Rest + plan next week</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     PHASE 1: PYTHON
+══════════════════════════════════════════════════════ -->
+<section class="phase-section">
+  <div class="phase-header">
+    <div class="phase-badge p1"><div class="p-num">01</div><div class="p-label">PHASE</div></div>
+    <div class="phase-title-block">
+      <h2 style="color:var(--phase1)">Python — The Language of Thinking</h2>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);margin-bottom:6px">Months 1–5 · 20 weeks · ~3 hours/day</div>
+      <div class="why">Why Python first? Python is the closest programming language to English. It lets you focus on <em>logic</em>, not semicolons or memory management. Every top product company accepts Python in interviews. And Python powers AI/ML — so you're investing in a skill with a 10-year shelf life.</div>
+    </div>
+  </div>
+
+  <div class="study-method">
+    <div class="study-method-header"><span>🧠</span> How to Study Each Python Topic</div>
+    <div class="study-steps">
+      <div class="study-step">
+        <div class="step-num">01</div>
+        <h5>Watch First (30 min)</h5>
+        <p>Watch the linked YouTube video. Don't code yet. Just understand the concept mentally.</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">02</div>
+        <h5>Read + Annotate (30 min)</h5>
+        <p>Read the official docs or linked blog. Write 3 lines in your own words: "This topic does X, which is useful when Y."</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">03</div>
+        <h5>Code From Scratch (60 min)</h5>
+        <p>Close all tabs. Open a blank file. Write the examples from memory. Make them break. Fix them.</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">04</div>
+        <h5>Teach It Back (15 min)</h5>
+        <p>Explain the concept out loud like you're teaching a 10-year-old. If you can't, you don't know it yet.</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">05</div>
+        <h5>Solve 5 Problems (45 min)</h5>
+        <p>Go to HackerRank / LeetCode and solve 5 easy problems using this concept. Don't look up solutions — struggle first.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module 1: Core Python -->
+  <div class="topic-group">
+    <div class="topic-group-title" style="color:var(--phase1)">Module 1 · Python Fundamentals (Weeks 1–4)</div>
+    <div class="topic-cards">
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Setup &amp; Environment</h4><span class="week-tag w1">WEEK 1</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Every engineer needs to own their own machine. VS Code + Python + Git is the professional developer's setup. Start how you mean to finish.</div>
+        <ul class="topics-list">
+          <li>Install Python 3.12, VS Code, Git</li>
+          <li>Virtual environments (venv) — why each project needs its own</li>
+          <li>pip &amp; package management</li>
+          <li>Your first "Hello World" to GitHub commit</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=YYXdXT2l-Gg" target="_blank"><span class="res-type yt">YT</span>Python Installation &amp; VS Code Setup — Programming with Mosh</a>
+          <a class="res-link" href="https://docs.python.org/3/tutorial/venv.html" target="_blank"><span class="res-type doc">DOC</span>Python Official — Virtual Environments</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=RGOj5yH7evk" target="_blank"><span class="res-type yt">YT</span>Git &amp; GitHub for Beginners — freeCodeCamp</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Variables, Data Types &amp; Operators</h4><span class="week-tag w1">WEEK 1</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Every program manipulates data. Variables are named boxes for data. Types tell Python how to handle the data. Without this, you can't build anything.</div>
+        <ul class="topics-list">
+          <li>int, float, str, bool, NoneType</li>
+          <li>Type casting: int("42"), str(3.14)</li>
+          <li>Arithmetic, comparison, logical, bitwise operators</li>
+          <li>f-strings for clean output</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=kqtD5dpn9C8" target="_blank"><span class="res-type yt">YT</span>Python for Beginners (Full Course) — Programming with Mosh</a>
+          <a class="res-link" href="https://realpython.com/python-data-types/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — Basic Data Types in Python</a>
+          <a class="res-link" href="https://www.hackerrank.com/domains/python" target="_blank"><span class="res-type practice">PRACTICE</span>HackerRank — Python (Easy)</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Control Flow — if/elif/else, loops</h4><span class="week-tag w1">WEEK 1–2</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Programs need to make decisions and repeat actions. 80% of interview problems are solved with loops and conditionals. Master these deeply.</div>
+        <ul class="topics-list">
+          <li>if, elif, else — nested conditions</li>
+          <li>for loops: range, enumerate, zip</li>
+          <li>while loops: break, continue, pass</li>
+          <li>List comprehensions (Python superpower)</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=DZwmZ8Usvnk" target="_blank"><span class="res-type yt">YT</span>Python Control Flow — Corey Schafer</a>
+          <a class="res-link" href="https://realpython.com/list-comprehension-python/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — List Comprehensions in Python</a>
+          <a class="res-link" href="https://leetcode.com/problems/fizz-buzz/" target="_blank"><span class="res-type practice">PRACTICE</span>LeetCode — FizzBuzz (start here)</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Functions &amp; Scope</h4><span class="week-tag w1">WEEK 2</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Functions are how you break complex problems into small, solvable pieces. This is literally what software engineering IS — decomposition. If you can't write clean functions, you can't write clean code.</div>
+        <ul class="topics-list">
+          <li>def, return, default args, *args, **kwargs</li>
+          <li>Local vs global scope (LEGB rule)</li>
+          <li>Lambda functions</li>
+          <li>Recursion — the function that calls itself</li>
+          <li>Higher order functions: map, filter, reduce</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=9Os0o3wzS_I" target="_blank"><span class="res-type yt">YT</span>Python Functions — Corey Schafer</a>
+          <a class="res-link" href="https://realpython.com/python-recursion/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — Recursion in Python</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=ngCos392W4w" target="_blank"><span class="res-type yt">YT</span>Recursion explained visually — Reducible</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Data Structures — Lists, Tuples, Sets, Dicts</h4><span class="week-tag w2">WEEK 3–4</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>These 4 built-in structures are the building blocks of all Python programs and 60% of interview problems. You must know their time complexities, when to use which, and how to manipulate them efficiently.</div>
+        <ul class="topics-list">
+          <li>List: append, insert, pop, slicing, sorting</li>
+          <li>Tuple: immutability, when &amp; why</li>
+          <li>Set: O(1) lookup, union/intersection/difference</li>
+          <li>Dict: key-value, .get(), .items(), .update()</li>
+          <li>defaultdict, Counter from collections module</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=W8KRzm-HUcc" target="_blank"><span class="res-type yt">YT</span>Python Data Structures — CS Dojo</a>
+          <a class="res-link" href="https://realpython.com/python-dicts/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — Dictionaries in Python</a>
+          <a class="res-link" href="https://www.hackerrank.com/domains/python?filters%5Bsubdomains%5D%5B%5D=py-collections" target="_blank"><span class="res-type practice">PRACTICE</span>HackerRank — Collections module challenges</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Strings &amp; String Manipulation</h4><span class="week-tag w2">WEEK 4</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Strings are in 40% of interview problems. Understanding string immutability, slicing, and built-in methods is non-negotiable for product company interviews.</div>
+        <ul class="topics-list">
+          <li>Indexing, slicing, reverse: s[::-1]</li>
+          <li>.split(), .join(), .strip(), .replace()</li>
+          <li>String formatting: f-strings vs .format()</li>
+          <li>ord(), chr() — ASCII in problems</li>
+          <li>Regular expressions intro (re module)</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=k9TUPpGqYTo" target="_blank"><span class="res-type yt">YT</span>Python Strings — Corey Schafer</a>
+          <a class="res-link" href="https://realpython.com/python-strings/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — Python Strings and Character Data</a>
+          <a class="res-link" href="https://leetcode.com/tag/string/" target="_blank"><span class="res-type practice">PRACTICE</span>LeetCode — String problems (Easy)</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Module 2: OOP -->
+  <div class="topic-group">
+    <div class="topic-group-title" style="color:var(--phase1)">Module 2 · Object-Oriented Programming (Weeks 5–8)</div>
+    <div class="topic-cards">
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Classes &amp; Objects</h4><span class="week-tag w2">WEEK 5</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>OOP is how real-world software is modelled. A BankAccount, a User, a Product — these are objects with state (data) and behaviour (methods). Understanding OOP means you can read and contribute to any real codebase.</div>
+        <ul class="topics-list">
+          <li>class, __init__, self — what they actually mean</li>
+          <li>Instance variables vs class variables</li>
+          <li>__str__, __repr__, __len__ — dunder methods</li>
+          <li>Static methods vs class methods</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=ZDa-Z5JzLYM" target="_blank"><span class="res-type yt">YT</span>OOP in Python — Corey Schafer (Playlist)</a>
+          <a class="res-link" href="https://realpython.com/python3-object-oriented-programming/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — OOP in Python 3</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Inheritance, Polymorphism, Encapsulation</h4><span class="week-tag w2">WEEK 6–7</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>These are the 3 pillars of OOP. Interview questions ask you to design classes. System design rounds expect you to model entities cleanly. You cannot skip these.</div>
+        <ul class="topics-list">
+          <li>Single &amp; multiple inheritance, super()</li>
+          <li>Method overriding and polymorphism</li>
+          <li>Abstract classes (ABC module)</li>
+          <li>Private/protected: _name, __name</li>
+          <li>Properties: @property decorator</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=RSl87lqOXDE" target="_blank"><span class="res-type yt">YT</span>Inheritance in Python — Corey Schafer</a>
+          <a class="res-link" href="https://realpython.com/inheritance-composition-python/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — Inheritance vs Composition</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>File Handling &amp; Error Handling</h4><span class="week-tag w2">WEEK 7</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Real programs read files, crash gracefully, and log errors. A program that crashes silently is dangerous. Exception handling is professional-grade coding.</div>
+        <ul class="topics-list">
+          <li>open(), read(), write(), with statement</li>
+          <li>try / except / finally / raise</li>
+          <li>Custom exceptions</li>
+          <li>JSON module: json.loads(), json.dumps()</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=NIWwJbo-9_8" target="_blank"><span class="res-type yt">YT</span>Python Exception Handling — Corey Schafer</a>
+          <a class="res-link" href="https://realpython.com/python-exceptions/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — Python Exceptions: An Introduction</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Modules, Packages &amp; pip</h4><span class="week-tag w2">WEEK 8</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>No one builds everything from scratch. Understanding how to use external libraries, create your own modules, and structure a Python project is essential for building real things.</div>
+        <ul class="topics-list">
+          <li>import, from...import, __name__ == "__main__"</li>
+          <li>Creating your own package (folder + __init__.py)</li>
+          <li>Popular standard library: os, sys, datetime, random, math</li>
+          <li>pip, requirements.txt, virtual environments recap</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=CqvZ3vGoGs0" target="_blank"><span class="res-type yt">YT</span>Python Modules — Corey Schafer</a>
+          <a class="res-link" href="https://docs.python.org/3/tutorial/modules.html" target="_blank"><span class="res-type doc">DOC</span>Python Official — Modules Tutorial</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Module 3: Advanced Python -->
+  <div class="topic-group">
+    <div class="topic-group-title" style="color:var(--phase1)">Module 3 · Advanced Python — Interview-Level (Weeks 9–14)</div>
+    <div class="topic-cards">
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Iterators, Generators &amp; Decorators</h4><span class="week-tag w3">WEEK 9–10</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Generators let you process infinite data with constant memory. Decorators let you add functionality without changing existing code. These are Python's most powerful — and most asked — advanced features.</div>
+        <ul class="topics-list">
+          <li>iter(), next(), custom iterator class</li>
+          <li>yield — generators vs normal functions</li>
+          <li>Generator expressions</li>
+          <li>@decorator syntax, functools.wraps</li>
+          <li>@staticmethod, @classmethod, @property</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=jTYiNjvnHZY" target="_blank"><span class="res-type yt">YT</span>Python Generators — Corey Schafer</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=FsAPt_9Bf3U" target="_blank"><span class="res-type yt">YT</span>Python Decorators — Corey Schafer</a>
+          <a class="res-link" href="https://realpython.com/primer-on-python-decorators/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — Primer on Decorators</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Concurrency: Threading &amp; Async</h4><span class="week-tag w3">WEEK 11</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Modern software is concurrent. Web servers handle thousands of requests simultaneously. Understanding threading, multiprocessing and async/await is expected at product companies.</div>
+        <ul class="topics-list">
+          <li>threading module — Thread class, locks</li>
+          <li>multiprocessing — when to use vs threading</li>
+          <li>GIL — why Python threads aren't truly parallel</li>
+          <li>asyncio, async/await, event loop</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=IEEhzQoKtQU" target="_blank"><span class="res-type yt">YT</span>Python Concurrency — Corey Schafer</a>
+          <a class="res-link" href="https://realpython.com/async-io-python/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — Async IO in Python: A Complete Walkthrough</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Testing with pytest</h4><span class="week-tag w3">WEEK 12</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Every product company writes tests. If your code can't be tested, it can't ship to production safely. Learning to test early makes you 10x more hireable than peers who never write tests.</div>
+        <ul class="topics-list">
+          <li>pytest: writing and running test functions</li>
+          <li>assert statements, fixtures, parametrize</li>
+          <li>Test coverage with coverage.py</li>
+          <li>TDD — Test Driven Development intro</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=cHYq1MRoyI0" target="_blank"><span class="res-type yt">YT</span>pytest Tutorial — Arjancodes</a>
+          <a class="res-link" href="https://realpython.com/pytest-python-testing/" target="_blank"><span class="res-type blog">BLOG</span>Real Python — Effective Python Testing with pytest</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Phase 1 Capstone Projects</h4><span class="week-tag w3">WEEK 13–16</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Projects are how you prove you can build real things. Pick 2 from this list, build them cleanly with OOP, tests, and a README on GitHub.</div>
+        <ul class="topics-list">
+          <li>🔵 CLI Task Manager (file persistence + OOP)</li>
+          <li>🔵 Password Manager (encryption with cryptography lib)</li>
+          <li>🔵 Web Scraper (requests + BeautifulSoup + CSV export)</li>
+          <li>🔵 Student Grade Tracker (OOP + file I/O + reports)</li>
+          <li>🔵 Mini Calculator CLI with full test coverage</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=_ZqAVck-WeM" target="_blank"><span class="res-type yt">YT</span>Python Projects for Beginners — Tech With Tim</a>
+          <a class="res-link" href="https://github.com" target="_blank"><span class="res-type practice">PRACTICE</span>Push all projects to GitHub with good READMEs</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="revision-block">
+    <h3>🔁 Python Revision System — Spaced Repetition</h3>
+    <div class="spaced-grid">
+      <div class="spaced-item"><div class="day">D+1</div><div class="what">Rewrite all code examples from memory</div></div>
+      <div class="spaced-item"><div class="day">D+3</div><div class="what">Solve 5 problems using just that concept</div></div>
+      <div class="spaced-item"><div class="day">D+7</div><div class="what">Explain concept to someone (or rubber duck)</div></div>
+      <div class="spaced-item"><div class="day">D+14</div><div class="what">Mix it with newer concepts in a problem</div></div>
+      <div class="spaced-item"><div class="day">D+30</div><div class="what">Do a timed mock exercise on it</div></div>
+    </div>
+    <p style="font-size:13px;color:var(--text-muted);margin-top:16px;font-family:'DM Mono',monospace;">Tool: Use <strong style="color:var(--accent-violet)">Anki</strong> (free flashcard app) to create cards for every concept. 15 mins of Anki review every morning = permanent memory.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     PHASE 2: DSA
+══════════════════════════════════════════════════════ -->
+<section class="phase-section">
+  <div class="phase-header">
+    <div class="phase-badge p2"><div class="p-num">02</div><div class="p-label">PHASE</div></div>
+    <div class="phase-title-block">
+      <h2 style="color:var(--phase2)">Data Structures &amp; Algorithms — The Interview Language</h2>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);margin-bottom:6px">Months 5–14 · 36 weeks · 2 hrs learning + 2 hrs problems/day</div>
+      <div class="why">Why DSA? Because every product company — Google, Amazon, Flipkart, Zomato, CRED — tests your ability to solve algorithmic problems. These aren't trick questions. They test whether you can think about <em>efficiency</em>: given 1 billion users, how do you find a name in 10ms? That's DSA.</div>
+    </div>
+  </div>
+
+  <div class="study-method">
+    <div class="study-method-header"><span>🧩</span> The UMPIRE Method for Solving Any DSA Problem</div>
+    <div class="study-steps">
+      <div class="study-step">
+        <div class="step-num">U</div>
+        <h5>Understand</h5>
+        <p>Read the problem 3 times. Ask: what's the input? What's the output? What are the edge cases?</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">M</div>
+        <h5>Match</h5>
+        <p>Which data structure does this look like? Array? Tree? Graph? Which algorithm pattern — sliding window, BFS, DP?</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">P</div>
+        <h5>Plan</h5>
+        <p>Write pseudocode. Trace through your example on paper. Never write code before a plan.</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">I</div>
+        <h5>Implement</h5>
+        <p>Write clean, commented code. Focus on correctness first, then optimize.</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">R</div>
+        <h5>Review</h5>
+        <p>Test with your own cases, edge cases, empty inputs. Walk through line by line.</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">E</div>
+        <h5>Evaluate</h5>
+        <p>What's the Time Complexity (Big-O)? Space Complexity? Can you do better?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Big-O -->
+  <div class="topic-group">
+    <div class="topic-group-title" style="color:var(--phase2)">Module 1 · Big-O Notation &amp; Complexity (Weeks 17–18)</div>
+    <div class="topic-cards">
+      <div class="topic-card">
+        <div class="card-top"><h4>Time &amp; Space Complexity</h4><span class="week-tag w2">WEEK 17</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Every interviewer will ask "what is the time complexity of your solution?" If you don't know Big-O, you can't pass interviews. This is the lens through which all DSA is evaluated.</div>
+        <ul class="topics-list">
+          <li>O(1), O(log n), O(n), O(n log n), O(n²), O(2^n)</li>
+          <li>How to calculate Big-O by looking at loops</li>
+          <li>Space complexity — stack frames, auxiliary space</li>
+          <li>Amortized analysis (for dynamic arrays)</li>
+          <li>Best / Average / Worst case distinction</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=Mo4vesaut8g" target="_blank"><span class="res-type yt">YT</span>Big-O Notation — freeCodeCamp</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=BgLTDT03QtU" target="_blank"><span class="res-type yt">YT</span>Introduction to Big-O — NeetCode</a>
+          <a class="res-link" href="https://www.bigocheatsheet.com/" target="_blank"><span class="res-type blog">BLOG</span>bigocheatsheet.com — bookmark this forever</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Linear Data Structures -->
+  <div class="topic-group">
+    <div class="topic-group-title" style="color:var(--phase2)">Module 2 · Linear Data Structures (Weeks 18–26)</div>
+    <div class="topic-cards">
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Arrays &amp; Two Pointers</h4><span class="week-tag w2">WEEK 18–19</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Arrays are in 70% of all interview problems. The two-pointer technique solves O(n²) problems in O(n). This is the single most important pattern to master first.</div>
+        <ul class="topics-list">
+          <li>Array vs Python list — memory layout</li>
+          <li>Two pointer: opposite ends, same direction</li>
+          <li>Sliding window — fixed and variable size</li>
+          <li>Prefix sum array pattern</li>
+          <li>Kadane's algorithm (max subarray)</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=QHEarshSdB8" target="_blank"><span class="res-type yt">YT</span>Two Pointers — NeetCode</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=GcW4mgmgSbw" target="_blank"><span class="res-type yt">YT</span>Sliding Window — NeetCode</a>
+          <a class="res-link" href="https://leetcode.com/tag/two-pointers/" target="_blank"><span class="res-type practice">PRACTICE</span>LeetCode — Two Pointers tag (do 15 easy)</a>
+          <a class="res-link" href="https://neetcode.io/roadmap" target="_blank"><span class="res-type blog">BLOG</span>NeetCode Roadmap — follow this for all of DSA</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Linked Lists</h4><span class="week-tag w2">WEEK 20–21</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Linked Lists teach pointer manipulation — the foundation of all advanced data structures. Product companies love linked list problems because they test careful thinking about memory and state.</div>
+        <ul class="topics-list">
+          <li>Singly linked list: node, head, traversal</li>
+          <li>Doubly linked list: prev/next pointers</li>
+          <li>Reverse a linked list (iterative + recursive)</li>
+          <li>Detect cycle (Floyd's fast/slow pointer)</li>
+          <li>Merge two sorted lists</li>
+          <li>Find middle node, remove Nth from end</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=Hj_rA0dhr2I" target="_blank"><span class="res-type yt">YT</span>Linked Lists — NeetCode</a>
+          <a class="res-link" href="https://visualgo.net/en/list" target="_blank"><span class="res-type blog">BLOG</span>VisuAlgo — Linked List Visualizer (animate it!)</a>
+          <a class="res-link" href="https://leetcode.com/tag/linked-list/" target="_blank"><span class="res-type practice">PRACTICE</span>LeetCode — Linked List (20 easy + medium)</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Stacks &amp; Queues</h4><span class="week-tag w2">WEEK 22</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Stacks power function calls (call stack), undo systems, and browser history. Queues power task scheduling, BFS, and messaging systems. These patterns appear in both DSA and System Design.</div>
+        <ul class="topics-list">
+          <li>Stack: LIFO — implement with list</li>
+          <li>Queue: FIFO — implement with deque (O(1) enqueue)</li>
+          <li>Monotonic stack pattern</li>
+          <li>Min stack (O(1) getMin)</li>
+          <li>Valid Parentheses — classic stack problem</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=0VPlPEqBHPA" target="_blank"><span class="res-type yt">YT</span>Stack and Queue — NeetCode</a>
+          <a class="res-link" href="https://visualgo.net/en/stackqueue" target="_blank"><span class="res-type blog">BLOG</span>VisuAlgo — Stack &amp; Queue Visualizer</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Hashing — HashMap &amp; HashSet</h4><span class="week-tag w2">WEEK 23</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Hash maps are the #1 tool to optimize brute-force solutions. Most "reduce from O(n²) to O(n)" solutions use a hash map. Anagram check, two-sum, frequency count — all hash map.</div>
+        <ul class="topics-list">
+          <li>How hashing works — hash function, collision</li>
+          <li>Python dict as hash map — O(1) get/set</li>
+          <li>Python set as hash set — O(1) lookup</li>
+          <li>Anagram check, two-sum, group anagrams</li>
+          <li>Frequency map patterns</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=KyUTuwz_b7Q" target="_blank"><span class="res-type yt">YT</span>Hashing — NeetCode</a>
+          <a class="res-link" href="https://leetcode.com/problems/two-sum/" target="_blank"><span class="res-type practice">PRACTICE</span>LeetCode — Two Sum (start here for hashing)</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Non-linear Data Structures -->
+  <div class="topic-group">
+    <div class="topic-group-title" style="color:var(--phase2)">Module 3 · Trees &amp; Graphs (Weeks 27–38)</div>
+    <div class="topic-cards">
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Binary Trees</h4><span class="week-tag w3">WEEK 27–29</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Trees are everywhere — file systems, HTML DOM, database indexes, Git commits. Binary tree traversal (DFS/BFS) is asked in 30% of senior-role interviews.</div>
+        <ul class="topics-list">
+          <li>Tree nodes, root, leaf, height, depth</li>
+          <li>Inorder, Preorder, Postorder traversal (recursive)</li>
+          <li>Level-order traversal (BFS with queue)</li>
+          <li>Maximum depth, same tree, invert binary tree</li>
+          <li>Path sum problems</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=OnSn2XEQ4MY" target="_blank"><span class="res-type yt">YT</span>Binary Trees — NeetCode</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=fAAZixBzIAI" target="_blank"><span class="res-type yt">YT</span>Tree Traversal visualized — Back To Back SWE</a>
+          <a class="res-link" href="https://visualgo.net/en/bst" target="_blank"><span class="res-type blog">BLOG</span>VisuAlgo — BST Visualizer</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Binary Search Tree &amp; Heaps</h4><span class="week-tag w3">WEEK 30–31</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>BSTs power database sorted indexes. Heaps power priority queues — the backbone of task schedulers, Dijkstra's algorithm, and "Top K" interview problems.</div>
+        <ul class="topics-list">
+          <li>BST property: left &lt; root &lt; right</li>
+          <li>BST insert, search, delete</li>
+          <li>Validate BST, Kth smallest in BST</li>
+          <li>Min-heap, Max-heap with Python heapq</li>
+          <li>Top K Frequent Elements — heap pattern</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=Cpg0f-JbHTE" target="_blank"><span class="res-type yt">YT</span>Heap / Priority Queue — NeetCode</a>
+          <a class="res-link" href="https://docs.python.org/3/library/heapq.html" target="_blank"><span class="res-type doc">DOC</span>Python heapq module docs</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Graphs: BFS &amp; DFS</h4><span class="week-tag w3">WEEK 32–35</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Graphs model real-world systems: social networks, maps, web pages, dependencies. BFS finds shortest paths. DFS finds connected components. Almost every hard interview problem is a graph problem in disguise.</div>
+        <ul class="topics-list">
+          <li>Graph representation: adjacency list vs matrix</li>
+          <li>BFS — level by level, shortest path in unweighted graph</li>
+          <li>DFS — depth first, connected components, cycle detection</li>
+          <li>Topological sort (Kahn's algorithm)</li>
+          <li>Union-Find / Disjoint Set Union</li>
+          <li>Dijkstra's algorithm (weighted shortest path)</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=EgI5nU9etnU" target="_blank"><span class="res-type yt">YT</span>Graph Algorithms — NeetCode (full playlist)</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=oDqjPvD1e6A" target="_blank"><span class="res-type yt">YT</span>Graph Theory — WilliamFiset (deep dive playlist)</a>
+          <a class="res-link" href="https://visualgo.net/en/graphds" target="_blank"><span class="res-type blog">BLOG</span>VisuAlgo — Graph Visualizer</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Algorithms -->
+  <div class="topic-group">
+    <div class="topic-group-title" style="color:var(--phase2)">Module 4 · Core Algorithms (Weeks 36–46)</div>
+    <div class="topic-cards">
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Sorting &amp; Binary Search</h4><span class="week-tag w4">WEEK 36–37</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Sorting is O(n log n) — and you need to know why. Binary search is the most powerful pattern for reducing O(n) solutions to O(log n). If the input is sorted, always think binary search.</div>
+        <ul class="topics-list">
+          <li>Bubble, Insertion, Selection sort — understand, not memorize</li>
+          <li>Merge Sort and QuickSort — implement from scratch</li>
+          <li>Python sort: Timsort internals</li>
+          <li>Binary search: classic, on answer, rotated array</li>
+          <li>Search in 2D matrix</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=MZaf_9IZCrc" target="_blank"><span class="res-type yt">YT</span>All sorting algorithms visualized — Clement Mihailescu</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=s4DPM8ct1pI" target="_blank"><span class="res-type yt">YT</span>Binary Search — NeetCode</a>
+          <a class="res-link" href="https://visualgo.net/en/sorting" target="_blank"><span class="res-type blog">BLOG</span>VisuAlgo — Sorting Visualizer</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Recursion &amp; Backtracking</h4><span class="week-tag w4">WEEK 38–40</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Backtracking solves constraint satisfaction problems — Sudoku, permutations, N-Queens. Understanding the recursive call tree is the foundation of dynamic programming. You can't skip this.</div>
+        <ul class="topics-list">
+          <li>Recursion: base case, recursive case, call stack</li>
+          <li>Subsets, permutations, combinations — template</li>
+          <li>N-Queens, Word Search, Sudoku Solver</li>
+          <li>Pruning — how to make backtracking fast</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=A80YzvNwqXA" target="_blank"><span class="res-type yt">YT</span>Backtracking — NeetCode</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=DKCbsiDBN6c" target="_blank"><span class="res-type yt">YT</span>Backtracking explained clearly — Reducible</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Dynamic Programming</h4><span class="week-tag w4">WEEK 41–46</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>DP is the hardest topic in DSA — and the most rewarding. It's the difference between O(2^n) and O(n²). Once you see the pattern (overlapping subproblems + optimal substructure), every DP problem is the same 3-step process.</div>
+        <ul class="topics-list">
+          <li>Memoization (top-down) vs Tabulation (bottom-up)</li>
+          <li>Fibonacci — the DP origin story</li>
+          <li>1D DP: Climbing Stairs, House Robber</li>
+          <li>2D DP: Longest Common Subsequence, Edit Distance</li>
+          <li>Knapsack problem — 0/1 and unbounded</li>
+          <li>Coin Change — the canonical DP problem</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=oBt53YbR9Kk" target="_blank"><span class="res-type yt">YT</span>DP for Beginners — freeCodeCamp (5 hours — worth every minute)</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=Hdr64lKQ3e4" target="_blank"><span class="res-type yt">YT</span>DP Patterns — NeetCode</a>
+          <a class="res-link" href="https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns" target="_blank"><span class="res-type blog">BLOG</span>LeetCode — DP Patterns (community goldmine)</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Problem Solving Strategy -->
+  <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:28px;margin:32px 0;">
+    <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--accent-teal);margin-bottom:16px;">🎯 LeetCode Problem Solving Plan — The NeetCode 150</h3>
+    <p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px;line-height:1.7;">Don't do random problems. Follow the <strong style="color:var(--accent-teal)">NeetCode 150</strong> list in order. It's curated to cover every pattern you need. Target: <strong style="color:var(--accent-gold)">2 easy problems/day in Phase 2 start → 1 medium/day by Month 10 → 1 hard/week by Month 13.</strong></p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;">
+      <div style="border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent-teal);">75</div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text-muted)">Easy problems<br>by Month 8</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent-gold);">60</div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text-muted)">Medium problems<br>by Month 12</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent-rose);">15</div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text-muted)">Hard problems<br>by Month 14</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent-violet);">150</div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text-muted)">Total at end<br>of Phase 2</div>
+      </div>
+    </div>
+    <p style="margin-top:16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--text-muted)">Platform: <a href="https://neetcode.io/roadmap" style="color:var(--accent-teal)">neetcode.io/roadmap</a> · Also use <a href="https://leetcode.com" style="color:var(--accent-teal)">leetcode.com</a> and <a href="https://www.hackerrank.com" style="color:var(--accent-teal)">hackerrank.com</a></p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     PHASE 3: SYSTEM DESIGN
+══════════════════════════════════════════════════════ -->
+<section class="phase-section">
+  <div class="phase-header">
+    <div class="phase-badge p3"><div class="p-num">03</div><div class="p-label">PHASE</div></div>
+    <div class="phase-title-block">
+      <h2 style="color:var(--phase3)">System Design — How Engineers Think at Scale</h2>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);margin-bottom:6px">Months 15–20 · 24 weeks · 2 hrs theory + 1 hr design practice/day</div>
+      <div class="why">Why System Design? Because companies don't just want programmers — they want engineers who can reason about scale. "Design a URL shortener" or "Design WhatsApp" — these questions test whether you understand databases, caching, load balancing, and tradeoffs. Even for entry-level roles, knowing SD basics makes you stand out massively.</div>
+    </div>
+  </div>
+
+  <div class="study-method">
+    <div class="study-method-header"><span>🏗️</span> The System Design Interview Framework (Use Every Time)</div>
+    <div class="study-steps">
+      <div class="study-step">
+        <div class="step-num">1</div>
+        <h5>Clarify Requirements</h5>
+        <p>Functional (what it does) vs Non-functional (scale, availability, latency). Ask: How many users? Read-heavy or write-heavy?</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">2</div>
+        <h5>Estimate Scale</h5>
+        <p>Back-of-envelope math: QPS, storage, bandwidth. "1M users × 10 requests/day = 100 requests/second." Say this out loud.</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">3</div>
+        <h5>High Level Design</h5>
+        <p>Draw the architecture: clients, load balancer, servers, DB, cache. Name each component and explain why it's there.</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">4</div>
+        <h5>Deep Dive</h5>
+        <p>Interviewer picks one component to go deep. Be ready to explain DB schema, API design, caching strategy in detail.</p>
+      </div>
+      <div class="study-step">
+        <div class="step-num">5</div>
+        <h5>Discuss Tradeoffs</h5>
+        <p>No design is perfect. "I chose SQL because of ACID but at 10B rows we'd shard." Show you know the tradeoffs.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SD Foundations -->
+  <div class="topic-group">
+    <div class="topic-group-title" style="color:var(--phase3)">Module 1 · Foundations (Weeks 47–52)</div>
+    <div class="topic-cards">
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Networking &amp; Web Fundamentals</h4><span class="week-tag w3">WEEK 47–48</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Every system you design runs over a network. HTTP, TCP/IP, DNS — these are the invisible infrastructure of the internet. You can't design distributed systems without understanding how data moves.</div>
+        <ul class="topics-list">
+          <li>HTTP vs HTTPS: request/response cycle, status codes</li>
+          <li>REST API design: GET, POST, PUT, DELETE, idempotency</li>
+          <li>DNS: how domain → IP works</li>
+          <li>TCP vs UDP: when to use which</li>
+          <li>WebSockets for real-time communication</li>
+          <li>CDN: why content delivery networks exist</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=AlkDbnbv7dk" target="_blank"><span class="res-type yt">YT</span>How the Internet Works — Byte Byte Go</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=RXXRguaHZs0" target="_blank"><span class="res-type yt">YT</span>HTTP Crash Course — Traversy Media</a>
+          <a class="res-link" href="https://www.cloudflare.com/learning/dns/what-is-dns/" target="_blank"><span class="res-type blog">BLOG</span>Cloudflare — What is DNS? (best explanation)</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Databases — SQL &amp; NoSQL</h4><span class="week-tag w3">WEEK 49–51</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Every system stores data. SQL vs NoSQL is the most common system design tradeoff question. You need to know when to use PostgreSQL vs MongoDB vs Redis, and why.</div>
+        <ul class="topics-list">
+          <li>RDBMS: tables, joins, indexes, ACID properties</li>
+          <li>SQL: SELECT, JOIN, GROUP BY, subqueries</li>
+          <li>NoSQL: key-value (Redis), document (MongoDB), column (Cassandra)</li>
+          <li>When SQL, when NoSQL — the real tradeoffs</li>
+          <li>Database indexing — B-Trees, query optimization</li>
+          <li>Replication &amp; Sharding at scale</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=HXV3zeQKqGY" target="_blank"><span class="res-type yt">YT</span>SQL Tutorial Full Course — freeCodeCamp</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=W2Z7fbCLSTw" target="_blank"><span class="res-type yt">YT</span>SQL vs NoSQL — Fireship</a>
+          <a class="res-link" href="https://use-the-index-luke.com/" target="_blank"><span class="res-type blog">BLOG</span>Use The Index, Luke — SQL indexing (excellent)</a>
+          <a class="res-link" href="https://sqlzoo.net/" target="_blank"><span class="res-type practice">PRACTICE</span>SQLZoo — Interactive SQL practice</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Caching</h4><span class="week-tag w3">WEEK 52</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Caching makes slow systems fast. Redis is behind Swiggy's real-time tracking, Twitter's timeline, and Uber surge pricing. Understanding cache-aside, write-through, and eviction policies is mandatory for SD interviews.</div>
+        <ul class="topics-list">
+          <li>Why cache? — database is slow at scale</li>
+          <li>Cache-aside vs write-through vs write-behind</li>
+          <li>LRU Cache — implement it (doubly linked list + hashmap)</li>
+          <li>Redis: data structures — strings, hashes, sorted sets</li>
+          <li>Cache invalidation — the hardest problem in CS</li>
+          <li>CDN as a global cache</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=U3RkDLtS7uY" target="_blank"><span class="res-type yt">YT</span>Caching — Byte Byte Go</a>
+          <a class="res-link" href="https://leetcode.com/problems/lru-cache/" target="_blank"><span class="res-type practice">PRACTICE</span>LeetCode 146 — LRU Cache (implement this)</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SD Deep Dive -->
+  <div class="topic-group">
+    <div class="topic-group-title" style="color:var(--phase3)">Module 2 · Scalability &amp; Distributed Systems (Weeks 53–62)</div>
+    <div class="topic-cards">
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Load Balancing &amp; Horizontal Scaling</h4><span class="week-tag w3">WEEK 53</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>One server can handle maybe 1000 users. Swiggy has 10M orders/day. Load balancers distribute traffic across many servers so no single machine is overwhelmed — this is how internet scale works.</div>
+        <ul class="topics-list">
+          <li>Vertical vs horizontal scaling</li>
+          <li>Round-robin, least connections, IP hash strategies</li>
+          <li>Stateless servers — why sessions go in Redis</li>
+          <li>Consistent hashing — how distributed caches work</li>
+          <li>Nginx as reverse proxy + load balancer</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=K0Ta65OqQkY" target="_blank"><span class="res-type yt">YT</span>Load Balancing — Byte Byte Go</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=o0lgtg7BKgs" target="_blank"><span class="res-type yt">YT</span>Consistent Hashing — Gaurav Sen</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Message Queues &amp; Async Architecture</h4><span class="week-tag w3">WEEK 54</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Sending an OTP, processing a payment, resizing an uploaded photo — all of these happen asynchronously via message queues so the user isn't waiting. Kafka and RabbitMQ are in every product company's stack.</div>
+        <ul class="topics-list">
+          <li>Synchronous vs asynchronous processing</li>
+          <li>Message queue: producer, consumer, broker</li>
+          <li>Kafka: topics, partitions, consumer groups</li>
+          <li>RabbitMQ vs Kafka — when to use which</li>
+          <li>Dead letter queues, retry patterns</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=Ch5VhJzaoaI" target="_blank"><span class="res-type yt">YT</span>Message Queues — Byte Byte Go</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=uvb00oaa3k8" target="_blank"><span class="res-type yt">YT</span>Apache Kafka in 6 min — ByteByteGo</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Microservices &amp; API Design</h4><span class="week-tag w3">WEEK 55–56</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>Zomato, Swiggy, Flipkart all run hundreds of microservices. Understanding service boundaries, API design, and service communication is what separates junior from senior engineers in interviews.</div>
+        <ul class="topics-list">
+          <li>Monolith vs microservices — tradeoffs honestly</li>
+          <li>REST API design best practices</li>
+          <li>gRPC — why it's faster than REST</li>
+          <li>API Gateway pattern</li>
+          <li>Service discovery: how services find each other</li>
+          <li>Circuit breaker pattern — preventing cascade failures</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/watch?v=lTAcCNbJ7KE" target="_blank"><span class="res-type yt">YT</span>Microservices — TechWorld with Nana</a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=RqfaTIWc3LQ" target="_blank"><span class="res-type yt">YT</span>REST API Design Best Practices — Byte Byte Go</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="card-top"><h4>Practice: Design Classic Systems</h4><span class="week-tag w4">WEEK 57–62</span></div>
+        <div class="why-box"><strong>WHY THIS</strong>System design is a skill, not knowledge. You learn it by designing, getting feedback, redesigning. Do one system per week. Draw it. Time yourself. Then watch how others designed it.</div>
+        <ul class="topics-list">
+          <li>🔴 Design a URL Shortener (like bit.ly)</li>
+          <li>🔴 Design a Rate Limiter</li>
+          <li>🔴 Design Instagram / Photo Sharing</li>
+          <li>🔴 Design a Chat App (like WhatsApp)</li>
+          <li>🔴 Design YouTube / Video Streaming</li>
+          <li>🔴 Design Uber / Ride Sharing</li>
+        </ul>
+        <div class="resources">
+          <div class="resource-label">RESOURCES</div>
+          <a class="res-link" href="https://www.youtube.com/c/ByteByteGo" target="_blank"><span class="res-type yt">YT</span>ByteByteGo — System Design YouTube channel (subscribe)</a>
+          <a class="res-link" href="https://www.youtube.com/c/GauravSensei" target="_blank"><span class="res-type yt">YT</span>Gaurav Sen — System Design (excellent for India context)</a>
+          <a class="res-link" href="https://github.com/donnemartin/system-design-primer" target="_blank"><span class="res-type blog">BLOG</span>GitHub — System Design Primer (21k stars, gold standard)</a>
+          <a class="res-link" href="https://www.educative.io/courses/grokking-modern-system-design-interview" target="_blank"><span class="res-type course">COURSE</span>Educative — Grokking System Design Interview</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     PHASE 4: INTERVIEW SPRINT
+══════════════════════════════════════════════════════ -->
+<section class="phase-section">
+  <div class="phase-header">
+    <div class="phase-badge p4"><div class="p-num">04</div><div class="p-label">PHASE</div></div>
+    <div class="phase-title-block">
+      <h2 style="color:var(--phase4)">Interview Sprint — From Preparation to Offer</h2>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);margin-bottom:6px">Months 21–24 · 3 mock interviews/week</div>
+      <div class="why">Why dedicate 3 months to just interviews? Because knowing the material and performing in an interview are two different skills. Interviews are stressful. You need to practice communicating while thinking, handling hints from interviewers, and managing time — all under pressure. This sprint builds that muscle.</div>
+    </div>
+  </div>
+
+  <div class="topic-cards">
+    <div class="topic-card">
+      <div class="card-top"><h4>Mock Interviews — Platform Practice</h4><span class="week-tag w4">MONTHS 21–22</span></div>
+      <ul class="topics-list">
+        <li>3× mock coding interviews per week (timed: 45 mins)</li>
+        <li>1× system design mock per week (1 hour)</li>
+        <li>Record yourself — watch it back, painfully</li>
+        <li>Platforms: Pramp (free), Interviewing.io, LeetCode Contest</li>
+      </ul>
+      <div class="resources">
+        <div class="resource-label">PLATFORMS</div>
+        <a class="res-link" href="https://www.pramp.com/" target="_blank"><span class="res-type practice">PRACTICE</span>Pramp — Free peer mock interviews</a>
+        <a class="res-link" href="https://interviewing.io/" target="_blank"><span class="res-type practice">PRACTICE</span>Interviewing.io — Anonymous mock with engineers</a>
+        <a class="res-link" href="https://leetcode.com/contest/" target="_blank"><span class="res-type practice">PRACTICE</span>LeetCode Weekly Contest — every Sunday</a>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><h4>Resume &amp; GitHub Portfolio</h4><span class="week-tag w4">MONTH 21</span></div>
+      <div class="why-box"><strong>WHY THIS</strong>Your resume is your first code review. If it's messy, interviewers assume your code is too. One page, quantified impact, links to GitHub projects.</div>
+      <ul class="topics-list">
+        <li>1-page resume: education, skills, projects, links</li>
+        <li>GitHub: 4–5 clean projects with READMEs and demos</li>
+        <li>LinkedIn: complete profile, connect with engineers</li>
+        <li>Quantify everything: "Reduced runtime from O(n²) to O(n)"</li>
+      </ul>
+      <div class="resources">
+        <div class="resource-label">RESOURCES</div>
+        <a class="res-link" href="https://www.youtube.com/watch?v=aKjsy-b00QM" target="_blank"><span class="res-type yt">YT</span>SWE Resume Guide — Clement Mihailescu (AlgoExpert)</a>
+        <a class="res-link" href="https://resume.io" target="_blank"><span class="res-type blog">BLOG</span>resume.io — clean resume builder</a>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><h4>Company-Specific Prep</h4><span class="week-tag w4">MONTHS 23–24</span></div>
+      <div class="why-box"><strong>WHY THIS</strong>Google values recursion and graphs. Amazon has Leadership Principles. Zomato/Swiggy ask real-time systems. Customize your prep per company in the final months.</div>
+      <ul class="topics-list">
+        <li>Research company's interview format on Glassdoor / Levels.fyi</li>
+        <li>Company-tagged problems on LeetCode</li>
+        <li>Amazon: study 16 Leadership Principles + STAR method</li>
+        <li>Startups: focus on system design + problem-solving speed</li>
+      </ul>
+      <div class="resources">
+        <div class="resource-label">RESOURCES</div>
+        <a class="res-link" href="https://www.glassdoor.co.in/" target="_blank"><span class="res-type blog">BLOG</span>Glassdoor — real interview experiences</a>
+        <a class="res-link" href="https://www.levels.fyi/" target="_blank"><span class="res-type blog">BLOG</span>Levels.fyi — compensation benchmarks</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── PLATFORMS MASTER LIST ── -->
+<section class="milestones">
+  <div class="section-label">// All Platforms &amp; Resources — Master Reference</div>
+  <div class="platforms-grid">
+    <div class="platform-card">
+      <div class="plat-icon">💻</div>
+      <h4>LeetCode</h4>
+      <p>Primary DSA practice. Follow NeetCode 150 list.</p>
+      <a href="https://leetcode.com" target="_blank">leetcode.com →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">🗺️</div>
+      <h4>NeetCode</h4>
+      <p>Best roadmap + video solutions for LeetCode problems.</p>
+      <a href="https://neetcode.io" target="_blank">neetcode.io →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">🎯</div>
+      <h4>HackerRank</h4>
+      <p>Good for Python basics and certification badges.</p>
+      <a href="https://hackerrank.com" target="_blank">hackerrank.com →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">👁️</div>
+      <h4>VisuAlgo</h4>
+      <p>Visual animations for every data structure &amp; algorithm.</p>
+      <a href="https://visualgo.net" target="_blank">visualgo.net →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">📖</div>
+      <h4>Real Python</h4>
+      <p>Best blog for Python concepts, written for programmers.</p>
+      <a href="https://realpython.com" target="_blank">realpython.com →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">🏗️</div>
+      <h4>System Design Primer</h4>
+      <p>GitHub repo — the bible for system design prep.</p>
+      <a href="https://github.com/donnemartin/system-design-primer" target="_blank">github.com →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">🃏</div>
+      <h4>Anki</h4>
+      <p>Spaced repetition flashcards. Use daily for concepts.</p>
+      <a href="https://apps.ankiweb.net" target="_blank">apps.ankiweb.net →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">🧠</div>
+      <h4>CS50 (Harvard)</h4>
+      <p>Best CS fundamentals course. Free. Life-changing.</p>
+      <a href="https://cs50.harvard.edu" target="_blank">cs50.harvard.edu →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">📊</div>
+      <h4>Big-O Cheatsheet</h4>
+      <p>Reference for all DS/algo complexities. Bookmark it.</p>
+      <a href="https://bigocheatsheet.com" target="_blank">bigocheatsheet.com →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">🎬</div>
+      <h4>ByteByteGo</h4>
+      <p>Best YouTube channel for System Design concepts.</p>
+      <a href="https://www.youtube.com/c/ByteByteGo" target="_blank">YouTube →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">🔖</div>
+      <h4>SQLZoo</h4>
+      <p>Interactive SQL practice — essential for DB knowledge.</p>
+      <a href="https://sqlzoo.net" target="_blank">sqlzoo.net →</a>
+    </div>
+    <div class="platform-card">
+      <div class="plat-icon">🤝</div>
+      <h4>Pramp</h4>
+      <p>Free peer-to-peer mock interview practice platform.</p>
+      <a href="https://pramp.com" target="_blank">pramp.com →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── MILESTONE TRACKER ── -->
+<section class="milestones" style="background:var(--bg)">
+  <div class="section-label">// 24-Month Milestone Tracker</div>
+  <div class="milestone-row"><div class="m-month">Month 1</div><div class="m-line"><div class="m-dot" style="background:var(--phase1)"></div><div class="m-content"><h5>Python setup, variables, loops, functions done</h5><p>20+ HackerRank easy Python problems solved</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 2</div><div class="m-line"><div class="m-dot" style="background:var(--phase1)"></div><div class="m-content"><h5>Data structures (list, dict, set) + OOP</h5><p>50 HackerRank problems total · First GitHub repo live</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 3</div><div class="m-line"><div class="m-dot" style="background:var(--phase1)"></div><div class="m-content"><h5>Advanced Python (generators, decorators, async)</h5><p>First capstone project done and on GitHub</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 4–5</div><div class="m-line"><div class="m-dot" style="background:var(--phase1)"></div><div class="m-content"><h5>Python capstone projects × 2 + Phase 1 review</h5><p>Second project live · Can explain all Python topics clearly</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 6</div><div class="m-line"><div class="m-dot" style="background:var(--phase2)"></div><div class="m-content"><h5>Big-O, Arrays, Linked Lists, Stacks/Queues</h5><p>25 LeetCode Easy problems solved</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 8</div><div class="m-line"><div class="m-dot" style="background:var(--phase2)"></div><div class="m-content"><h5>Hashing, Binary Trees, Binary Search</h5><p>75 LeetCode problems total (Easy category)</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 10</div><div class="m-line"><div class="m-dot" style="background:var(--phase2)"></div><div class="m-content"><h5>Graphs (BFS/DFS), Heap, Backtracking</h5><p>Solving 1 LeetCode Medium per day</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 12</div><div class="m-line"><div class="m-dot" style="background:var(--phase2)"></div><div class="m-content"><h5>Dynamic Programming completed</h5><p>130 LeetCode problems total · Participating in weekly contests</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 14</div><div class="m-line"><div class="m-dot" style="background:var(--phase2)"></div><div class="m-content"><h5>NeetCode 150 complete · 150 problems total</h5><p>Comfortable explaining any solution with time complexity</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 16</div><div class="m-line"><div class="m-dot" style="background:var(--phase3)"></div><div class="m-content"><h5>Networking, Databases (SQL + NoSQL) done</h5><p>Can design URL shortener and rate limiter confidently</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 18</div><div class="m-line"><div class="m-dot" style="background:var(--phase3)"></div><div class="m-content"><h5>Caching, Load Balancing, Message Queues done</h5><p>Designed 4 classic systems from scratch</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 20</div><div class="m-line"><div class="m-dot" style="background:var(--phase3)"></div><div class="m-content"><h5>Microservices, API design, distributed systems</h5><p>6 system design cases practiced · Phase 3 complete</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 21–22</div><div class="m-line"><div class="m-dot" style="background:var(--phase4)"></div><div class="m-content"><h5>Resume done · 3 mock interviews/week</h5><p>GitHub portfolio polished · LinkedIn active</p></div></div></div>
+  <div class="milestone-row"><div class="m-month">Month 23–24</div><div class="m-line"><div class="m-dot" style="background:var(--phase4)"></div><div class="m-content"><h5>Company applications open · Interview sprint</h5><p>200+ LeetCode problems · 20+ system designs · Offer ready</p></div></div></div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>Built for <strong>Saravanan's sister</strong> · BCA → Product Company → 2 Years · Starting from tomorrow.</p>
+  <p style="font-style:italic;color:var(--text-muted);">"The best time to plant a tree was 20 years ago. The second best time is now."</p>
+</footer>
+
+</body>
+</html>
