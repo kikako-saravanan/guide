@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Daily Practice Plan</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #080b10;
+  --s1: #0e1219;
+  --s2: #141a24;
+  --s3: #1c2535;
+  --border: #1f2d40;
+  --blue: #38bdf8;
+  --green: #4ade80;
+  --orange: #fb923c;
+  --purple: #c084fc;
+  --yellow: #fbbf24;
+  --red: #f87171;
+  --cyan: #22d3ee;
+  --text: #e2e8f0;
+  --dim: #64748b;
+  --mid: #94a3b8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 15px; line-height: 1.6; }
+
+/* HEADER */
+header {
+  padding: 52px 48px 44px;
+  background: linear-gradient(160deg, #080b10 0%, #0a1220 50%, #060910 100%);
+  border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 500px; height: 500px;
+  background: radial-gradient(ellipse at top right, rgba(56,189,248,.08) 0%, transparent 60%);
+}
+.header-inner { max-width: 1080px; margin: 0 auto; position: relative; }
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.eyebrow::before { content: '//'; opacity: .5; }
+h1 { font-size: clamp(30px, 5vw, 56px); font-weight: 800; line-height: 1.05; color: #fff; }
+h1 em { font-style: normal; color: var(--blue); }
+.sub { color: var(--mid); font-size: 16px; font-weight: 300; margin-top: 10px; max-width: 540px; }
+.meta-row { display: flex; gap: 24px; margin-top: 28px; flex-wrap: wrap; }
+.meta-chip {
+  background: var(--s2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 16px;
+  font-size: 13px; font-weight: 500; color: var(--mid);
+  display: flex; align-items: center; gap: 6px;
+}
+.meta-chip span { color: var(--blue); font-weight: 700; }
+
+/* LAYOUT */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 48px; }
+
+/* WEEK TABS */
+.week-nav {
+  display: flex; gap: 6px; margin-bottom: 36px;
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 14px; padding: 6px; flex-wrap: wrap;
+}
+.week-btn {
+  flex: 1; min-width: 100px;
+  background: transparent; border: none;
+  color: var(--dim); font-family: 'Outfit', sans-serif;
+  font-size: 13px; font-weight: 600;
+  padding: 10px 16px; border-radius: 10px;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+  text-align: center;
+}
+.week-btn:hover { color: var(--text); background: var(--s3); }
+.week-btn.active { background: var(--blue); color: #000; font-weight: 700; }
+
+/* WEEK SECTIONS */
+.week { display: none; }
+.week.active { display: block; }
+
+.week-header {
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-bottom: 28px;
+  padding: 20px 24px;
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 14px;
+}
+.week-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px; font-weight: 600;
+  color: var(--blue); line-height: 1;
+  min-width: 60px;
+}
+.week-topic { font-size: 20px; font-weight: 700; color: #fff; }
+.week-goal { font-size: 13px; color: var(--mid); margin-top: 4px; }
+.week-tag {
+  margin-left: auto; align-self: flex-start;
+  background: rgba(56,189,248,.1); border: 1px solid rgba(56,189,248,.2);
+  color: var(--blue); font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 6px; white-space: nowrap;
+}
+
+/* DAY CARDS */
+.day-grid { display: flex; flex-direction: column; gap: 10px; }
+
+.day-card {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  transition: border-color .2s;
+}
+.day-card:hover { border-color: #2a3a52; }
+
+.day-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px; cursor: pointer; user-select: none;
+}
+.day-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  background: var(--s3); border: 1px solid var(--border);
+  color: var(--dim); padding: 3px 8px; border-radius: 5px;
+  min-width: 44px; text-align: center;
+}
+.day-title { font-weight: 600; font-size: 14.5px; flex: 1; color: var(--text); }
+.diff-pill {
+  font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 20px;
+}
+.easy { background: rgba(74,222,128,.12); color: #4ade80; border: 1px solid rgba(74,222,128,.2); }
+.med  { background: rgba(251,191,36,.12); color: #fbbf24; border: 1px solid rgba(251,191,36,.2); }
+.hard { background: rgba(248,113,113,.12); color: #f87171; border: 1px solid rgba(248,113,113,.2); }
+
+.chevron { color: var(--dim); font-size: 18px; transition: transform .25s; }
+.day-card.open .chevron { transform: rotate(90deg); color: var(--blue); }
+
+.day-body {
+  display: none; padding: 0 20px 20px;
+  border-top: 1px solid var(--border); padding-top: 16px;
+}
+.day-card.open .day-body { display: block; }
+
+/* Problem layout */
+.problem-block { margin-bottom: 20px; }
+.problem-block:last-child { margin-bottom: 0; }
+
+.p-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--blue);
+  margin-bottom: 6px; font-weight: 600;
+}
+.p-question {
+  font-size: 14px; font-weight: 600; color: var(--text);
+  margin-bottom: 8px;
+}
+.p-schema {
+  background: #050709; border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; margin: 8px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px; color: var(--cyan); line-height: 1.6;
+}
+.p-hint {
+  font-size: 12.5px; color: var(--mid);
+  background: rgba(56,189,248,.05); border: 1px solid rgba(56,189,248,.1);
+  border-radius: 6px; padding: 8px 12px; margin: 8px 0;
+}
+.p-hint::before { content: '💭 Hint: '; color: var(--blue); font-weight: 600; }
+
+.solution-toggle {
+  background: var(--s3); border: 1px solid var(--border);
+  color: var(--mid); font-family: 'Outfit', sans-serif;
+  font-size: 12px; font-weight: 600; padding: 7px 14px;
+  border-radius: 7px; cursor: pointer; margin: 8px 0 0;
+  transition: all .2s;
+}
+.solution-toggle:hover { border-color: var(--blue); color: var(--blue); }
+
+.solution-block {
+  display: none; margin-top: 10px;
+}
+.solution-block.show { display: block; }
+
+pre {
+  background: #050709; border: 1px solid #1a2535;
+  border-radius: 10px; padding: 16px 18px;
+  overflow-x: auto; margin: 8px 0;
+}
+pre code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px; color: #93c5fd; line-height: 1.65;
+}
+
+.keyword { color: #c084fc; }
+.fn { color: #38bdf8; }
+.str { color: #4ade80; }
+.num { color: #fb923c; }
+.comment { color: #374151; font-style: italic; }
+
+.explain {
+  font-size: 13px; color: var(--mid); line-height: 1.7;
+  padding: 10px 14px;
+  background: rgba(74,222,128,.05); border: 1px solid rgba(74,222,128,.1);
+  border-radius: 8px; margin-top: 8px;
+}
+.explain strong { color: var(--text); }
+
+.divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+
+/* concept badge */
+.concept-badge {
+  display: inline-block;
+  background: rgba(192,132,252,.1); border: 1px solid rgba(192,132,252,.2);
+  color: var(--purple); font-size: 10.5px; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 5px; margin-left: 8px;
+}
+
+/* practice platform note */
+.platform-note {
+  background: var(--s2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 20px; margin-bottom: 28px;
+  font-size: 13px; color: var(--mid);
+}
+.platform-note strong { color: var(--text); }
+.platform-note a { color: var(--blue); text-decoration: none; }
+
+footer { text-align: center; padding: 32px; color: var(--dim); font-size: 12px; border-top: 1px solid var(--border); margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="eyebrow">SQL Daily Practice Plan</div>
+    <h1>30 Days of <em>SQL</em><br>Interview Coding</h1>
+    <p class="sub">Structured daily problems from basics to advanced — every pattern companies actually test.</p>
+    <div class="meta-row">
+      <div class="meta-chip">📅 <span>30</span> Days</div>
+      <div class="meta-chip">🧩 <span>60+</span> Problems</div>
+      <div class="meta-chip">📈 Beginner → Advanced</div>
+      <div class="meta-chip">⏱ <span>45–60</span> min/day</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="platform-note">
+    <strong>Where to practice:</strong> Use <a href="https://www.hackerrank.com/domains/sql" target="_blank">HackerRank SQL</a> · <a href="https://stratascratch.com" target="_blank">StrataScratch</a> · <a href="https://leetcode.com/problemset/database/" target="_blank">LeetCode Database</a> · or run locally on <strong>MySQL Workbench / PostgreSQL</strong>. All questions below use standard SQL syntax.
+  </div>
+
+  <!-- WEEK TABS -->
+  <div class="week-nav">
+    <button class="week-btn active" onclick="showWeek('w1', this)">Week 1 — Foundations</button>
+    <button class="week-btn" onclick="showWeek('w2', this)">Week 2 — Joins & Aggregation</button>
+    <button class="week-btn" onclick="showWeek('w3', this)">Week 3 — Advanced SQL</button>
+    <button class="week-btn" onclick="showWeek('w4', this)">Week 4 — Real Interview Patterns</button>
+  </div>
+
+  <!-- ═══════════════════════ WEEK 1 ═══════════════════════ -->
+  <div id="w1" class="week active">
+    <div class="week-header">
+      <div class="week-num">W1</div>
+      <div>
+        <div class="week-topic">Foundations — SELECT, WHERE, ORDER BY, LIMIT, DISTINCT, NULL</div>
+        <div class="week-goal">Goal: Write queries without hesitation. Master filtering and sorting.</div>
+      </div>
+      <div class="week-tag">Days 1–7</div>
+    </div>
+
+    <div class="day-grid">
+
+      <!-- DAY 1 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 1</span>
+          <span class="day-title">SELECT, WHERE, ORDER BY Basics</span>
+          <span class="diff-pill easy">Easy</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="p-schema">
+-- Table: employees
+-- emp_id INT, name VARCHAR, dept VARCHAR, salary INT, city VARCHAR, join_date DATE
+          </div>
+
+          <div class="problem-block">
+            <div class="p-num">Problem 1.1</div>
+            <div class="p-question">Get all employees from the 'Sales' department, sorted by salary descending.</div>
+            <div class="p-hint">Use WHERE for filtering, ORDER BY for sorting, DESC for descending.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span> *
+<span class="keyword">FROM</span> employees
+<span class="keyword">WHERE</span> dept = <span class="str">'Sales'</span>
+<span class="keyword">ORDER BY</span> salary <span class="keyword">DESC</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> WHERE filters rows. ORDER BY sorts. DESC = highest first. ASC = lowest first (default).</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 1.2</div>
+            <div class="p-question">Get the top 5 highest-paid employees. Show only their name and salary.</div>
+            <div class="p-hint">SELECT specific columns. Use LIMIT (MySQL) or TOP (SQL Server) or FETCH FIRST (PostgreSQL).</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span> name, salary
+<span class="keyword">FROM</span> employees
+<span class="keyword">ORDER BY</span> salary <span class="keyword">DESC</span>
+<span class="keyword">LIMIT</span> <span class="num">5</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> Always ORDER BY first, then LIMIT. Without ORDER BY, LIMIT returns arbitrary rows.</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 1.3</div>
+            <div class="p-question">Get all unique department names from the employees table.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT DISTINCT</span> dept
+<span class="keyword">FROM</span> employees
+<span class="keyword">ORDER BY</span> dept;</code></pre>
+              <div class="explain"><strong>Key:</strong> DISTINCT removes duplicate values. Essential for exploring categorical columns.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 2 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 2</span>
+          <span class="day-title">WHERE with Multiple Conditions — AND, OR, IN, BETWEEN, LIKE</span>
+          <span class="diff-pill easy">Easy</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="p-schema">
+-- Table: orders
+-- order_id INT, customer_id INT, product VARCHAR, amount DECIMAL, city VARCHAR, order_date DATE, status VARCHAR
+          </div>
+
+          <div class="problem-block">
+            <div class="p-num">Problem 2.1</div>
+            <div class="p-question">Find all completed orders where amount is between ₹500 and ₹5000.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span> *
+<span class="keyword">FROM</span> orders
+<span class="keyword">WHERE</span> status = <span class="str">'completed'</span>
+  <span class="keyword">AND</span> amount <span class="keyword">BETWEEN</span> <span class="num">500</span> <span class="keyword">AND</span> <span class="num">5000</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> BETWEEN is inclusive on both ends. Equivalent to amount >= 500 AND amount <= 5000.</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 2.2</div>
+            <div class="p-question">Find orders from Mumbai, Delhi, or Bangalore with status NOT 'cancelled'.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span> *
+<span class="keyword">FROM</span> orders
+<span class="keyword">WHERE</span> city <span class="keyword">IN</span> (<span class="str">'Mumbai'</span>, <span class="str">'Delhi'</span>, <span class="str">'Bangalore'</span>)
+  <span class="keyword">AND</span> status != <span class="str">'cancelled'</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> IN() is cleaner than multiple OR conditions. NOT IN() excludes a list. != and &lt;&gt; both mean "not equal".</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 2.3</div>
+            <div class="p-question">Find all products whose name starts with 'Phone'.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span> *
+<span class="keyword">FROM</span> orders
+<span class="keyword">WHERE</span> product <span class="keyword">LIKE</span> <span class="str">'Phone%'</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> % = any characters. _ = exactly one character. 'Phone%' = starts with Phone. '%Phone%' = contains Phone anywhere.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 3 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 3</span>
+          <span class="day-title">NULL Handling — IS NULL, COALESCE, IFNULL</span>
+          <span class="diff-pill easy">Easy</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="p-schema">
+-- Table: customers
+-- cust_id INT, name VARCHAR, email VARCHAR, phone VARCHAR, referral_code VARCHAR, signup_date DATE
+          </div>
+
+          <div class="problem-block">
+            <div class="p-num">Problem 3.1</div>
+            <div class="p-question">Find all customers who have NOT provided their phone number.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span> cust_id, name, email
+<span class="keyword">FROM</span> customers
+<span class="keyword">WHERE</span> phone <span class="keyword">IS NULL</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> Never use = NULL. Always IS NULL or IS NOT NULL. NULL means unknown — it can never equal anything, not even itself.</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 3.2</div>
+            <div class="p-question">Show customer names with their referral code. If no referral code, show 'DIRECT'.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  name,
+  <span class="fn">COALESCE</span>(referral_code, <span class="str">'DIRECT'</span>) <span class="keyword">AS</span> source
+<span class="keyword">FROM</span> customers;</code></pre>
+              <div class="explain"><strong>Key:</strong> COALESCE(a, b, c) returns the first non-NULL value. IFNULL(col, default) is MySQL-specific — COALESCE works everywhere.</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 3.3</div>
+            <div class="p-question">Count how many customers are missing email vs phone (two separate counts in one query).</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  <span class="fn">COUNT</span>(*) - <span class="fn">COUNT</span>(email) <span class="keyword">AS</span> missing_email,
+  <span class="fn">COUNT</span>(*) - <span class="fn">COUNT</span>(phone) <span class="keyword">AS</span> missing_phone
+<span class="keyword">FROM</span> customers;</code></pre>
+              <div class="explain"><strong>Key trick:</strong> COUNT(*) counts all rows. COUNT(col) skips NULLs. Their difference = NULL count. This is a very common interview trick.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 4 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 4</span>
+          <span class="day-title">GROUP BY + Aggregate Functions</span>
+          <span class="diff-pill easy">Easy</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="p-schema">
+-- Table: sales
+-- sale_id INT, product_category VARCHAR, product_name VARCHAR, salesperson VARCHAR, region VARCHAR, amount DECIMAL, sale_date DATE
+          </div>
+
+          <div class="problem-block">
+            <div class="p-num">Problem 4.1</div>
+            <div class="p-question">Find total sales amount and number of transactions per product category.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  product_category,
+  <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> total_transactions,
+  <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> total_sales,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(amount), <span class="num">2</span>) <span class="keyword">AS</span> avg_sale
+<span class="keyword">FROM</span> sales
+<span class="keyword">GROUP BY</span> product_category
+<span class="keyword">ORDER BY</span> total_sales <span class="keyword">DESC</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> Every column in SELECT must either be in GROUP BY or inside an aggregate function. This is a hard SQL rule — violating it causes errors.</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 4.2</div>
+            <div class="p-question">Find categories with total sales greater than ₹1,00,000.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  product_category,
+  <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> total_sales
+<span class="keyword">FROM</span> sales
+<span class="keyword">GROUP BY</span> product_category
+<span class="keyword">HAVING</span> <span class="fn">SUM</span>(amount) > <span class="num">100000</span>
+<span class="keyword">ORDER BY</span> total_sales <span class="keyword">DESC</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> HAVING filters after GROUP BY. You cannot use aliases in HAVING — you must repeat the aggregate expression.</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 4.3</div>
+            <div class="p-question">Find the top salesperson (by total amount) in each region.</div>
+            <div class="p-hint">This is a two-step problem — first get total per (region, salesperson), then find max per region.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="comment">-- Step 1: Get totals per salesperson per region</span>
+<span class="keyword">WITH</span> sp_totals <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    region, salesperson,
+    <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> total
+  <span class="keyword">FROM</span> sales
+  <span class="keyword">GROUP BY</span> region, salesperson
+),
+<span class="comment">-- Step 2: Find max per region</span>
+region_max <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span> region, <span class="fn">MAX</span>(total) <span class="keyword">AS</span> max_total
+  <span class="keyword">FROM</span> sp_totals
+  <span class="keyword">GROUP BY</span> region
+)
+<span class="keyword">SELECT</span> s.region, s.salesperson, s.total
+<span class="keyword">FROM</span> sp_totals s
+<span class="keyword">JOIN</span> region_max r
+  <span class="keyword">ON</span> s.region = r.region <span class="keyword">AND</span> s.total = r.max_total
+<span class="keyword">ORDER BY</span> s.region;</code></pre>
+              <div class="explain"><strong>Key concept:</strong> CTE (WITH clause) breaks complex logic into readable steps. This pattern appears in almost every senior DA interview.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 5 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 5</span>
+          <span class="day-title">String Functions + Date Functions</span>
+          <span class="diff-pill easy">Easy</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 5.1</div>
+            <div class="p-question">From an orders table with order_date, show: month name, year, and monthly revenue for 2023.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  <span class="fn">MONTHNAME</span>(order_date) <span class="keyword">AS</span> month_name,
+  <span class="fn">YEAR</span>(order_date) <span class="keyword">AS</span> year,
+  <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> monthly_revenue
+<span class="keyword">FROM</span> orders
+<span class="keyword">WHERE</span> <span class="fn">YEAR</span>(order_date) = <span class="num">2023</span>
+<span class="keyword">GROUP BY</span> <span class="fn">MONTH</span>(order_date), <span class="fn">MONTHNAME</span>(order_date), <span class="fn">YEAR</span>(order_date)
+<span class="keyword">ORDER BY</span> <span class="fn">MONTH</span>(order_date);</code></pre>
+              <div class="explain"><strong>Key functions:</strong> YEAR(), MONTH(), MONTHNAME(), DAY(), DATEDIFF(), DATE_FORMAT(), NOW(). For PostgreSQL use EXTRACT(MONTH FROM date).</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 5.2</div>
+            <div class="p-question">From a customers table, extract first name and last name from a full_name column (space-separated).</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  full_name,
+  <span class="fn">SUBSTRING_INDEX</span>(full_name, <span class="str">' '</span>, <span class="num">1</span>) <span class="keyword">AS</span> first_name,
+  <span class="fn">SUBSTRING_INDEX</span>(full_name, <span class="str">' '</span>, -<span class="num">1</span>) <span class="keyword">AS</span> last_name
+<span class="keyword">FROM</span> customers;
+
+<span class="comment">-- PostgreSQL equivalent:</span>
+<span class="comment">-- SPLIT_PART(full_name, ' ', 1) AS first_name</span>
+<span class="comment">-- SPLIT_PART(full_name, ' ', 2) AS last_name</span></code></pre>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 5.3</div>
+            <div class="p-question">Find customers who signed up in the last 30 days.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span> *
+<span class="keyword">FROM</span> customers
+<span class="keyword">WHERE</span> signup_date >= <span class="fn">DATE_SUB</span>(<span class="fn">CURDATE</span>(), <span class="keyword">INTERVAL</span> <span class="num">30</span> <span class="keyword">DAY</span>);
+
+<span class="comment">-- PostgreSQL equivalent:</span>
+<span class="comment">-- WHERE signup_date >= CURRENT_DATE - INTERVAL '30 days'</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 6 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 6</span>
+          <span class="day-title">CASE WHEN — Conditional Logic</span>
+          <span class="diff-pill easy">Easy</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 6.1</div>
+            <div class="p-question">Categorise employees into salary bands: Low (&lt;30k), Mid (30k–70k), High (&gt;70k).</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  name, salary,
+  <span class="keyword">CASE</span>
+    <span class="keyword">WHEN</span> salary < <span class="num">30000</span> <span class="keyword">THEN</span> <span class="str">'Low'</span>
+    <span class="keyword">WHEN</span> salary <span class="keyword">BETWEEN</span> <span class="num">30000</span> <span class="keyword">AND</span> <span class="num">70000</span> <span class="keyword">THEN</span> <span class="str">'Mid'</span>
+    <span class="keyword">ELSE</span> <span class="str">'High'</span>
+  <span class="keyword">END</span> <span class="keyword">AS</span> salary_band
+<span class="keyword">FROM</span> employees;</code></pre>
+              <div class="explain"><strong>Key:</strong> CASE WHEN is SQL's if-else. Evaluated top to bottom — first matching condition wins. ELSE is the default if nothing matches.</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="problem-block">
+            <div class="p-num">Problem 6.2</div>
+            <div class="p-question">Count employees in each salary band using CASE WHEN + GROUP BY in one query.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  <span class="keyword">CASE</span>
+    <span class="keyword">WHEN</span> salary < <span class="num">30000</span> <span class="keyword">THEN</span> <span class="str">'Low'</span>
+    <span class="keyword">WHEN</span> salary <span class="keyword">BETWEEN</span> <span class="num">30000</span> <span class="keyword">AND</span> <span class="num">70000</span> <span class="keyword">THEN</span> <span class="str">'Mid'</span>
+    <span class="keyword">ELSE</span> <span class="str">'High'</span>
+  <span class="keyword">END</span> <span class="keyword">AS</span> salary_band,
+  <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> employee_count
+<span class="keyword">FROM</span> employees
+<span class="keyword">GROUP BY</span> salary_band
+<span class="keyword">ORDER BY</span> employee_count <span class="keyword">DESC</span>;</code></pre>
+              <div class="explain"><strong>Advanced pattern:</strong> GROUP BY can reference the alias when the CASE expression is in SELECT — but this depends on the database. Safer to repeat the CASE in GROUP BY.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 7 -->
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 7</span>
+          <span class="day-title">Week 1 Mixed Review — Write 3 queries from scratch</span>
+          <span class="diff-pill med">Medium</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 7.1 — No hints</div>
+            <div class="p-question">From the orders table: find the city that generated the highest revenue in Q1 (Jan–Mar) of 2024. Show city name and total revenue.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  city,
+  <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> q1_revenue
+<span class="keyword">FROM</span> orders
+<span class="keyword">WHERE</span> order_date <span class="keyword">BETWEEN</span> <span class="str">'2024-01-01'</span> <span class="keyword">AND</span> <span class="str">'2024-03-31'</span>
+  <span class="keyword">AND</span> status != <span class="str">'cancelled'</span>
+<span class="keyword">GROUP BY</span> city
+<span class="keyword">ORDER BY</span> q1_revenue <span class="keyword">DESC</span>
+<span class="keyword">LIMIT</span> <span class="num">1</span>;</code></pre>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 7.2 — No hints</div>
+            <div class="p-question">From employees: show each department, number of employees, average salary, and a label "above_avg" or "below_avg" based on whether the dept's average salary is above the company-wide average salary.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  dept,
+  <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> headcount,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(salary), <span class="num">0</span>) <span class="keyword">AS</span> avg_salary,
+  <span class="keyword">CASE</span>
+    <span class="keyword">WHEN</span> <span class="fn">AVG</span>(salary) > (<span class="keyword">SELECT</span> <span class="fn">AVG</span>(salary) <span class="keyword">FROM</span> employees)
+    <span class="keyword">THEN</span> <span class="str">'above_avg'</span>
+    <span class="keyword">ELSE</span> <span class="str">'below_avg'</span>
+  <span class="keyword">END</span> <span class="keyword">AS</span> vs_company
+<span class="keyword">FROM</span> employees
+<span class="keyword">GROUP BY</span> dept
+<span class="keyword">ORDER BY</span> avg_salary <span class="keyword">DESC</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> A scalar subquery (SELECT AVG... inside CASE WHEN) runs once and returns a single value. This is a very common interview pattern.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /w1 -->
+
+  <!-- ═══════════════════════ WEEK 2 ═══════════════════════ -->
+  <div id="w2" class="week">
+    <div class="week-header">
+      <div class="week-num">W2</div>
+      <div>
+        <div class="week-topic">JOINs, Subqueries, CTEs</div>
+        <div class="week-goal">Goal: Combine tables confidently. Use CTEs to write readable multi-step queries.</div>
+      </div>
+      <div class="week-tag">Days 8–14</div>
+    </div>
+
+    <div class="day-grid">
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 8</span>
+          <span class="day-title">INNER JOIN and LEFT JOIN</span>
+          <span class="diff-pill easy">Easy</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="p-schema">
+-- customers(cust_id, name, city)
+-- orders(order_id, cust_id, product, amount, order_date, status)
+          </div>
+          <div class="problem-block">
+            <div class="p-num">Problem 8.1</div>
+            <div class="p-question">Show each order with the customer's name and city.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  o.order_id, c.name, c.city,
+  o.product, o.amount, o.order_date
+<span class="keyword">FROM</span> orders o
+<span class="keyword">INNER JOIN</span> customers c <span class="keyword">ON</span> o.cust_id = c.cust_id
+<span class="keyword">ORDER BY</span> o.order_date <span class="keyword">DESC</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> Always alias tables (o, c) when joining. Use o.column notation to avoid ambiguity. INNER JOIN returns only rows with a match in BOTH tables.</div>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 8.2</div>
+            <div class="p-question">Find customers who have NEVER placed an order.</div>
+            <div class="p-hint">Use LEFT JOIN — customers with no orders will have NULL in the orders columns.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span> c.cust_id, c.name, c.city
+<span class="keyword">FROM</span> customers c
+<span class="keyword">LEFT JOIN</span> orders o <span class="keyword">ON</span> c.cust_id = o.cust_id
+<span class="keyword">WHERE</span> o.order_id <span class="keyword">IS NULL</span>;</code></pre>
+              <div class="explain"><strong>Classic pattern:</strong> LEFT JOIN + WHERE right table IS NULL = "records in left but not in right". Also achievable with NOT IN or NOT EXISTS subquery.</div>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 8.3</div>
+            <div class="p-question">Show total revenue per customer. Include customers with zero orders (show 0).</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  c.cust_id, c.name,
+  <span class="fn">COALESCE</span>(<span class="fn">SUM</span>(o.amount), <span class="num">0</span>) <span class="keyword">AS</span> total_spent
+<span class="keyword">FROM</span> customers c
+<span class="keyword">LEFT JOIN</span> orders o <span class="keyword">ON</span> c.cust_id = o.cust_id
+<span class="keyword">GROUP BY</span> c.cust_id, c.name
+<span class="keyword">ORDER BY</span> total_spent <span class="keyword">DESC</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> SUM() on NULL returns NULL — COALESCE converts it to 0. This is essential when you LEFT JOIN and aggregate.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 9</span>
+          <span class="day-title">Multi-Table JOINs (3+ tables)</span>
+          <span class="diff-pill med">Medium</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="p-schema">
+-- orders(order_id, cust_id, product_id, amount, order_date)
+-- customers(cust_id, name, city, segment)
+-- products(product_id, product_name, category, cost_price)
+          </div>
+          <div class="problem-block">
+            <div class="p-num">Problem 9.1</div>
+            <div class="p-question">Show each order with: customer name, product name, category, selling amount, and profit (amount - cost_price).</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  o.order_id,
+  c.name <span class="keyword">AS</span> customer,
+  p.product_name,
+  p.category,
+  o.amount <span class="keyword">AS</span> selling_price,
+  p.cost_price,
+  (o.amount - p.cost_price) <span class="keyword">AS</span> profit
+<span class="keyword">FROM</span> orders o
+<span class="keyword">JOIN</span> customers c <span class="keyword">ON</span> o.cust_id = c.cust_id
+<span class="keyword">JOIN</span> products p <span class="keyword">ON</span> o.product_id = p.product_id
+<span class="keyword">ORDER BY</span> profit <span class="keyword">DESC</span>;</code></pre>
+              <div class="explain"><strong>Key:</strong> Chain JOINs one after another. Each JOIN adds a new table. Keep the ON conditions clear — one per JOIN.</div>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 9.2</div>
+            <div class="p-question">Find the most profitable product category per customer segment.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> segment_category <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    c.segment,
+    p.category,
+    <span class="fn">SUM</span>(o.amount - p.cost_price) <span class="keyword">AS</span> total_profit
+  <span class="keyword">FROM</span> orders o
+  <span class="keyword">JOIN</span> customers c <span class="keyword">ON</span> o.cust_id = c.cust_id
+  <span class="keyword">JOIN</span> products p <span class="keyword">ON</span> o.product_id = p.product_id
+  <span class="keyword">GROUP BY</span> c.segment, p.category
+),
+ranked <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span> *,
+    <span class="fn">RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION BY</span> segment <span class="keyword">ORDER BY</span> total_profit <span class="keyword">DESC</span>) <span class="keyword">AS</span> rnk
+  <span class="keyword">FROM</span> segment_category
+)
+<span class="keyword">SELECT</span> segment, category, total_profit
+<span class="keyword">FROM</span> ranked
+<span class="keyword">WHERE</span> rnk = <span class="num">1</span>;</code></pre>
+              <div class="explain"><strong>Key pattern:</strong> CTE → aggregation → Window RANK → filter rank=1. This exact pattern comes up in almost every product company SQL interview.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 10</span>
+          <span class="day-title">Subqueries — IN, EXISTS, Correlated, Scalar</span>
+          <span class="diff-pill med">Medium</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 10.1</div>
+            <div class="p-question">Find employees who earn more than the average salary of their own department.</div>
+            <div class="p-hint">This needs a correlated subquery — the inner query references the outer query's row.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span> e1.name, e1.dept, e1.salary
+<span class="keyword">FROM</span> employees e1
+<span class="keyword">WHERE</span> e1.salary > (
+  <span class="keyword">SELECT</span> <span class="fn">AVG</span>(e2.salary)
+  <span class="keyword">FROM</span> employees e2
+  <span class="keyword">WHERE</span> e2.dept = e1.dept   <span class="comment">-- correlated: references outer query</span>
+)
+<span class="keyword">ORDER BY</span> e1.dept, e1.salary <span class="keyword">DESC</span>;</code></pre>
+              <div class="explain"><strong>Correlated subquery</strong> runs once per outer row. Slow on huge tables — window functions are faster but correlated subqueries show deep SQL understanding.</div>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 10.2</div>
+            <div class="p-question">Find products that have never been ordered.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="comment">-- Method 1: NOT IN subquery</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> products
+<span class="keyword">WHERE</span> product_id <span class="keyword">NOT IN</span> (
+  <span class="keyword">SELECT DISTINCT</span> product_id <span class="keyword">FROM</span> orders
+);
+
+<span class="comment">-- Method 2: NOT EXISTS (safer with NULLs)</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> products p
+<span class="keyword">WHERE NOT EXISTS</span> (
+  <span class="keyword">SELECT</span> <span class="num">1</span> <span class="keyword">FROM</span> orders o
+  <span class="keyword">WHERE</span> o.product_id = p.product_id
+);</code></pre>
+              <div class="explain"><strong>Important:</strong> NOT IN fails silently if the subquery returns any NULL values. NOT EXISTS is safer and often faster. Know both — interviewers may specifically ask which is better.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Days 11–14</span>
+          <span class="day-title">CTEs, Self JOINs, UNION, and Pivot-style Queries</span>
+          <span class="diff-pill med">Medium</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 11 — Self JOIN</div>
+            <div class="p-question">From an employees table with a manager_id column, show each employee with their manager's name.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  e.name <span class="keyword">AS</span> employee,
+  m.name <span class="keyword">AS</span> manager
+<span class="keyword">FROM</span> employees e
+<span class="keyword">LEFT JOIN</span> employees m <span class="keyword">ON</span> e.manager_id = m.emp_id;</code></pre>
+              <div class="explain"><strong>Self JOIN:</strong> Joining a table to itself using different aliases. LEFT JOIN ensures employees with no manager (top level) still appear — with NULL as manager.</div>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 12 — Pivot with CASE WHEN</div>
+            <div class="p-question">Show monthly sales pivot: one row per product_category, columns for Jan, Feb, Mar totals.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  product_category,
+  <span class="fn">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="fn">MONTH</span>(sale_date) = <span class="num">1</span> <span class="keyword">THEN</span> amount <span class="keyword">ELSE</span> <span class="num">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> jan,
+  <span class="fn">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="fn">MONTH</span>(sale_date) = <span class="num">2</span> <span class="keyword">THEN</span> amount <span class="keyword">ELSE</span> <span class="num">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> feb,
+  <span class="fn">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="fn">MONTH</span>(sale_date) = <span class="num">3</span> <span class="keyword">THEN</span> amount <span class="keyword">ELSE</span> <span class="num">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> mar
+<span class="keyword">FROM</span> sales
+<span class="keyword">WHERE</span> <span class="fn">YEAR</span>(sale_date) = <span class="num">2024</span>
+<span class="keyword">GROUP BY</span> product_category;</code></pre>
+              <div class="explain"><strong>Manual pivot:</strong> No PIVOT keyword in standard SQL — use SUM(CASE WHEN ...) pattern. Very common in reporting queries and interview tasks.</div>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 13 — Running Total with CTE</div>
+            <div class="p-question">Show daily revenue with a running total for Jan 2024.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> daily <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    <span class="fn">DATE</span>(order_date) <span class="keyword">AS</span> day,
+    <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> daily_rev
+  <span class="keyword">FROM</span> orders
+  <span class="keyword">WHERE</span> order_date <span class="keyword">BETWEEN</span> <span class="str">'2024-01-01'</span> <span class="keyword">AND</span> <span class="str">'2024-01-31'</span>
+  <span class="keyword">GROUP BY</span> <span class="fn">DATE</span>(order_date)
+)
+<span class="keyword">SELECT</span>
+  day, daily_rev,
+  <span class="fn">SUM</span>(daily_rev) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> day) <span class="keyword">AS</span> running_total
+<span class="keyword">FROM</span> daily
+<span class="keyword">ORDER BY</span> day;</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /w2 -->
+
+  <!-- ═══════════════════════ WEEK 3 ═══════════════════════ -->
+  <div id="w3" class="week">
+    <div class="week-header">
+      <div class="week-num">W3</div>
+      <div>
+        <div class="week-topic">Window Functions — The Most Asked Advanced Topic</div>
+        <div class="week-goal">Goal: Master ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD, SUM OVER. These appear in 80% of product company interviews.</div>
+      </div>
+      <div class="week-tag">Days 15–21</div>
+    </div>
+
+    <div class="day-grid">
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 15</span>
+          <span class="day-title">ROW_NUMBER, RANK, DENSE_RANK — Know the difference</span>
+          <span class="diff-pill med">Medium</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 15.1 — The Classic</div>
+            <div class="p-question">Find the top 3 employees by salary in each department.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> ranked <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    name, dept, salary,
+    <span class="fn">DENSE_RANK</span>() <span class="keyword">OVER</span> (
+      <span class="keyword">PARTITION BY</span> dept
+      <span class="keyword">ORDER BY</span> salary <span class="keyword">DESC</span>
+    ) <span class="keyword">AS</span> rnk
+  <span class="keyword">FROM</span> employees
+)
+<span class="keyword">SELECT</span> name, dept, salary, rnk
+<span class="keyword">FROM</span> ranked
+<span class="keyword">WHERE</span> rnk <= <span class="num">3</span>;</code></pre>
+              <div class="explain">
+                <strong>ROW_NUMBER</strong> — unique rank (1,2,3,4 — no ties)<br>
+                <strong>RANK</strong> — ties get same rank, next rank skips (1,2,2,4)<br>
+                <strong>DENSE_RANK</strong> — ties get same rank, no skip (1,2,2,3) ← usually the right choice for "top N" problems
+              </div>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 15.2</div>
+            <div class="p-question">Deduplicate a table — keep only the most recent order per customer.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> ranked <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span> *,
+    <span class="fn">ROW_NUMBER</span>() <span class="keyword">OVER</span> (
+      <span class="keyword">PARTITION BY</span> cust_id
+      <span class="keyword">ORDER BY</span> order_date <span class="keyword">DESC</span>
+    ) <span class="keyword">AS</span> rn
+  <span class="keyword">FROM</span> orders
+)
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> ranked <span class="keyword">WHERE</span> rn = <span class="num">1</span>;</code></pre>
+              <div class="explain"><strong>ROW_NUMBER for deduplication</strong> is one of the most important patterns. Use ROW_NUMBER (not RANK) here so each row gets a unique number — only one row per customer will be rn=1.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 16–17</span>
+          <span class="day-title">LAG and LEAD — Month-over-Month, Day-over-Day comparisons</span>
+          <span class="diff-pill med">Medium</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 16.1</div>
+            <div class="p-question">Show monthly revenue with previous month's revenue and the % change (MoM growth).</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> monthly <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    <span class="fn">DATE_FORMAT</span>(order_date, <span class="str">'%Y-%m'</span>) <span class="keyword">AS</span> month,
+    <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> revenue
+  <span class="keyword">FROM</span> orders
+  <span class="keyword">GROUP BY</span> <span class="num">1</span>
+)
+<span class="keyword">SELECT</span>
+  month, revenue,
+  <span class="fn">LAG</span>(revenue) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> month) <span class="keyword">AS</span> prev_month,
+  <span class="fn">ROUND</span>(
+    (revenue - <span class="fn">LAG</span>(revenue) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> month))
+    * <span class="num">100.0</span>
+    / <span class="fn">NULLIF</span>(<span class="fn">LAG</span>(revenue) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> month), <span class="num">0</span>),
+  <span class="num">2</span>) <span class="keyword">AS</span> mom_pct
+<span class="keyword">FROM</span> monthly
+<span class="keyword">ORDER BY</span> month;</code></pre>
+              <div class="explain"><strong>LAG(col, n)</strong> = value n rows behind. <strong>LEAD(col, n)</strong> = value n rows ahead. NULLIF prevents divide-by-zero error. MoM% formula = (current - previous) / previous × 100.</div>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 17.1</div>
+            <div class="p-question">Find all months where revenue DECREASED compared to the previous month.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> monthly <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    <span class="fn">DATE_FORMAT</span>(order_date, <span class="str">'%Y-%m'</span>) <span class="keyword">AS</span> month,
+    <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> revenue
+  <span class="keyword">FROM</span> orders <span class="keyword">GROUP BY</span> <span class="num">1</span>
+),
+with_lag <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span> month, revenue,
+    <span class="fn">LAG</span>(revenue) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> month) <span class="keyword">AS</span> prev
+  <span class="keyword">FROM</span> monthly
+)
+<span class="keyword">SELECT</span> month, revenue, prev,
+  revenue - prev <span class="keyword">AS</span> change
+<span class="keyword">FROM</span> with_lag
+<span class="keyword">WHERE</span> revenue < prev;</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 18–21</span>
+          <span class="day-title">SUM/AVG OVER (Running totals, Moving averages, Percentile)</span>
+          <span class="diff-pill hard">Hard</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 18</div>
+            <div class="p-question">Calculate a 3-day moving average of daily sales.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> daily <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span> <span class="fn">DATE</span>(order_date) <span class="keyword">AS</span> day, <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> rev
+  <span class="keyword">FROM</span> orders <span class="keyword">GROUP BY</span> <span class="num">1</span>
+)
+<span class="keyword">SELECT</span>
+  day, rev,
+  <span class="fn">AVG</span>(rev) <span class="keyword">OVER</span> (
+    <span class="keyword">ORDER BY</span> day
+    <span class="keyword">ROWS BETWEEN</span> <span class="num">2</span> <span class="keyword">PRECEDING AND CURRENT ROW</span>
+  ) <span class="keyword">AS</span> moving_avg_3d
+<span class="keyword">FROM</span> daily;</code></pre>
+              <div class="explain"><strong>ROWS BETWEEN</strong> defines the window frame. "2 PRECEDING AND CURRENT ROW" = current row + 2 rows before it = 3-day window. Used heavily in trend analysis.</div>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 19 — Percentile</div>
+            <div class="p-question">Find which percentile each employee's salary falls in.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  name, salary,
+  <span class="fn">ROUND</span>(
+    <span class="fn">PERCENT_RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> salary) * <span class="num">100</span>, <span class="num">1</span>
+  ) <span class="keyword">AS</span> percentile
+<span class="keyword">FROM</span> employees;</code></pre>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 20–21 — Hard combo</div>
+            <div class="p-question">For each customer, show: total orders, first order date, last order date, days since last order, and classify them as 'Active' (last order within 30 days), 'At Risk' (31–90 days), or 'Churned' (&gt;90 days).</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  cust_id,
+  <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> total_orders,
+  <span class="fn">MIN</span>(order_date) <span class="keyword">AS</span> first_order,
+  <span class="fn">MAX</span>(order_date) <span class="keyword">AS</span> last_order,
+  <span class="fn">DATEDIFF</span>(<span class="fn">CURDATE</span>(), <span class="fn">MAX</span>(order_date)) <span class="keyword">AS</span> days_since,
+  <span class="keyword">CASE</span>
+    <span class="keyword">WHEN</span> <span class="fn">DATEDIFF</span>(<span class="fn">CURDATE</span>(), <span class="fn">MAX</span>(order_date)) <= <span class="num">30</span>
+      <span class="keyword">THEN</span> <span class="str">'Active'</span>
+    <span class="keyword">WHEN</span> <span class="fn">DATEDIFF</span>(<span class="fn">CURDATE</span>(), <span class="fn">MAX</span>(order_date)) <= <span class="num">90</span>
+      <span class="keyword">THEN</span> <span class="str">'At Risk'</span>
+    <span class="keyword">ELSE</span> <span class="str">'Churned'</span>
+  <span class="keyword">END</span> <span class="keyword">AS</span> customer_status
+<span class="keyword">FROM</span> orders
+<span class="keyword">GROUP BY</span> cust_id
+<span class="keyword">ORDER BY</span> days_since;</code></pre>
+              <div class="explain"><strong>This exact query pattern</strong> is used in real product companies to build customer health dashboards. Combines GROUP BY, date functions, and CASE WHEN — shows real analytical thinking.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /w3 -->
+
+  <!-- ═══════════════════════ WEEK 4 ═══════════════════════ -->
+  <div id="w4" class="week">
+    <div class="week-header">
+      <div class="week-num">W4</div>
+      <div>
+        <div class="week-topic">Real Interview Patterns — Retention, Cohorts, Funnel, Duplicate Detection</div>
+        <div class="week-goal">Goal: Solve the exact types of problems product companies give in final rounds.</div>
+      </div>
+      <div class="week-tag">Days 22–30</div>
+    </div>
+
+    <div class="day-grid">
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 22</span>
+          <span class="day-title">Duplicate Detection and Data Quality Queries</span>
+          <span class="diff-pill med">Medium</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 22.1</div>
+            <div class="p-question">Find duplicate orders — same customer_id, product, and amount on the same date.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT</span>
+  cust_id, product, amount, order_date,
+  <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> duplicate_count
+<span class="keyword">FROM</span> orders
+<span class="keyword">GROUP BY</span> cust_id, product, amount, order_date
+<span class="keyword">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="num">1</span>;</code></pre>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Problem 22.2</div>
+            <div class="p-question">Delete duplicate rows, keeping only the one with the lowest order_id.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">DELETE FROM</span> orders
+<span class="keyword">WHERE</span> order_id <span class="keyword">NOT IN</span> (
+  <span class="keyword">SELECT</span> <span class="fn">MIN</span>(order_id)
+  <span class="keyword">FROM</span> orders
+  <span class="keyword">GROUP BY</span> cust_id, product, amount, order_date
+);</code></pre>
+              <div class="explain"><strong>Classic dedup pattern:</strong> Keep the MIN(id) from each group of duplicates. The NOT IN subquery identifies which ids to delete.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 23–24</span>
+          <span class="day-title">Retention Analysis — New vs Returning Customers</span>
+          <span class="diff-pill hard">Hard</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 23</div>
+            <div class="p-question">For each month, count: new customers (first order ever that month) vs returning customers.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> first_orders <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    cust_id,
+    <span class="fn">MIN</span>(order_date) <span class="keyword">AS</span> first_order_date
+  <span class="keyword">FROM</span> orders
+  <span class="keyword">GROUP BY</span> cust_id
+),
+monthly_orders <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    o.cust_id,
+    <span class="fn">DATE_FORMAT</span>(o.order_date, <span class="str">'%Y-%m'</span>) <span class="keyword">AS</span> month,
+    <span class="keyword">CASE</span>
+      <span class="keyword">WHEN</span> <span class="fn">DATE_FORMAT</span>(f.first_order_date, <span class="str">'%Y-%m'</span>)
+         = <span class="fn">DATE_FORMAT</span>(o.order_date, <span class="str">'%Y-%m'</span>)
+      <span class="keyword">THEN</span> <span class="str">'new'</span>
+      <span class="keyword">ELSE</span> <span class="str">'returning'</span>
+    <span class="keyword">END</span> <span class="keyword">AS</span> customer_type
+  <span class="keyword">FROM</span> orders o
+  <span class="keyword">JOIN</span> first_orders f <span class="keyword">ON</span> o.cust_id = f.cust_id
+)
+<span class="keyword">SELECT</span>
+  month,
+  <span class="fn">COUNT</span>(<span class="keyword">DISTINCT CASE WHEN</span> customer_type = <span class="str">'new'</span> <span class="keyword">THEN</span> cust_id <span class="keyword">END</span>) <span class="keyword">AS</span> new_customers,
+  <span class="fn">COUNT</span>(<span class="keyword">DISTINCT CASE WHEN</span> customer_type = <span class="str">'returning'</span> <span class="keyword">THEN</span> cust_id <span class="keyword">END</span>) <span class="keyword">AS</span> returning_customers
+<span class="keyword">FROM</span> monthly_orders
+<span class="keyword">GROUP BY</span> month
+<span class="keyword">ORDER BY</span> month;</code></pre>
+              <div class="explain"><strong>This is a real product analyst query.</strong> The key insight: find each customer's first order month, then label every order as "new" or "returning" based on whether it matches their first month.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Day 25–26</span>
+          <span class="day-title">Cohort Analysis — Month-1 Retention</span>
+          <span class="diff-pill hard">Hard</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Problem 25</div>
+            <div class="p-question">Build a cohort retention table: for customers who first ordered in each month (cohort), what % came back in the following month?</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> cohorts <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    cust_id,
+    <span class="fn">DATE_FORMAT</span>(<span class="fn">MIN</span>(order_date), <span class="str">'%Y-%m'</span>) <span class="keyword">AS</span> cohort_month
+  <span class="keyword">FROM</span> orders
+  <span class="keyword">GROUP BY</span> cust_id
+),
+activity <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    o.cust_id,
+    c.cohort_month,
+    <span class="fn">DATE_FORMAT</span>(o.order_date, <span class="str">'%Y-%m'</span>) <span class="keyword">AS</span> active_month,
+    <span class="fn">PERIOD_DIFF</span>(
+      <span class="fn">DATE_FORMAT</span>(o.order_date, <span class="str">'%Y%m'</span>),
+      <span class="fn">DATE_FORMAT</span>(<span class="fn">STR_TO_DATE</span>(c.cohort_month, <span class="str">'%Y-%m'</span>), <span class="str">'%Y%m'</span>)
+    ) <span class="keyword">AS</span> months_since_join
+  <span class="keyword">FROM</span> orders o
+  <span class="keyword">JOIN</span> cohorts c <span class="keyword">ON</span> o.cust_id = c.cust_id
+)
+<span class="keyword">SELECT</span>
+  cohort_month,
+  <span class="fn">COUNT</span>(<span class="keyword">DISTINCT</span> cust_id) <span class="keyword">AS</span> cohort_size,
+  <span class="fn">COUNT</span>(<span class="keyword">DISTINCT CASE WHEN</span> months_since_join = <span class="num">0</span> <span class="keyword">THEN</span> cust_id <span class="keyword">END</span>) <span class="keyword">AS</span> m0,
+  <span class="fn">COUNT</span>(<span class="keyword">DISTINCT CASE WHEN</span> months_since_join = <span class="num">1</span> <span class="keyword">THEN</span> cust_id <span class="keyword">END</span>) <span class="keyword">AS</span> m1_retained,
+  <span class="fn">ROUND</span>(
+    <span class="fn">COUNT</span>(<span class="keyword">DISTINCT CASE WHEN</span> months_since_join = <span class="num">1</span> <span class="keyword">THEN</span> cust_id <span class="keyword">END</span>) * <span class="num">100.0</span>
+    / <span class="fn">COUNT</span>(<span class="keyword">DISTINCT CASE WHEN</span> months_since_join = <span class="num">0</span> <span class="keyword">THEN</span> cust_id <span class="keyword">END</span>), <span class="num">1</span>
+  ) <span class="keyword">AS</span> m1_retention_pct
+<span class="keyword">FROM</span> activity
+<span class="keyword">GROUP BY</span> cohort_month
+<span class="keyword">ORDER BY</span> cohort_month;</code></pre>
+              <div class="explain"><strong>Cohort analysis</strong> is a hallmark of product analyst roles. Understanding this query fully — and being able to explain what cohort_month and months_since_join mean — will impress any interviewer.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header" onclick="toggleDay(this)">
+          <span class="day-label">Days 27–30</span>
+          <span class="day-title">Final Exam — 4 Unsolved Problems (write solutions yourself)</span>
+          <span class="diff-pill hard">Hard</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="day-body">
+          <div class="problem-block">
+            <div class="p-num">Final 1</div>
+            <div class="p-question">From an orders table: find the second-highest revenue-generating customer. If there's a tie, show all tied customers.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> totals <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span> cust_id, <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> total
+  <span class="keyword">FROM</span> orders <span class="keyword">GROUP BY</span> cust_id
+),
+ranked <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span> *, <span class="fn">DENSE_RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> total <span class="keyword">DESC</span>) <span class="keyword">AS</span> rnk
+  <span class="keyword">FROM</span> totals
+)
+<span class="keyword">SELECT</span> cust_id, total <span class="keyword">FROM</span> ranked <span class="keyword">WHERE</span> rnk = <span class="num">2</span>;</code></pre>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Final 2</div>
+            <div class="p-question">Find customers who ordered in Jan 2024 but NOT in Feb 2024.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">SELECT DISTINCT</span> cust_id
+<span class="keyword">FROM</span> orders
+<span class="keyword">WHERE</span> order_date <span class="keyword">BETWEEN</span> <span class="str">'2024-01-01'</span> <span class="keyword">AND</span> <span class="str">'2024-01-31'</span>
+
+<span class="keyword">AND</span> cust_id <span class="keyword">NOT IN</span> (
+  <span class="keyword">SELECT DISTINCT</span> cust_id <span class="keyword">FROM</span> orders
+  <span class="keyword">WHERE</span> order_date <span class="keyword">BETWEEN</span> <span class="str">'2024-02-01'</span> <span class="keyword">AND</span> <span class="str">'2024-02-29'</span>
+);</code></pre>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Final 3</div>
+            <div class="p-question">Calculate 30-day rolling revenue for each day in 2024.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> daily <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span> <span class="fn">DATE</span>(order_date) <span class="keyword">AS</span> day, <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> rev
+  <span class="keyword">FROM</span> orders <span class="keyword">WHERE</span> <span class="fn">YEAR</span>(order_date) = <span class="num">2024</span>
+  <span class="keyword">GROUP BY</span> <span class="fn">DATE</span>(order_date)
+)
+<span class="keyword">SELECT</span>
+  day, rev,
+  <span class="fn">SUM</span>(rev) <span class="keyword">OVER</span> (
+    <span class="keyword">ORDER BY</span> day
+    <span class="keyword">ROWS BETWEEN</span> <span class="num">29</span> <span class="keyword">PRECEDING AND CURRENT ROW</span>
+  ) <span class="keyword">AS</span> rolling_30d
+<span class="keyword">FROM</span> daily;</code></pre>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="problem-block">
+            <div class="p-num">Final 4 — The Hardest</div>
+            <div class="p-question">Identify "power users" — customers who are in the top 20% by order count AND top 20% by total spend.</div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">▶ Show Solution</button>
+            <div class="solution-block">
+<pre><code><span class="keyword">WITH</span> customer_stats <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    cust_id,
+    <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> order_count,
+    <span class="fn">SUM</span>(amount) <span class="keyword">AS</span> total_spend
+  <span class="keyword">FROM</span> orders
+  <span class="keyword">GROUP BY</span> cust_id
+),
+percentiles <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span> *,
+    <span class="fn">PERCENT_RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> order_count) <span class="keyword">AS</span> order_pct,
+    <span class="fn">PERCENT_RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> total_spend) <span class="keyword">AS</span> spend_pct
+  <span class="keyword">FROM</span> customer_stats
+)
+<span class="keyword">SELECT</span> cust_id, order_count, total_spend
+<span class="keyword">FROM</span> percentiles
+<span class="keyword">WHERE</span> order_pct >= <span class="num">0.8</span> <span class="keyword">AND</span> spend_pct >= <span class="num">0.8</span>
+<span class="keyword">ORDER BY</span> total_spend <span class="keyword">DESC</span>;</code></pre>
+              <div class="explain"><strong>This combines:</strong> aggregation + window functions + PERCENT_RANK + multiple filters. If he can explain and write this, he's ready for senior data analyst SQL rounds.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /w4 -->
+
+</div>
+
+<footer>SQL Daily Practice Plan — 30 Days · Built for Data Analyst Interview Preparation</footer>
+
+<script>
+function showWeek(id, btn) {
+  document.querySelectorAll('.week').forEach(w => w.classList.remove('active'));
+  document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function toggleDay(el) {
+  el.parentElement.classList.toggle('open');
+}
+function toggleSolution(btn) {
+  const sol = btn.nextElementSibling;
+  sol.classList.toggle('show');
+  btn.textContent = sol.classList.contains('show') ? '▼ Hide Solution' : '▶ Show Solution';
+}
+</script>
+</body>
+</html>

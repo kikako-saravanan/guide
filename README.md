@@ -1,36 +1,60 @@
 # Guide
 
-This folder contains a standalone learning roadmap page for a BCA student preparing for product company interviews over a 24-month plan.
+This folder contains standalone HTML guides for interview preparation, data analyst learning, project work, SQL practice, and behavioral interview preparation.
 
 ## Files
 
 - `bca.html`
-  A single-page roadmap titled `2-Year CS Learning Roadmap — From Zero to Product Company`.
+  A 2-year CS learning roadmap for a BCA student targeting product company interviews.
+
+- `sql.html`
+  A 30-day SQL daily practice plan with guided problems, hints, and solutions.
+
+- `da-guide.html`
+  A complete data analyst preparation guide covering SQL, Excel, Power BI, Tableau, statistics, practice platforms, project work, and interview scenarios.
+
+- `DA-project.html`
+  An end-to-end data analyst project guide built around an e-commerce sales analysis portfolio project.
+
+- `behavaioral.html`
+  A behavioral interview mastery roadmap focused on STAR stories, question prep, Amazon leadership principles, communication, and mock practice.
 
 - `README.md`
   Documentation for the contents of this folder.
 
-## What `bca.html` includes
+## What the guides cover
 
-- A hero section introducing the roadmap and target audience.
-- First-principles study guidance explaining why the roadmap is structured this way.
-- A 24-month overview split into 4 phases:
-  - Python Foundation
-  - DSA Mastery
-  - System Design
-  - Mock & Interview Sprint
-- Detailed weekly and monthly learning modules.
-- Curated external resources and practice platforms.
-- A milestone tracker for long-term progress.
+- `bca.html`
+  - 24-month roadmap split into Python, DSA, System Design, and Interview Prep phases
+  - Study structure, resources, milestones, and weekly guidance
+
+- `sql.html`
+  - Week-by-week SQL problem progression
+  - Foundational to advanced SQL patterns
+  - Practice prompts with solutions and explanations
+
+- `da-guide.html`
+  - Full data analyst roadmap across tools and concepts
+  - Practice checklists and learning sequence
+  - Progress tracking directly in the page
+
+- `DA-project.html`
+  - Portfolio project setup, cleaning, SQL analysis, dashboarding, and storytelling
+  - Suggested business questions and deliverables
+
+- `behavaioral.html`
+  - Behavioral interview preparation system
+  - STAR method, story bank, question frameworks, and communication guidance
 
 ## How to use
 
-- Open `bca.html` in a browser to view the roadmap.
-- Use it as a study reference and progress tracker.
-- Update the HTML directly if you want to revise timelines, resources, or structure.
+- Open any `.html` file in a browser to view that guide.
+- Use each page as a study plan, reference, or interview-prep checklist.
+- Update the HTML files directly if you want to change content, timelines, or resources.
 
 ## Notes
 
-- The page is self-contained in a single HTML file.
-- Styling is embedded directly in the document.
-- External fonts are loaded from Google Fonts.
+- All guides are self-contained HTML files.
+- Styling is embedded in each document.
+- Several pages load fonts from Google Fonts.
+- `behavaioral.html` appears to use a misspelled filename; rename it later only if you want a cleaner file name and can update any references accordingly.

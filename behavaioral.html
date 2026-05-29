@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behavioral Interview Mastery — Complete Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f3;
+    --surface: #f2ede3;
+    --surface2: #e8e0d0;
+    --ink: #1a1612;
+    --ink2: #3d3630;
+    --ink3: #7a6f65;
+    --ink4: #b0a699;
+    --red: #c0392b;
+    --red-soft: #f9e9e7;
+    --green: #1a6b3c;
+    --green-soft: #e6f4ec;
+    --gold: #8b6914;
+    --gold-soft: #fdf3d7;
+    --blue: #1a3d6b;
+    --blue-soft: #e7eef8;
+    --border: #d4c9b8;
+    --border-strong: #b8a990;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .cover-left {
+    padding: 80px 72px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .cover-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--ink3);
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cover-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--ink3);
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(42px, 6vw, 82px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+
+  .cover-title em {
+    font-style: italic;
+    color: var(--red);
+  }
+
+  .cover-desc {
+    font-size: 16px;
+    color: var(--ink2);
+    max-width: 540px;
+    line-height: 1.8;
+    margin-bottom: 48px;
+  }
+
+  .cover-stats {
+    display: flex;
+    gap: 40px;
+  }
+
+  .cover-stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .cover-stat .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--ink3);
+    margin-top: 4px;
+  }
+
+  .cover-right {
+    background: var(--ink);
+    padding: 72px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .cover-right h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink4);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .phase-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .phase-list li {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .phase-list li:last-child { border-bottom: none; }
+
+  .p-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .p-circle.r { background: rgba(192,57,43,0.2); color: #e07060; border: 1px solid rgba(192,57,43,0.3); }
+  .p-circle.g { background: rgba(26,107,60,0.2); color: #60b080; border: 1px solid rgba(26,107,60,0.3); }
+  .p-circle.b { background: rgba(26,61,107,0.2); color: #6090d0; border: 1px solid rgba(26,61,107,0.3); }
+  .p-circle.o { background: rgba(139,105,20,0.2); color: #c0a040; border: 1px solid rgba(139,105,20,0.3); }
+  .p-circle.w { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.15); }
+
+  .p-info h4 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f0ece4;
+    margin-bottom: 2px;
+  }
+
+  .p-info span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--ink4);
+  }
+
+  /* ── SECTIONS ── */
+  .chapter {
+    padding: 80px 72px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .chapter:nth-child(even) {
+    background: var(--surface);
+  }
+
+  .chapter-header {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 56px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .chapter-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--border);
+  }
+
+  .chapter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .chapter-why {
+    font-size: 15px;
+    color: var(--ink2);
+    line-height: 1.8;
+    max-width: 720px;
+    padding-left: 20px;
+    border-left: 3px solid var(--border-strong);
+    font-style: italic;
+  }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin: 32px 0;
+  }
+
+  .callout.red { background: var(--red-soft); border-left: 4px solid var(--red); }
+  .callout.green { background: var(--green-soft); border-left: 4px solid var(--green); }
+  .callout.gold { background: var(--gold-soft); border-left: 4px solid var(--gold); }
+  .callout.blue { background: var(--blue-soft); border-left: 4px solid var(--blue); }
+
+  .callout-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .callout.red .callout-label { color: var(--red); }
+  .callout.green .callout-label { color: var(--green); }
+  .callout.gold .callout-label { color: var(--gold); }
+  .callout.blue .callout-label { color: var(--blue); }
+
+  .callout p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--ink2);
+  }
+
+  /* ── STAR BREAKDOWN ── */
+  .star-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 32px 0;
+  }
+
+  .star-cell {
+    padding: 28px 24px;
+    border-right: 1px solid var(--border);
+  }
+
+  .star-cell:last-child { border-right: none; }
+
+  .star-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .star-word {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .star-cell p {
+    font-size: 13px;
+    color: var(--ink2);
+    line-height: 1.6;
+  }
+
+  .star-cell.s .star-letter { color: var(--red); }
+  .star-cell.t .star-letter { color: var(--gold); }
+  .star-cell.a .star-letter { color: var(--green); }
+  .star-cell.r .star-letter { color: var(--blue); }
+
+  /* ── STORY BANK ── */
+  .story-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 13px;
+  }
+
+  .story-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--ink);
+    background: var(--surface2);
+  }
+
+  .story-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .story-table tr:hover td {
+    background: var(--surface);
+  }
+
+  .story-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .tag-r { background: var(--red-soft); color: var(--red); }
+  .tag-g { background: var(--green-soft); color: var(--green); }
+  .tag-b { background: var(--blue-soft); color: var(--blue); }
+  .tag-o { background: var(--gold-soft); color: var(--gold); }
+
+  /* ── QUESTION CARDS ── */
+  .q-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+
+  .q-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    background: var(--bg);
+    position: relative;
+  }
+
+  .q-card .q-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--ink4);
+    margin-bottom: 10px;
+  }
+
+  .q-card .question {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 14px;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .q-card .hint {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink3);
+    line-height: 1.6;
+  }
+
+  .q-card .traits {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  /* ── AMAZON LPs ── */
+  .lp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .lp-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    background: var(--bg);
+  }
+
+  .lp-card h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .lp-card p {
+    font-size: 12px;
+    color: var(--ink3);
+    line-height: 1.6;
+  }
+
+  .lp-card .lp-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--border-strong);
+    margin-bottom: 6px;
+  }
+
+  /* ── COMMUNICATION MODULE ── */
+  .comm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 24px 0;
+  }
+
+  .comm-block h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+
+  .comm-block h4.good { color: var(--green); }
+
+  .speech-bubble {
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.6;
+    position: relative;
+  }
+
+  .speech-bubble.bad {
+    background: var(--red-soft);
+    border: 1px solid #f0c0bb;
+    color: #8b2020;
+  }
+
+  .speech-bubble.good {
+    background: var(--green-soft);
+    border: 1px solid #b0d8be;
+    color: #1a4a2e;
+  }
+
+  .speech-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  /* ── WEEKLY PRACTICE PLAN ── */
+  .week-plan {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 24px 0;
+  }
+
+  .wday {
+    border-right: 1px solid var(--border);
+  }
+
+  .wday:last-child { border-right: none; }
+
+  .wday-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    padding: 12px;
+    text-align: center;
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .wday-task {
+    padding: 14px 12px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--ink2);
+    min-height: 90px;
+  }
+
+  .wday-task .task-type {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .wday.r .task-type { color: var(--red); }
+  .wday.g .task-type { color: var(--green); }
+  .wday.b .task-type { color: var(--blue); }
+  .wday.o .task-type { color: var(--gold); }
+  .wday.gr .task-type { color: var(--ink3); }
+
+  /* ── MILESTONE ── */
+  .milestone-track {
+    position: relative;
+    padding-left: 40px;
+    margin: 24px 0;
+  }
+
+  .milestone-track::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border-strong);
+  }
+
+  .m-item {
+    position: relative;
+    margin-bottom: 32px;
+  }
+
+  .m-item::before {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 1px var(--ink);
+  }
+
+  .m-item.red::before { background: var(--red); box-shadow: 0 0 0 1px var(--red); }
+  .m-item.green::before { background: var(--green); box-shadow: 0 0 0 1px var(--green); }
+  .m-item.blue::before { background: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
+  .m-item.gold::before { background: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+
+  .m-period {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--ink3);
+    margin-bottom: 6px;
+  }
+
+  .m-item h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .m-item p {
+    font-size: 13px;
+    color: var(--ink2);
+    line-height: 1.6;
+  }
+
+  /* ── RESOURCES ── */
+  .res-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .res-row:last-child { border-bottom: none; }
+
+  .res-type-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  .badge-yt { background: var(--red-soft); color: var(--red); }
+  .badge-book { background: var(--gold-soft); color: var(--gold); }
+  .badge-blog { background: var(--green-soft); color: var(--green); }
+  .badge-practice { background: var(--blue-soft); color: var(--blue); }
+
+  .res-info a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .res-info a:hover { color: var(--red); }
+
+  .res-info p {
+    font-size: 12px;
+    color: var(--ink3);
+    line-height: 1.5;
+  }
+
+  /* ── GOLDEN RULE BOX ── */
+  .golden-rule {
+    background: var(--ink);
+    color: #f0ece4;
+    padding: 48px 56px;
+    margin: 40px 0;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .golden-rule::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 200px;
+    font-weight: 900;
+    position: absolute;
+    top: -40px;
+    left: 32px;
+    opacity: 0.07;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .golden-rule blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .golden-rule cite {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--ink4);
+    text-transform: uppercase;
+  }
+
+  /* ── BODY LANGUAGE ── */
+  .bl-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 24px 0;
+  }
+
+  .bl-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 20px;
+    text-align: center;
+    background: var(--bg);
+  }
+
+  .bl-icon { font-size: 36px; margin-bottom: 14px; }
+
+  .bl-card h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+
+  .bl-card p {
+    font-size: 12px;
+    color: var(--ink3);
+    line-height: 1.6;
+  }
+
+  .bl-do { border-top: 3px solid var(--green); }
+  .bl-dont { border-top: 3px solid var(--red); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    padding: 48px 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  footer p {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink4);
+    line-height: 1.6;
+  }
+
+  footer strong { color: rgba(255,255,255,0.6); }
+
+  @media (max-width: 1000px) {
+    .cover { grid-template-columns: 1fr; min-height: auto; }
+    .cover-right { display: none; }
+    .chapter { padding: 48px 28px; }
+    .chapter-header { grid-template-columns: 1fr; gap: 16px; }
+    .chapter-num { font-size: 40px; }
+    .star-grid, .q-grid, .comm-grid, .bl-grid { grid-template-columns: 1fr; }
+    .week-plan { grid-template-columns: repeat(4, 1fr); }
+    footer { padding: 40px 28px; flex-direction: column; }
+    .cover-left { padding: 48px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── COVER ── -->
+<div class="cover">
+  <div class="cover-left">
+    <div>
+      <div class="cover-eyebrow">Behavioral Interview Mastery · Complete Roadmap</div>
+      <h1 class="cover-title">The Art of<br>Telling Your<br><em>Story</em></h1>
+      <p class="cover-desc">Technical skills get you the interview. Behavioral skills get you the offer. This is the complete system to build, practice, and deliver compelling stories that make interviewers remember you — and hire you.</p>
+    </div>
+    <div class="cover-stats">
+      <div class="cover-stat"><div class="num">10</div><div class="label">Core Stories<br>to build</div></div>
+      <div class="cover-stat"><div class="num">50+</div><div class="label">Interview<br>Questions covered</div></div>
+      <div class="cover-stat"><div class="num">16</div><div class="label">Amazon LPs<br>decoded</div></div>
+      <div class="cover-stat"><div class="num">6</div><div class="label">Months to<br>full mastery</div></div>
+    </div>
+  </div>
+  <div class="cover-right">
+    <h3>// Roadmap Contents</h3>
+    <ul class="phase-list">
+      <li><div class="p-circle r">01</div><div class="p-info"><h4>The STAR Method — Deep</h4><span>The framework behind every answer</span></div></li>
+      <li><div class="p-circle g">02</div><div class="p-info"><h4>Building Your Story Bank</h4><span>10 stories that cover everything</span></div></li>
+      <li><div class="p-circle b">03</div><div class="p-info"><h4>The 50 Questions Decoded</h4><span>What they're really asking</span></div></li>
+      <li><div class="p-circle o">04</div><div class="p-info"><h4>Amazon Leadership Principles</h4><span>The most tested LP system</span></div></li>
+      <li><div class="p-circle r">05</div><div class="p-info"><h4>Communication in the Room</h4><span>Tone, pace, filler words, body language</span></div></li>
+      <li><div class="p-circle g">06</div><div class="p-info"><h4>Mock Practice System</h4><span>Weekly schedule to get interview-ready</span></div></li>
+      <li><div class="p-circle b">07</div><div class="p-info"><h4>Questions to Ask Them</h4><span>Curiosity as a signal of maturity</span></div></li>
+      <li><div class="p-circle w">08</div><div class="p-info"><h4>Milestone Tracker</h4><span>Month-by-month progress markers</span></div></li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════
+     CHAPTER 1: WHY BEHAVIORAL
+══════════════════════════ -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">01</div>
+    <div>
+      <h2 class="chapter-title">Why Behavioral Rounds Exist — and Why Most People Fail Them</h2>
+      <p class="chapter-why">A company doesn't just need someone who can code. They need someone who won't quit when a project gets hard, who can disagree respectfully, who asks for help before going silent for 3 days. Behavioral interviews are how they find that person.</p>
+    </div>
+  </div>
+
+  <div class="callout red">
+    <div class="callout-label">The Mistake 90% of Candidates Make</div>
+    <p>They treat behavioral interviews as "soft questions" and wing it. They give vague, rambling answers with no structure and no data. Interviewers who do 10 interviews a week can tell in 30 seconds when someone hasn't prepared. The result: technically strong candidates lose offers to weaker engineers who tell better stories.</p>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-label">What a Great Behavioral Answer Does</div>
+    <p>It tells a specific story with a clear situation, a concrete action you took (not "we"), and a measurable result. It reveals your values, your thinking process, and your growth — all in under 2 minutes. Companies like Google, Amazon, Flipkart, and Zepto all use structured behavioral interviews because research shows past behavior predicts future behavior more reliably than hypothetical questions.</p>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-label">First Principle: Stories Are Memorable, Statements Are Forgettable</div>
+    <p>"I'm a good communicator" — forgotten immediately. "I once had to explain a production outage to 200 non-technical stakeholders with 10 minutes notice. I drew a simple analogy to a blocked pipe and walked them through our recovery steps. The VP of Engineering later told me it was the clearest incident explanation he'd heard in 5 years" — remembered for weeks. Be specific. Always.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════
+     CHAPTER 2: STAR METHOD
+══════════════════════════ -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">02</div>
+    <div>
+      <h2 class="chapter-title">The STAR Method — Your Answer Architecture</h2>
+      <p class="chapter-why">Every behavioral answer needs a skeleton. Without structure, even great stories fall apart under pressure. STAR is that skeleton. Once it's muscle memory, you can answer any behavioral question in under 2 minutes without sounding rehearsed.</p>
+    </div>
+  </div>
+
+  <div class="star-grid">
+    <div class="star-cell s">
+      <div class="star-letter">S</div>
+      <div class="star-word">Situation</div>
+      <p>Set the scene. When, where, what was happening. Keep it to 2–3 sentences. The interviewer needs context but not a novel. <strong>Time: 15–20 seconds.</strong></p>
+    </div>
+    <div class="star-cell t">
+      <div class="star-letter">T</div>
+      <div class="star-word">Task</div>
+      <p>What was your specific responsibility in this situation? Not the team's — yours. What was expected of you? <strong>Time: 10–15 seconds.</strong></p>
+    </div>
+    <div class="star-cell a">
+      <div class="star-letter">A</div>
+      <div class="star-word">Action</div>
+      <p>What did <em>you</em> do, step by step? This is 60–70% of your answer. Be specific about your decisions, not the team's. Use "I", not "we". <strong>Time: 60–70 seconds.</strong></p>
+    </div>
+    <div class="star-cell r">
+      <div class="star-letter">R</div>
+      <div class="star-word">Result</div>
+      <p>What happened because of your actions? Quantify whenever possible. And include what you learned or would do differently. <strong>Time: 20–25 seconds.</strong></p>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-label">The R+ Addition — What Separates Good From Great</div>
+    <p>After your Result, add a reflection: <em>"Looking back, if I were to do this again, I would..."</em> or <em>"What I learned from this was..."</em> This signals maturity, self-awareness, and continuous improvement — qualities every product company explicitly looks for. It takes 10 extra seconds and multiplies the impact of your answer.</p>
+  </div>
+
+  <div class="callout blue">
+    <div class="callout-label">STAR in Action — Example</div>
+    <p><strong>Question:</strong> "Tell me about a time you had to work under a tight deadline."<br><br>
+    <strong>S:</strong> "During my final year BCA project, our team of 4 had a submission deadline moved up by 2 weeks without warning."<br>
+    <strong>T:</strong> "I was responsible for the backend API layer — 12 endpoints that were only 40% complete."<br>
+    <strong>A:</strong> "I first mapped out all 12 endpoints by priority — which ones the frontend absolutely needed vs nice-to-have. Then I blocked 4-hour deep work sessions each morning and cut social media entirely for 10 days. I also flagged to my teammate early that I'd need his DB schema finalized by day 3 — giving him enough time to do it without a surprise dependency."<br>
+    <strong>R:</strong> "I completed all 12 endpoints in 9 days. We submitted 3 days early and scored 87/100. What I learned was that ruthless prioritization under pressure is more valuable than trying to finish everything — I deliberately left 2 lower-priority endpoints as stubs and it was the right call."</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════
+     CHAPTER 3: STORY BANK
+══════════════════════════ -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">03</div>
+    <div>
+      <h2 class="chapter-title">Building Your Story Bank — 10 Stories That Cover Everything</h2>
+      <p class="chapter-why">You don't need a different story for every question. You need 10 well-crafted stories from your experience — academic projects, internships, college events, personal projects — that can be adapted to any behavioral question asked.</p>
+    </div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-label">Where to Find Stories as a BCA Student</div>
+    <p>You don't need work experience to have great stories. Sources: college project teams, hackathons, college fests you organized, study groups you led, difficult courses you figured out, side projects you built, times you failed an exam and came back, family responsibilities you managed alongside studies, online courses you completed. Every experience is raw material.</p>
+  </div>
+
+  <table class="story-table">
+    <thead>
+      <tr>
+        <th>Story #</th>
+        <th>Theme</th>
+        <th>What to Capture</th>
+        <th>Questions It Answers</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Story 1</strong></td>
+        <td>Your biggest achievement</td>
+        <td>The thing you're most proud of — a project, a result, something hard you finished</td>
+        <td>"Tell me about yourself", "Greatest achievement", "Best work"</td>
+        <td><span class="story-tag tag-g">Success</span></td>
+      </tr>
+      <tr>
+        <td><strong>Story 2</strong></td>
+        <td>A failure you recovered from</td>
+        <td>Something that went wrong, what you did, what you learned — with genuine reflection</td>
+        <td>"Tell me about a failure", "Biggest mistake", "What would you do differently"</td>
+        <td><span class="story-tag tag-r">Failure/Growth</span></td>
+      </tr>
+      <tr>
+        <td><strong>Story 3</strong></td>
+        <td>Conflict with a teammate</td>
+        <td>A disagreement, how you approached it with empathy, the outcome</td>
+        <td>"Difficult team member", "Disagree with someone", "Handle conflict"</td>
+        <td><span class="story-tag tag-b">Conflict</span></td>
+      </tr>
+      <tr>
+        <td><strong>Story 4</strong></td>
+        <td>Leading without authority</td>
+        <td>Taking ownership of something no one assigned to you — stepping up</td>
+        <td>"Show leadership", "Initiative", "Go above and beyond"</td>
+        <td><span class="story-tag tag-g">Leadership</span></td>
+      </tr>
+      <tr>
+        <td><strong>Story 5</strong></td>
+        <td>Tight deadline / pressure</td>
+        <td>How you managed time, what you cut, how you prioritized, what shipped</td>
+        <td>"Worked under pressure", "Tight deadline", "Handle stress"</td>
+        <td><span class="story-tag tag-o">Execution</span></td>
+      </tr>
+      <tr>
+        <td><strong>Story 6</strong></td>
+        <td>Learning something new fast</td>
+        <td>A technology, concept, or skill you had to pick up with no prior knowledge</td>
+        <td>"Fast learner", "Dealt with ambiguity", "New technology challenge"</td>
+        <td><span class="story-tag tag-b">Adaptability</span></td>
+      </tr>
+      <tr>
+        <td><strong>Story 7</strong></td>
+        <td>Disagreeing with a decision</td>
+        <td>When you pushed back on a teacher, teammate, or project direction — respectfully</td>
+        <td>"Disagree with manager", "Stand your ground", "Speak up"</td>
+        <td><span class="story-tag tag-r">Courage</span></td>
+      </tr>
+      <tr>
+        <td><strong>Story 8</strong></td>
+        <td>Helping someone else grow</td>
+        <td>Teaching a peer, explaining a concept, supporting a teammate who was struggling</td>
+        <td>"Mentored someone", "Helped a teammate", "Knowledge sharing"</td>
+        <td><span class="story-tag tag-g">Empathy</span></td>
+      </tr>
+      <tr>
+        <td><strong>Story 9</strong></td>
+        <td>Handling ambiguity</td>
+        <td>When requirements were unclear, a project had no defined path, you had to figure it out</td>
+        <td>"Dealt with uncertainty", "No clear direction", "Ambiguous project"</td>
+        <td><span class="story-tag tag-o">Problem Solving</span></td>
+      </tr>
+      <tr>
+        <td><strong>Story 10</strong></td>
+        <td>Going above and beyond</td>
+        <td>Doing more than asked — staying late, adding a feature no one requested, fixing something broken</td>
+        <td>"Customer obsession", "Extra effort", "Ownership"</td>
+        <td><span class="story-tag tag-g">Initiative</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout blue">
+    <div class="callout-label">How to Build Each Story — The Story Card Method</div>
+    <p>For each of the 10 stories, write a "story card": one page with the STAR breakdown written out fully. Then practice saying it aloud until you can deliver it in 90 seconds without notes. Review all 10 cards every week. After 2 months, they'll feel like your own memories — because they are.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════
+     CHAPTER 4: 50 QUESTIONS
+══════════════════════════ -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">04</div>
+    <div>
+      <h2 class="chapter-title">The 50 Questions — Decoded</h2>
+      <p class="chapter-why">There are really only 8–10 things a company wants to know about you. Every behavioral question is one of those things rephrased. Once you understand what they're actually measuring, no question will surprise you.</p>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-label">The 8 Things Every Behavioral Question Measures</div>
+    <p><strong>1. Ownership</strong> — Do you take responsibility or deflect blame? &nbsp;|&nbsp; <strong>2. Collaboration</strong> — Can you work with others, especially difficult ones? &nbsp;|&nbsp; <strong>3. Learning</strong> — Do you grow from failure? &nbsp;|&nbsp; <strong>4. Communication</strong> — Can you explain complex things clearly? &nbsp;|&nbsp; <strong>5. Leadership</strong> — Can you drive outcomes without a title? &nbsp;|&nbsp; <strong>6. Judgment</strong> — Do you make smart decisions under pressure? &nbsp;|&nbsp; <strong>7. Resilience</strong> — Do you quit when things get hard? &nbsp;|&nbsp; <strong>8. Values</strong> — Do your actions align with what you claim to believe?</p>
+  </div>
+
+  <div class="q-grid">
+    <div class="q-card">
+      <div class="q-num">Q.01 — The Opener</div>
+      <div class="question">"Tell me about yourself."</div>
+      <div class="hint">Not your biography. This is: where you are now → what brought you here → why this company specifically. 90 seconds max. End with something that invites a follow-up question.</div>
+      <div class="traits"><span class="story-tag tag-b">Clarity</span><span class="story-tag tag-g">Direction</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.02 — Achievement</div>
+      <div class="question">"Tell me about your greatest achievement."</div>
+      <div class="hint">Pick Story 1. Quantify the result. Show that you know why it matters, not just that it happened.</div>
+      <div class="traits"><span class="story-tag tag-g">Success</span><span class="story-tag tag-o">Ownership</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.03 — Failure</div>
+      <div class="question">"Tell me about a time you failed."</div>
+      <div class="hint">Do NOT pick a fake failure ("I work too hard"). Pick a real one. Show genuine reflection. The lesson is more important than the failure itself.</div>
+      <div class="traits"><span class="story-tag tag-r">Growth</span><span class="story-tag tag-b">Honesty</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.04 — Conflict</div>
+      <div class="question">"Describe a conflict with a teammate. How did you resolve it?"</div>
+      <div class="hint">Focus on your actions and empathy, not on blaming the other person. Show you approached it with curiosity before conclusions.</div>
+      <div class="traits"><span class="story-tag tag-b">Empathy</span><span class="story-tag tag-g">Maturity</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.05 — Leadership</div>
+      <div class="question">"Tell me about a time you led a project or team."</div>
+      <div class="hint">Leadership doesn't need a title. Organizing a study group, taking charge of a project when no one else did, coordinating a hackathon team — all count.</div>
+      <div class="traits"><span class="story-tag tag-g">Initiative</span><span class="story-tag tag-o">Ownership</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.06 — Deadline</div>
+      <div class="question">"Tell me about a time you had to work under a tight deadline."</div>
+      <div class="hint">Show prioritization thinking — what you cut, why you cut it, what you protected. The decision-making is what they're evaluating.</div>
+      <div class="traits"><span class="story-tag tag-o">Judgment</span><span class="story-tag tag-r">Resilience</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.07 — Ambiguity</div>
+      <div class="question">"Tell me about a time you had to make a decision with incomplete information."</div>
+      <div class="hint">Show that you gather what data you can, make a reasoned call, communicate your assumptions, and stay open to updating when new info arrives.</div>
+      <div class="traits"><span class="story-tag tag-b">Judgment</span><span class="story-tag tag-o">Adaptability</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.08 — Disagreement</div>
+      <div class="question">"Tell me about a time you disagreed with a decision."</div>
+      <div class="hint">The magic answer: you disagreed, you voiced it clearly and with evidence, and then you either changed minds or committed fully to the direction once a decision was made. Both are acceptable — flip-flopping is not.</div>
+      <div class="traits"><span class="story-tag tag-r">Courage</span><span class="story-tag tag-g">Integrity</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.09 — Motivation</div>
+      <div class="question">"Why do you want to work here?"</div>
+      <div class="hint">Research the company for 30 minutes before the interview. Know one specific thing — a product they shipped, a problem they're solving, their engineering culture. Generic "great company" answers are immediate red flags.</div>
+      <div class="traits"><span class="story-tag tag-b">Curiosity</span><span class="story-tag tag-o">Fit</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.10 — Weakness</div>
+      <div class="question">"What is your biggest weakness?"</div>
+      <div class="hint">A real weakness that you're actively working on. Structure: "My weakness is X. Here is a specific time it caused a problem. Here is what I am actively doing to address it. Here is the progress I've made." Never say "perfectionism."</div>
+      <div class="traits"><span class="story-tag tag-r">Honesty</span><span class="story-tag tag-g">Growth</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.11 — Feedback</div>
+      <div class="question">"Tell me about a time you received critical feedback."</div>
+      <div class="hint">Show that you received it without defensiveness, understood the core concern, and changed your behavior. Interviewers are checking if you're coachable.</div>
+      <div class="traits"><span class="story-tag tag-g">Growth</span><span class="story-tag tag-b">Humility</span></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">Q.12 — New Skills</div>
+      <div class="question">"Tell me about a time you had to learn something new quickly."</div>
+      <div class="hint">Great opportunity to use your coding journey itself as the story. Show a specific strategy you used to learn — not just "I Googled it." Deliberate practice, resources, applying immediately.</div>
+      <div class="traits"><span class="story-tag tag-o">Learning</span><span class="story-tag tag-b">Adaptability</span></div>
+    </div>
+  </div>
+
+  <div class="callout red">
+    <div class="callout-label">10 More Questions to Prepare</div>
+    <p>
+    Q13: "How do you handle multiple priorities at once?" &nbsp;·&nbsp;
+    Q14: "Tell me about a time you went above and beyond." &nbsp;·&nbsp;
+    Q15: "Describe a time you had to convince someone." &nbsp;·&nbsp;
+    Q16: "How do you handle stress?" &nbsp;·&nbsp;
+    Q17: "Tell me about a time you helped a struggling teammate." &nbsp;·&nbsp;
+    Q18: "What do you do when you don't know the answer?" &nbsp;·&nbsp;
+    Q19: "How do you take initiative?" &nbsp;·&nbsp;
+    Q20: "Where do you see yourself in 5 years?" &nbsp;·&nbsp;
+    Q21: "Tell me about a time a project didn't go as planned." &nbsp;·&nbsp;
+    Q22: "What motivates you to do your best work?"
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════
+     CHAPTER 5: AMAZON LPs
+══════════════════════════ -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">05</div>
+    <div>
+      <h2 class="chapter-title">Amazon Leadership Principles — The Industry Standard</h2>
+      <p class="chapter-why">Amazon's 16 Leadership Principles have become the gold standard for behavioral interviews across the industry. Flipkart, Meesho, and many Indian product companies have adopted similar frameworks. Even if you never interview at Amazon, preparing for these makes you ready for every behavioral round.</p>
+    </div>
+  </div>
+
+  <div class="lp-grid">
+    <div class="lp-card"><div class="lp-num">01</div><h4>Customer Obsession</h4><p>Leaders start with the customer and work backwards. Prioritize customer trust over short-term metrics.</p></div>
+    <div class="lp-card"><div class="lp-num">02</div><h4>Ownership</h4><p>Act on behalf of the entire company, not just your team. Never say "that's not my job."</p></div>
+    <div class="lp-card"><div class="lp-num">03</div><h4>Invent and Simplify</h4><p>Find new ways to do things and find ways to simplify. Complexity is the enemy.</p></div>
+    <div class="lp-card"><div class="lp-num">04</div><h4>Are Right, A Lot</div><p>Strong judgment. Seek diverse perspectives. Update beliefs when proven wrong.</p></div>
+    <div class="lp-card"><div class="lp-num">05</div><h4>Learn and Be Curious</h4><p>Never stop learning. Explore new possibilities. Ask why relentlessly.</p></div>
+    <div class="lp-card"><div class="lp-num">06</div><h4>Hire and Develop the Best</h4><p>Raise the bar. Coach others. Recognize exceptional talent.</p></div>
+    <div class="lp-card"><div class="lp-num">07</div><h4>Insist on the Highest Standards</h4><p>Standards that feel unreasonably high. Don't let defects go downstream.</p></div>
+    <div class="lp-card"><div class="lp-num">08</div><h4>Think Big</h4><p>Create bold directions. Think differently. Find ways to serve customers broadly.</p></div>
+    <div class="lp-card"><div class="lp-num">09</div><h4>Bias for Action</h4><p>Speed matters. Many decisions are reversible. Take calculated risks.</p></div>
+    <div class="lp-card"><div class="lp-num">10</div><h4>Frugality</h4><p>Accomplish more with less. Constraints breed resourcefulness and invention.</p></div>
+    <div class="lp-card"><div class="lp-num">11</div><h4>Earn Trust</h4><p>Be vocally self-critical. Benchmark against the best. Be honest even when it's uncomfortable.</p></div>
+    <div class="lp-card"><div class="lp-num">12</div><h4>Dive Deep</h4><p>Stay connected to details. Audit frequently. Be skeptical when metrics differ from anecdotes.</p></div>
+    <div class="lp-card"><div class="lp-num">13</div><h4>Have Backbone; Disagree and Commit</h4><p>Respectfully challenge decisions. Once committed, give full effort regardless of disagreement.</p></div>
+    <div class="lp-card"><div class="lp-num">14</div><h4>Deliver Results</h4><p>Focus on key inputs. Deliver on time. Never settle.</p></div>
+    <div class="lp-card"><div class="lp-num">15</div><h4>Strive to be Earth's Best Employer</h4><p>Work environment that is safe, productive, and empowering.</p></div>
+    <div class="lp-card"><div class="lp-num">16</div><h4>Success and Scale Bring Broad Responsibility</h4><p>Decisions affect millions. Start each day with humility about that responsibility.</p></div>
+  </div>
+
+  <div class="callout blue">
+    <div class="callout-label">How to Map Your 10 Stories to Amazon LPs</div>
+    <p>For each of your 10 stories, identify which 2–3 LPs it demonstrates. Story about a tight deadline → <strong>Bias for Action + Deliver Results</strong>. Story about a conflict → <strong>Earn Trust + Have Backbone</strong>. Story about learning a new skill → <strong>Learn and Be Curious + Invent and Simplify</strong>. In the interview, you're not just telling a story — you're demonstrating that you embody the company's values.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════
+     CHAPTER 6: COMMUNICATION
+══════════════════════════ -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">06</div>
+    <div>
+      <h2 class="chapter-title">Communication — The Invisible Differentiator</h2>
+      <p class="chapter-why">Two candidates with identical stories. One speaks clearly, at a measured pace, with specific language. The other fills silence with "umm", rushes through key moments, and speaks in circles. The first gets the offer. Communication is not soft — it is the delivery mechanism for everything you've prepared.</p>
+    </div>
+  </div>
+
+  <div class="comm-grid">
+    <div class="comm-block">
+      <h4>❌ HOW NOT TO ANSWER</h4>
+      <div class="speech-bubble bad">
+        <div class="speech-label">Vague, no structure:</div>
+        "Umm, yeah so like... there was this project in college and we kind of had a deadline and it was pretty stressful and we basically just worked harder I guess and it worked out okay in the end."
+      </div>
+      <div class="speech-bubble bad">
+        <div class="speech-label">Overusing "we":</div>
+        "So we decided to use React, and then we built the backend, and we deployed it, and we got good feedback."
+      </div>
+    </div>
+    <div class="comm-block">
+      <h4 class="good">✓ HOW TO ANSWER</h4>
+      <div class="speech-bubble good">
+        <div class="speech-label">Specific, structured:</div>
+        "In my final year project — a live inventory management system — our deadline moved up by 2 weeks. I mapped the 12 API endpoints by priority, identified 4 that were non-critical, and focused my first 5 days entirely on the 8 the frontend required."
+      </div>
+      <div class="speech-bubble good">
+        <div class="speech-label">Using "I" appropriately:</div>
+        "I proposed using React for the frontend. I built the authentication service. I deployed it on Railway and set up monitoring."
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif;font-size:22px;margin:40px 0 20px;font-weight:700">Body Language &amp; Presence — What the Room Reads</h3>
+  <div class="bl-grid">
+    <div class="bl-card bl-do">
+      <div class="bl-icon">👁️</div>
+      <h4>Eye Contact</h4>
+      <p>Maintain natural eye contact — not staring, not ceiling-gazing. For virtual interviews, look at the camera, not the screen.</p>
+    </div>
+    <div class="bl-card bl-do">
+      <div class="bl-icon">🐢</div>
+      <h4>Pace Yourself</h4>
+      <p>Nervous people speak fast. Slow down intentionally. Pauses signal confidence, not confusion. A 2-second pause before answering shows you're thinking.</p>
+    </div>
+    <div class="bl-card bl-do">
+      <div class="bl-icon">🎯</div>
+      <h4>Be Specific</h4>
+      <p>Replace "a lot" with a number. Replace "quickly" with a timeframe. Replace "we improved it" with "reduced load time from 4s to 0.8s."</p>
+    </div>
+    <div class="bl-card bl-dont">
+      <div class="bl-icon">🚫</div>
+      <h4>Filler Words</h4>
+      <p>Record yourself and count "umm", "like", "basically", "you know". Target: zero. Replace them with a pause. This alone changes how people perceive your intelligence.</p>
+    </div>
+    <div class="bl-card bl-dont">
+      <div class="bl-icon">📏</div>
+      <h4>Rambling</h4>
+      <p>If you've been talking for more than 2.5 minutes, you've lost the interviewer. Practice answering in under 2 minutes. The structure keeps you concise.</p>
+    </div>
+    <div class="bl-card bl-dont">
+      <div class="bl-icon">😰</div>
+      <h4>Apologizing for Nerves</h4>
+      <p>Never say "Sorry, I'm nervous." It puts the interviewer in an awkward role. If you stumble, pause, breathe, and continue. Everyone knows interviews are stressful.</p>
+    </div>
+  </div>
+
+  <div class="golden-rule">
+    <blockquote>"Silence is not the absence of confidence. It is the sound of someone choosing their words carefully."</blockquote>
+    <cite>— on pausing before answering in behavioral interviews</cite>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════
+     CHAPTER 7: MOCK SYSTEM
+══════════════════════════ -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">07</div>
+    <div>
+      <h2 class="chapter-title">The Mock Practice System — Weekly Schedule</h2>
+      <p class="chapter-why">Behavioral skill is built through repetition with feedback. The first time you answer a question out loud, it will sound terrible. The 20th time, it will sound natural. The 50th time, it will feel like a conversation. You cannot read your way to behavioral interview confidence — you must practice out loud.</p>
+    </div>
+  </div>
+
+  <div class="week-plan">
+    <div class="wday r">
+      <div class="wday-name">MON</div>
+      <div class="wday-task"><span class="task-type">Write</span>Work on 2 story cards. Write full STAR breakdown. Include specific numbers and what you learned.</div>
+    </div>
+    <div class="wday g">
+      <div class="wday-name">TUE</div>
+      <div class="wday-task"><span class="task-type">Record</span>Answer 3 behavioral questions on video (phone camera). No notes. Time yourself. Watch it back.</div>
+    </div>
+    <div class="wday b">
+      <div class="wday-name">WED</div>
+      <div class="wday-task"><span class="task-type">Study</span>Study 3–4 Amazon LPs. Find which of your 10 stories maps to each. Write the mapping in a table.</div>
+    </div>
+    <div class="wday o">
+      <div class="wday-name">THU</div>
+      <div class="wday-task"><span class="task-type">Speak</span>Say all 10 stories aloud, back to back, without notes. Focus on natural delivery, not perfection.</div>
+    </div>
+    <div class="wday r">
+      <div class="wday-name">FRI</div>
+      <div class="wday-task"><span class="task-type">Mock</span>Do 1 full mock behavioral interview with a peer or record yourself. Use random question cards.</div>
+    </div>
+    <div class="wday g">
+      <div class="wday-name">SAT</div>
+      <div class="wday-task"><span class="task-type">Research</span>Research 2 target companies. Note their values, mission, recent news. Write your "Why this company" answer for each.</div>
+    </div>
+    <div class="wday gr">
+      <div class="wday-name">SUN</div>
+      <div class="wday-task"><span class="task-type">Review</span>Review the week's video recordings. Note 1 thing to improve. Refine 1 story. Rest intentionally.</div>
+    </div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-label">The Recording Habit — Most Powerful Tool Available</div>
+    <p>Set your phone to record. Answer a behavioral question. Watch it back. You will immediately notice: filler words you didn't know you had, answers that ran too long, moments where you said "we" when you meant "I", and places where your energy dropped. This feedback loop — unavailable in any other format — will improve your answers faster than any course or book. Do this every week for 6 months.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════
+     CHAPTER 8: QUESTIONS TO ASK
+══════════════════════════ -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">08</div>
+    <div>
+      <h2 class="chapter-title">Questions to Ask the Interviewer</h2>
+      <p class="chapter-why">At the end of every interview, you will be asked "Do you have any questions for me?" Saying "No, I think everything's covered" is a silent disqualifier. Asking sharp, curious questions signals maturity, genuine interest, and that you've done your research. It also turns the interview into a conversation — which is always better than an interrogation.</p>
+    </div>
+  </div>
+
+  <div class="callout red">
+    <div class="callout-label">Never Ask These</div>
+    <p>"What is the salary?" (premature) &nbsp;·&nbsp; "What does this company do?" (should have researched) &nbsp;·&nbsp; "How many leaves do I get?" (wrong moment) &nbsp;·&nbsp; "Is there a lot of overtime?" (red flag to them)</p>
+  </div>
+
+  <div class="q-grid">
+    <div class="q-card">
+      <div class="q-num">About the Team</div>
+      <div class="question">"What does a typical day look like for an engineer on this team?"</div>
+      <div class="hint">Shows you're thinking practically about the role, not just getting the offer.</div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">About Growth</div>
+      <div class="question">"How do engineers grow here — what does progression from junior to mid look like?"</div>
+      <div class="hint">Shows long-term thinking and ambition. Interviewers remember candidates who ask about growth.</div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">About Culture</div>
+      <div class="question">"Can you tell me about a time the team had a major disagreement and how it was resolved?"</div>
+      <div class="hint">A mature question that reveals how the team actually operates vs. how it's advertised.</div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">About Challenges</div>
+      <div class="question">"What is the hardest part of this role that's often underestimated by new hires?"</div>
+      <div class="hint">Shows you're not naively optimistic — you want to know the real picture so you can prepare.</div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">About the Interviewer</div>
+      <div class="question">"What made you stay at this company — what's kept you here?"</div>
+      <div class="hint">People love talking about themselves. This builds genuine rapport and gives you authentic signal about the culture.</div>
+    </div>
+    <div class="q-card">
+      <div class="q-num">About Success</div>
+      <div class="question">"What would make someone in this role wildly successful in the first 6 months?"</div>
+      <div class="hint">Shows you're already thinking about performing, not just landing the offer. Plants the image of you in the role.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════
+     CHAPTER 9: RESOURCES
+══════════════════════════ -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">09</div>
+    <div>
+      <h2 class="chapter-title">Resources — Everything She Needs</h2>
+      <p class="chapter-why">Curated resources only. One great resource practiced deeply beats ten resources skimmed shallowly.</p>
+    </div>
+  </div>
+
+  <div class="res-row">
+    <span class="res-type-badge badge-yt">YT</span>
+    <div class="res-info">
+      <a href="https://www.youtube.com/watch?v=0Z9RW_hhUT4" target="_blank">Amazon Behavioral Interview — Dan Croitor (Full Playlist)</a>
+      <p>The single best YouTube resource for behavioral prep. Dan breaks down every LP with real examples. Watch the entire playlist once, then revisit by question type.</p>
+    </div>
+  </div>
+  <div class="res-row">
+    <span class="res-type-badge badge-yt">YT</span>
+    <div class="res-info">
+      <a href="https://www.youtube.com/watch?v=PJKYqLP6MRE" target="_blank">Tell Me About Yourself — Perfect Answer — Jeff H Sipe</a>
+      <p>Best breakdown of the most important question in any interview. 8 minutes, memorize the structure.</p>
+    </div>
+  </div>
+  <div class="res-row">
+    <span class="res-type-badge badge-yt">YT</span>
+    <div class="res-info">
+      <a href="https://www.youtube.com/watch?v=yz5bEuXRPOE" target="_blank">STAR Method Examples — Self Made Millennial</a>
+      <p>Before-and-after demonstrations of weak vs strong STAR answers. Extremely practical for self-evaluation.</p>
+    </div>
+  </div>
+  <div class="res-row">
+    <span class="res-type-badge badge-book">BOOK</span>
+    <div class="res-info">
+      <a href="https://www.amazon.in/Cracking-Coding-Interview-Programming-Questions/dp/0984782850" target="_blank">Cracking the Coding Interview — Gayle Laakmann McDowell</a>
+      <p>Chapter 5 (Behavioral Questions) is the best written resource on this topic. Dense, practical, zero fluff. Read this before anything else.</p>
+    </div>
+  </div>
+  <div class="res-row">
+    <span class="res-type-badge badge-blog">BLOG</span>
+    <div class="res-info">
+      <a href="https://www.levels.fyi/blog/behavioral-interview-guide.html" target="_blank">Levels.fyi — Behavioral Interview Guide</a>
+      <p>Written by engineers who've done hundreds of interviews at FAANG. Includes actual examples of what "good" looks like at different companies.</p>
+    </div>
+  </div>
+  <div class="res-row">
+    <span class="res-type-badge badge-practice">PRACTICE</span>
+    <div class="res-info">
+      <a href="https://www.pramp.com/#/" target="_blank">Pramp — Free Behavioral Mock Interviews</a>
+      <p>Pramp recently added behavioral mock interview pairing. Free. Practice with a real peer who gives you structured feedback. Use this from Month 18 onward.</p>
+    </div>
+  </div>
+  <div class="res-row">
+    <span class="res-type-badge badge-practice">PRACTICE</span>
+    <div class="res-info">
+      <a href="https://interviewqs.com/" target="_blank">InterviewQs — Daily Behavioral Question</a>
+      <p>Subscribe to get a behavioral question daily via email. Answer it in writing in under 2 minutes every morning. 90 days of this = 90 practiced answers.</p>
+    </div>
+  </div>
+  <div class="res-row">
+    <span class="res-type-badge badge-yt">YT</span>
+    <div class="res-info">
+      <a href="https://www.youtube.com/watch?v=XbgdAnRMO1c" target="_blank">How to Answer "What is Your Greatest Weakness?" — Thomas Frank</a>
+      <p>The most mishandled question in behavioral interviews. Thomas Frank's answer to this specific question is the gold standard.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════
+     CHAPTER 10: MILESTONES
+══════════════════════════ -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">10</div>
+    <div>
+      <h2 class="chapter-title">Milestone Tracker — Month by Month</h2>
+      <p class="chapter-why">Behavioral prep doesn't have a finish line — it matures over time as your experience deepens and your delivery becomes natural. Start light, build progressively, peak at interview time.</p>
+    </div>
+  </div>
+
+  <div class="milestone-track">
+    <div class="m-item red">
+      <div class="m-period">MONTH 1–2 · Parallel with Python Phase</div>
+      <h4>Foundation — Build Your Story Bank</h4>
+      <p>Write all 10 story cards with full STAR breakdowns. Read "Cracking the Coding Interview" Chapter 5. Start saying stories aloud daily. No mock interviews yet — just writing and speaking to yourself.</p>
+    </div>
+    <div class="m-item green">
+      <div class="m-period">MONTH 3–4</div>
+      <h4>Structure — STAR Becomes Natural</h4>
+      <p>Start weekly video recordings. Answer 3 questions per week on video, watch them back. Map all 10 stories to Amazon LPs. Can now answer Q1–Q12 without notes in under 2 minutes each.</p>
+    </div>
+    <div class="m-item blue">
+      <div class="m-period">MONTH 5–8 · Parallel with DSA Phase</div>
+      <h4>Expansion — Answer Any Question</h4>
+      <p>Prepare answers for all 22 questions listed. Start company research habit (15 min per company per week). Begin peer mock interviews. Filler words should be dropping significantly from recordings.</p>
+    </div>
+    <div class="m-item gold">
+      <div class="m-period">MONTH 9–14</div>
+      <h4>Depth — Advanced Scenarios</h4>
+      <p>Prepare stories for LP-specific questions. Practice "Tell me about yourself" until it's precisely 90 seconds. Build "Why this company" answers for 5 target companies. Start using Pramp for behavioral mocks.</p>
+    </div>
+    <div class="m-item red">
+      <div class="m-period">MONTH 15–20 · Parallel with System Design</div>
+      <h4>Integration — Behavioral + Technical Flow</h4>
+      <p>Practice transitioning smoothly between behavioral and technical answers in a single mock session. Your stories should now feel like natural memories, not rehearsed scripts. Research companies deeply.</p>
+    </div>
+    <div class="m-item green">
+      <div class="m-period">MONTH 21–24 · Interview Sprint</div>
+      <h4>Peak — Interview Ready</h4>
+      <p>3 full mock interview loops per week (behavioral + technical + system design in one session). Refine "Why this company" for each application. Can answer any behavioral question with specific stories, quantified results, and genuine warmth. Ready.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>Behavioral Interview Mastery Roadmap &nbsp;·&nbsp; Built for <strong>Saravanan's sister</strong> &nbsp;·&nbsp; BCA → Product Company · 2 Years</p>
+  <p style="font-style:italic;">"The stories you tell in an interview are just the beginning of the stories you'll build in the role."</p>
+</footer>
+
+</body>
+</html>

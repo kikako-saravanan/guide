@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>End-to-End DA Project</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,800;1,300&family=IBM+Plex+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #f8f4ef;
+  --s1: #fff;
+  --s2: #f2ede6;
+  --border: #e0d9d0;
+  --ink: #1a1410;
+  --mid: #6b5c4e;
+  --dim: #a8998a;
+  --accent: #c84b0e;   /* deep orange-red */
+  --accent2: #1d6a4a;  /* forest green */
+  --accent3: #1e3a8a;  /* navy */
+  --yellow: #f59e0b;
+  --tag-bg: rgba(200,75,14,.08);
+  --tag-border: rgba(200,75,14,.2);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; line-height: 1.7; }
+
+/* HEADER */
+header {
+  background: var(--ink);
+  padding: 60px 52px 52px;
+  position: relative; overflow: hidden;
+}
+header::after {
+  content: 'PROJECT';
+  position: absolute; right: -20px; top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-family: 'Fraunces', serif;
+  font-size: 120px; font-weight: 800;
+  color: rgba(255,255,255,.03);
+  letter-spacing: -.04em; white-space: nowrap;
+}
+.header-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+.proj-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+  border: 1px solid rgba(200,75,14,.3);
+  display: inline-block; padding: 4px 12px; border-radius: 4px;
+}
+h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 800; line-height: 1.0;
+  color: #fff;
+  margin-bottom: 8px;
+}
+h1 em { font-style: italic; color: var(--accent); }
+.sub { color: rgba(255,255,255,.5); font-size: 16px; font-weight: 300; max-width: 560px; }
+
+.stat-row { display: flex; gap: 0; margin-top: 36px; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; overflow: hidden; }
+.stat-box {
+  flex: 1; padding: 16px 20px;
+  border-right: 1px solid rgba(255,255,255,.08);
+  text-align: center;
+}
+.stat-box:last-child { border-right: none; }
+.s-val { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; color: #fff; }
+.s-lbl { font-size: 11px; color: rgba(255,255,255,.3); letter-spacing: .06em; text-transform: uppercase; margin-top: 2px; }
+
+/* LAYOUT */
+.container { max-width: 960px; margin: 0 auto; padding: 52px; }
+
+/* PHASE TABS */
+.phase-nav {
+  display: flex; gap: 4px; margin-bottom: 40px;
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 14px; padding: 5px;
+  flex-wrap: wrap;
+}
+.phase-btn {
+  flex: 1; background: transparent; border: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--dim); padding: 10px 14px;
+  border-radius: 10px; cursor: pointer;
+  transition: all .2s; white-space: nowrap; text-align: center;
+}
+.phase-btn:hover { color: var(--ink); background: var(--s2); }
+.phase-btn.active { background: var(--accent); color: #fff; }
+
+/* PHASES */
+.phase { display: none; }
+.phase.active { display: block; }
+
+/* SECTION BLOCKS */
+.phase-title {
+  font-family: 'Fraunces', serif;
+  font-size: 30px; font-weight: 700;
+  color: var(--ink); margin-bottom: 6px;
+}
+.phase-sub { color: var(--mid); font-size: 14px; margin-bottom: 32px; }
+
+.step {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 16px; margin-bottom: 16px;
+  overflow: hidden;
+}
+.step-head {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 22px; cursor: pointer;
+}
+.step-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  background: var(--tag-bg); border: 1px solid var(--tag-border);
+  color: var(--accent); padding: 3px 10px; border-radius: 5px;
+  min-width: 42px; text-align: center; flex-shrink: 0;
+}
+.step-title { font-weight: 600; font-size: 15px; flex: 1; }
+.step-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 20px;
+  flex-shrink: 0;
+}
+.tag-sql { background: rgba(30,58,138,.1); color: var(--accent3); border: 1px solid rgba(30,58,138,.2); }
+.tag-excel { background: rgba(29,106,74,.1); color: var(--accent2); border: 1px solid rgba(29,106,74,.2); }
+.tag-pbi { background: rgba(245,158,11,.1); color: #b45309; border: 1px solid rgba(245,158,11,.2); }
+.tag-insight { background: rgba(200,75,14,.1); color: var(--accent); border: 1px solid rgba(200,75,14,.2); }
+.step-arrow { color: var(--dim); font-size: 18px; transition: transform .25s; flex-shrink: 0; }
+.step.open .step-arrow { transform: rotate(90deg); color: var(--accent); }
+.step-body {
+  display: none; padding: 0 22px 22px;
+  border-top: 1px solid var(--border); padding-top: 18px;
+}
+.step.open .step-body { display: block; }
+
+/* Content styles */
+.content-text { color: var(--mid); font-size: 14px; line-height: 1.75; }
+.content-text strong { color: var(--ink); font-weight: 600; }
+
+.dataset-table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+  margin: 12px 0; border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.dataset-table th {
+  background: var(--ink); color: #fff;
+  font-weight: 600; padding: 10px 14px; text-align: left;
+  font-size: 12px; letter-spacing: .03em;
+}
+.dataset-table td {
+  padding: 9px 14px; border-bottom: 1px solid var(--border);
+  color: var(--mid); vertical-align: top;
+}
+.dataset-table tr:last-child td { border-bottom: none; }
+.dataset-table td:first-child { color: var(--ink); font-weight: 500; }
+.dataset-table code {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--s2); padding: 1px 6px; border-radius: 4px;
+  font-size: 11.5px; color: var(--accent3);
+}
+
+pre {
+  background: #0f1117; border-radius: 10px;
+  padding: 16px 18px; overflow-x: auto; margin: 12px 0;
+}
+pre code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px; color: #93c5fd; line-height: 1.65;
+}
+.kw { color: #c084fc; }
+.fn2 { color: #38bdf8; }
+.str2 { color: #86efac; }
+.cm { color: #374151; font-style: italic; }
+
+.callout {
+  border-radius: 10px; padding: 14px 18px; margin: 14px 0;
+  font-size: 13.5px; line-height: 1.65;
+}
+.callout-orange { background: rgba(200,75,14,.07); border: 1px solid rgba(200,75,14,.15); color: var(--accent); }
+.callout-green  { background: rgba(29,106,74,.07);  border: 1px solid rgba(29,106,74,.15);  color: #166534; }
+.callout-blue   { background: rgba(30,58,138,.07);  border: 1px solid rgba(30,58,138,.15);  color: #1e3a8a; }
+.callout strong { font-weight: 700; }
+
+.checklist { list-style: none; margin: 10px 0; }
+.checklist li { padding: 6px 0; color: var(--mid); font-size: 14px; display: flex; align-items: flex-start; gap: 10px; }
+.checklist li::before { content: '□'; color: var(--accent); font-size: 16px; flex-shrink: 0; line-height: 1.3; }
+
+.insight-card {
+  background: var(--ink); color: #fff;
+  border-radius: 10px; padding: 16px 20px; margin: 10px 0;
+  font-size: 13.5px;
+}
+.insight-card .i-title { color: var(--accent); font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+
+.divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+
+footer { text-align: center; padding: 32px; color: var(--dim); font-size: 12px; border-top: 1px solid var(--border); margin-top: 20px; background: var(--s1); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="proj-label">End-to-End Data Analyst Project</div>
+    <h1>E-Commerce<br><em>Sales Analysis</em></h1>
+    <p class="sub">A complete portfolio project — real dataset, real cleaning, real insights, real dashboard. Exactly what companies want to see.</p>
+    <div class="stat-row">
+      <div class="stat-box"><div class="s-val">5</div><div class="s-lbl">Phases</div></div>
+      <div class="stat-box"><div class="s-val">4</div><div class="s-lbl">Tools Used</div></div>
+      <div class="stat-box"><div class="s-val">10+</div><div class="s-lbl">SQL Queries</div></div>
+      <div class="stat-box"><div class="s-val">1</div><div class="s-lbl">Dashboard</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="phase-nav">
+    <button class="phase-btn active" onclick="showPhase('p1', this)">1. Dataset & Setup</button>
+    <button class="phase-btn" onclick="showPhase('p2', this)">2. Data Cleaning</button>
+    <button class="phase-btn" onclick="showPhase('p3', this)">3. SQL Analysis</button>
+    <button class="phase-btn" onclick="showPhase('p4', this)">4. Dashboard</button>
+    <button class="phase-btn" onclick="showPhase('p5', this)">5. Insights & Story</button>
+  </div>
+
+  <!-- ═══════════ PHASE 1 ═══════════ -->
+  <div id="p1" class="phase active">
+    <div class="phase-title">Phase 1 — Dataset & Setup</div>
+    <div class="phase-sub">Get the data, understand its structure, set up your tools. This is Day 1 of every real analyst job.</div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">1.1</span>
+        <span class="step-title">Where to get the dataset (free, real data)</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="content-text">
+          Use the <strong>Brazilian E-Commerce (Olist) dataset</strong> from Kaggle. It's a real dataset from a Brazilian e-commerce company with 100,000 orders, multiple tables — perfect for a portfolio project.<br><br>
+          <strong>Download link:</strong> <code>kaggle.com/datasets/olistbr/brazilian-ecommerce</code><br><br>
+          It comes with 9 CSV files that form a proper relational database:
+        </div>
+        <table class="dataset-table">
+          <thead><tr><th>File</th><th>What it contains</th><th>Key Columns</th></tr></thead>
+          <tbody>
+            <tr><td>olist_orders_dataset.csv</td><td>All orders</td><td><code>order_id, customer_id, status, purchase_timestamp</code></td></tr>
+            <tr><td>olist_order_items_dataset.csv</td><td>Items in each order</td><td><code>order_id, product_id, price, freight_value</code></td></tr>
+            <tr><td>olist_customers_dataset.csv</td><td>Customer details</td><td><code>customer_id, city, state</code></td></tr>
+            <tr><td>olist_products_dataset.csv</td><td>Product details</td><td><code>product_id, product_category_name</code></td></tr>
+            <tr><td>olist_order_reviews_dataset.csv</td><td>Customer reviews</td><td><code>order_id, review_score</code></td></tr>
+            <tr><td>olist_sellers_dataset.csv</td><td>Seller details</td><td><code>seller_id, city, state</code></td></tr>
+          </tbody>
+        </table>
+        <div class="callout callout-orange"><strong>Why this dataset?</strong> It has real messy data — NULLs, delivery delays, multiple statuses, date/time fields. Interviewers are impressed when you use a real dataset instead of a clean tutorial toy dataset.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">1.2</span>
+        <span class="step-title">Set up your tools</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="content-text">
+          You need two tools for this project:<br><br>
+          <strong>Option A (Recommended — simplest):</strong><br>
+          1. Download <strong>MySQL Workbench</strong> (free) — mysql.com/products/workbench<br>
+          2. Create a new schema called <code>olist_ecommerce</code><br>
+          3. Use Table Data Import Wizard to import each CSV as a table<br><br>
+          <strong>Option B (Also good):</strong><br>
+          Use <strong>DB Browser for SQLite</strong> — even simpler, no installation headaches<br><br>
+          <strong>For Dashboard:</strong><br>
+          • Power BI Desktop (Windows) — free download from Microsoft<br>
+          • OR Tableau Public — free, and it's a portfolio booster<br><br>
+        </div>
+        <div class="callout callout-green"><strong>Pro tip:</strong> After importing, always run <code>SELECT COUNT(*) FROM table_name;</code> on each table to verify all rows loaded correctly. A common mistake is partial CSV imports silently dropping rows.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">1.3</span>
+        <span class="step-title">Define your 5 Business Questions before touching the data</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="content-text">
+          <strong>This is the most important step and most analysts skip it.</strong> Before writing a single query, define what business questions you'll answer. This makes your project look like real analytical work, not random data exploration.<br><br>
+          Write these in your project README / Confluence / Notion:<br>
+        </div>
+        <div class="insight-card">
+          <div class="i-title">Your 5 Business Questions</div>
+          1. What is the monthly revenue trend — is the business growing?<br>
+          2. Which product categories drive the most revenue and profit?<br>
+          3. How does delivery performance vary by state? Are there problem regions?<br>
+          4. What is the customer retention rate — do customers come back?<br>
+          5. What's the relationship between delivery delay and review score?
+        </div>
+        <div class="callout callout-blue"><strong>Interview tip:</strong> When presenting your project, always start with "I defined 5 business questions first..." — it immediately shows you think like an analyst, not just a SQL coder.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ PHASE 2 ═══════════ -->
+  <div id="p2" class="phase">
+    <div class="phase-title">Phase 2 — Data Cleaning</div>
+    <div class="phase-sub">Real data is always dirty. Document every issue you find and how you fixed it. This section is what separates junior candidates from good ones.</div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">2.1</span>
+        <span class="step-title">Initial data exploration — run these queries first</span>
+        <span class="step-tag tag-sql">SQL</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="content-text">Run these exploration queries on every table before any cleaning:</div>
+<pre><code><span class="cm">-- 1. Row counts for all tables</span>
+<span class="kw">SELECT</span> <span class="str2">'orders'</span> <span class="kw">AS</span> tbl, <span class="fn2">COUNT</span>(*) <span class="kw">AS</span> rows <span class="kw">FROM</span> olist_orders
+<span class="kw">UNION ALL SELECT</span> <span class="str2">'items'</span>, <span class="fn2">COUNT</span>(*) <span class="kw">FROM</span> olist_order_items
+<span class="kw">UNION ALL SELECT</span> <span class="str2">'customers'</span>, <span class="fn2">COUNT</span>(*) <span class="kw">FROM</span> olist_customers
+<span class="kw">UNION ALL SELECT</span> <span class="str2">'products'</span>, <span class="fn2">COUNT</span>(*) <span class="kw">FROM</span> olist_products;
+
+<span class="cm">-- 2. Check NULLs in orders table</span>
+<span class="kw">SELECT</span>
+  <span class="fn2">COUNT</span>(*) - <span class="fn2">COUNT</span>(order_id) <span class="kw">AS</span> null_order_id,
+  <span class="fn2">COUNT</span>(*) - <span class="fn2">COUNT</span>(customer_id) <span class="kw">AS</span> null_customer,
+  <span class="fn2">COUNT</span>(*) - <span class="fn2">COUNT</span>(order_status) <span class="kw">AS</span> null_status,
+  <span class="fn2">COUNT</span>(*) - <span class="fn2">COUNT</span>(order_delivered_customer_date) <span class="kw">AS</span> null_delivery
+<span class="kw">FROM</span> olist_orders;
+
+<span class="cm">-- 3. Unique order statuses</span>
+<span class="kw">SELECT</span> order_status, <span class="fn2">COUNT</span>(*) <span class="kw">AS</span> count
+<span class="kw">FROM</span> olist_orders
+<span class="kw">GROUP BY</span> order_status
+<span class="kw">ORDER BY</span> count <span class="kw">DESC</span>;
+
+<span class="cm">-- 4. Check date ranges</span>
+<span class="kw">SELECT</span>
+  <span class="fn2">MIN</span>(order_purchase_timestamp) <span class="kw">AS</span> earliest,
+  <span class="fn2">MAX</span>(order_purchase_timestamp) <span class="kw">AS</span> latest
+<span class="kw">FROM</span> olist_orders;</code></pre>
+        <div class="callout callout-orange"><strong>Document what you find.</strong> Write a short "Data Quality Issues Found" section in your project notes. Example: "17% of orders have NULL delivery dates — these are orders that were cancelled or not yet delivered. I excluded them from delivery analysis."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">2.2</span>
+        <span class="step-title">Common issues in this dataset and how to handle them</span>
+        <span class="step-tag tag-sql">SQL</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="content-text"><strong>Issue 1 — Orders with no delivery date:</strong> ~3,000 orders have NULL delivery date. These are cancelled/in-transit. Keep them for revenue analysis but exclude from delivery time analysis.</div>
+<pre><code><span class="cm">-- For delivery analysis, always filter</span>
+<span class="kw">WHERE</span> order_status = <span class="str2">'delivered'</span>
+  <span class="kw">AND</span> order_delivered_customer_date <span class="kw">IS NOT NULL</span></code></pre>
+
+        <div class="content-text" style="margin-top:14px;"><strong>Issue 2 — Delivery was before estimated:</strong> Some orders show delivery AFTER the estimated date — these are late deliveries. Calculate this as a new column.</div>
+<pre><code><span class="kw">SELECT</span>
+  order_id,
+  <span class="fn2">DATEDIFF</span>(order_delivered_customer_date,
+            order_estimated_delivery_date) <span class="kw">AS</span> delay_days,
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> order_delivered_customer_date <= order_estimated_delivery_date
+    <span class="kw">THEN</span> <span class="str2">'On Time'</span>
+    <span class="kw">ELSE</span> <span class="str2">'Late'</span>
+  <span class="kw">END</span> <span class="kw">AS</span> delivery_status
+<span class="kw">FROM</span> olist_orders
+<span class="kw">WHERE</span> order_status = <span class="str2">'delivered'</span>;</code></pre>
+
+        <div class="content-text" style="margin-top:14px;"><strong>Issue 3 — Product category names in Portuguese:</strong> The dataset has category names in Portuguese. You can join with the category_name_translation table or use CASE WHEN to translate the top 10.</div>
+<pre><code><span class="cm">-- Join the translation table provided in the dataset</span>
+<span class="kw">SELECT</span> p.product_category_name,
+       t.product_category_name_english
+<span class="kw">FROM</span> olist_products p
+<span class="kw">LEFT JOIN</span> product_category_name_translation t
+  <span class="kw">ON</span> p.product_category_name = t.product_category_name;</code></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">2.3</span>
+        <span class="step-title">Create a clean master view / staging table</span>
+        <span class="step-tag tag-sql">SQL</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="content-text">Join all tables into one clean view that you'll use for all analysis. This is standard practice in real jobs.</div>
+<pre><code><span class="kw">CREATE VIEW</span> vw_orders_master <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+  o.order_id,
+  o.order_status,
+  o.order_purchase_timestamp,
+  <span class="fn2">DATE</span>(o.order_purchase_timestamp) <span class="kw">AS</span> order_date,
+  <span class="fn2">DATE_FORMAT</span>(o.order_purchase_timestamp, <span class="str2">'%Y-%m'</span>) <span class="kw">AS</span> order_month,
+  o.order_delivered_customer_date,
+  o.order_estimated_delivery_date,
+  <span class="fn2">DATEDIFF</span>(o.order_delivered_customer_date,
+            o.order_estimated_delivery_date) <span class="kw">AS</span> delivery_delay_days,
+  c.customer_id,
+  c.customer_city,
+  c.customer_state,
+  i.product_id,
+  i.price,
+  i.freight_value,
+  (i.price + i.freight_value) <span class="kw">AS</span> total_order_value,
+  t.product_category_name_english <span class="kw">AS</span> category,
+  r.review_score
+<span class="kw">FROM</span> olist_orders o
+<span class="kw">JOIN</span> olist_customers c <span class="keyword">ON</span> o.customer_id = c.customer_id
+<span class="kw">JOIN</span> olist_order_items i <span class="kw">ON</span> o.order_id = i.order_id
+<span class="kw">LEFT JOIN</span> olist_products p <span class="kw">ON</span> i.product_id = p.product_id
+<span class="kw">LEFT JOIN</span> product_category_name_translation t
+  <span class="kw">ON</span> p.product_category_name = t.product_category_name
+<span class="kw">LEFT JOIN</span> olist_order_reviews r <span class="kw">ON</span> o.order_id = r.order_id;</code></pre>
+        <div class="callout callout-green"><strong>Now all your analysis queries can use:</strong> <code>FROM vw_orders_master</code> instead of repeating all the JOINs every time. Clean and maintainable.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ PHASE 3 ═══════════ -->
+  <div id="p3" class="phase">
+    <div class="phase-title">Phase 3 — SQL Analysis</div>
+    <div class="phase-sub">Answer your 5 business questions with SQL. Write clean, commented queries — save them in a .sql file for your portfolio.</div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">Q1</span>
+        <span class="step-title">Monthly Revenue Trend — Is the business growing?</span>
+        <span class="step-tag tag-sql">SQL</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+<pre><code><span class="cm">-- Q1: Monthly Revenue with MoM Growth %</span>
+<span class="kw">WITH</span> monthly_rev <span class="kw">AS</span> (
+  <span class="kw">SELECT</span>
+    order_month,
+    <span class="fn2">SUM</span>(total_order_value) <span class="kw">AS</span> revenue,
+    <span class="fn2">COUNT</span>(<span class="kw">DISTINCT</span> order_id) <span class="kw">AS</span> total_orders
+  <span class="kw">FROM</span> vw_orders_master
+  <span class="kw">WHERE</span> order_status = <span class="str2">'delivered'</span>
+  <span class="kw">GROUP BY</span> order_month
+)
+<span class="kw">SELECT</span>
+  order_month,
+  <span class="fn2">ROUND</span>(revenue, <span class="str2">2</span>) <span class="kw">AS</span> revenue,
+  total_orders,
+  <span class="fn2">LAG</span>(revenue) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> order_month) <span class="kw">AS</span> prev_month_rev,
+  <span class="fn2">ROUND</span>(
+    (revenue - <span class="fn2">LAG</span>(revenue) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> order_month))
+    * <span class="str2">100.0</span>
+    / <span class="fn2">NULLIF</span>(<span class="fn2">LAG</span>(revenue) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> order_month), <span class="str2">0</span>),
+  <span class="str2">1</span>) <span class="kw">AS</span> mom_growth_pct
+<span class="kw">FROM</span> monthly_rev
+<span class="kw">ORDER BY</span> order_month;</code></pre>
+        <div class="callout callout-orange"><strong>Expected insight:</strong> The Olist data shows strong growth through 2017-2018 with a seasonal spike in November (Black Friday). Call this out in your presentation.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">Q2</span>
+        <span class="step-title">Top Product Categories by Revenue</span>
+        <span class="step-tag tag-sql">SQL</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+<pre><code><span class="cm">-- Q2: Revenue, Orders, and Avg Value per Category (Top 15)</span>
+<span class="kw">SELECT</span>
+  <span class="fn2">COALESCE</span>(category, <span class="str2">'Uncategorized'</span>) <span class="kw">AS</span> category,
+  <span class="fn2">COUNT</span>(<span class="kw">DISTINCT</span> order_id) <span class="kw">AS</span> total_orders,
+  <span class="fn2">ROUND</span>(<span class="fn2">SUM</span>(total_order_value), <span class="str2">2</span>) <span class="kw">AS</span> total_revenue,
+  <span class="fn2">ROUND</span>(<span class="fn2">AVG</span>(total_order_value), <span class="str2">2</span>) <span class="kw">AS</span> avg_order_value,
+  <span class="fn2">ROUND</span>(<span class="fn2">AVG</span>(review_score), <span class="str2">2</span>) <span class="kw">AS</span> avg_review
+<span class="kw">FROM</span> vw_orders_master
+<span class="kw">WHERE</span> order_status = <span class="str2">'delivered'</span>
+<span class="kw">GROUP BY</span> category
+<span class="kw">ORDER BY</span> total_revenue <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="str2">15</span>;</code></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">Q3</span>
+        <span class="step-title">Delivery Performance by State</span>
+        <span class="step-tag tag-sql">SQL</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+<pre><code><span class="cm">-- Q3: Delivery performance per state</span>
+<span class="kw">SELECT</span>
+  customer_state,
+  <span class="fn2">COUNT</span>(*) <span class="kw">AS</span> total_deliveries,
+  <span class="fn2">ROUND</span>(<span class="fn2">AVG</span>(delivery_delay_days), <span class="str2">1</span>) <span class="kw">AS</span> avg_delay_days,
+  <span class="fn2">SUM</span>(<span class="kw">CASE WHEN</span> delivery_delay_days > <span class="str2">0</span> <span class="kw">THEN</span> <span class="str2">1</span> <span class="kw">ELSE</span> <span class="str2">0</span> <span class="kw">END</span>) <span class="kw">AS</span> late_orders,
+  <span class="fn2">ROUND</span>(
+    <span class="fn2">SUM</span>(<span class="kw">CASE WHEN</span> delivery_delay_days > <span class="str2">0</span> <span class="kw">THEN</span> <span class="str2">1</span> <span class="kw">ELSE</span> <span class="str2">0</span> <span class="kw">END</span>) * <span class="str2">100.0</span>
+    / <span class="fn2">COUNT</span>(*), <span class="str2">1</span>
+  ) <span class="kw">AS</span> late_pct
+<span class="kw">FROM</span> vw_orders_master
+<span class="kw">WHERE</span> order_status = <span class="str2">'delivered'</span>
+  <span class="kw">AND</span> delivery_delay_days <span class="kw">IS NOT NULL</span>
+<span class="kw">GROUP BY</span> customer_state
+<span class="kw">ORDER BY</span> late_pct <span class="kw">DESC</span>;</code></pre>
+        <div class="callout callout-orange"><strong>Expected insight:</strong> Northern states (AM, RR, AP) have significantly higher late delivery rates due to remote geography. SP (São Paulo) has the best delivery performance. This is a geographic logistics insight — great for a dashboard map.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">Q4</span>
+        <span class="step-title">Customer Retention — Do buyers come back?</span>
+        <span class="step-tag tag-sql">SQL</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+<pre><code><span class="cm">-- Q4: Customer order frequency breakdown</span>
+<span class="kw">WITH</span> customer_orders <span class="kw">AS</span> (
+  <span class="kw">SELECT</span>
+    customer_id,
+    <span class="fn2">COUNT</span>(<span class="kw">DISTINCT</span> order_id) <span class="kw">AS</span> order_count
+  <span class="kw">FROM</span> vw_orders_master
+  <span class="kw">GROUP BY</span> customer_id
+)
+<span class="kw">SELECT</span>
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> order_count = <span class="str2">1</span> <span class="kw">THEN</span> <span class="str2">'One-time buyer'</span>
+    <span class="kw">WHEN</span> order_count <span class="kw">BETWEEN</span> <span class="str2">2</span> <span class="kw">AND</span> <span class="str2">3</span> <span class="kw">THEN</span> <span class="str2">'Occasional (2-3 orders)'</span>
+    <span class="kw">WHEN</span> order_count <span class="kw">BETWEEN</span> <span class="str2">4</span> <span class="kw">AND</span> <span class="str2">6</span> <span class="kw">THEN</span> <span class="str2">'Regular (4-6 orders)'</span>
+    <span class="kw">ELSE</span> <span class="str2">'Loyal (7+ orders)'</span>
+  <span class="kw">END</span> <span class="kw">AS</span> customer_segment,
+  <span class="fn2">COUNT</span>(*) <span class="kw">AS</span> customer_count,
+  <span class="fn2">ROUND</span>(<span class="fn2">COUNT</span>(*) * <span class="str2">100.0</span> / <span class="fn2">SUM</span>(<span class="fn2">COUNT</span>(*)) <span class="kw">OVER</span> (), <span class="str2">1</span>) <span class="kw">AS</span> pct_of_total
+<span class="kw">FROM</span> customer_orders
+<span class="kw">GROUP BY</span> customer_segment
+<span class="kw">ORDER BY</span> customer_count <span class="kw">DESC</span>;</code></pre>
+        <div class="callout callout-orange"><strong>Expected insight:</strong> ~97% of Olist customers are one-time buyers — extremely low retention. This is actually the most important business insight in the dataset and a great discussion point. "The business has an acquisition problem solved but a retention problem unsolved."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">Q5</span>
+        <span class="step-title">Delivery Delay vs Review Score Correlation</span>
+        <span class="step-tag tag-sql">SQL</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+<pre><code><span class="cm">-- Q5: Does late delivery hurt review scores?</span>
+<span class="kw">SELECT</span>
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> delivery_delay_days < <span class="str2">0</span>  <span class="kw">THEN</span> <span class="str2">'Early delivery'</span>
+    <span class="kw">WHEN</span> delivery_delay_days = <span class="str2">0</span>  <span class="kw">THEN</span> <span class="str2">'On time'</span>
+    <span class="kw">WHEN</span> delivery_delay_days <= <span class="str2">7</span>  <span class="kw">THEN</span> <span class="str2">'1-7 days late'</span>
+    <span class="kw">WHEN</span> delivery_delay_days <= <span class="str2">14</span> <span class="kw">THEN</span> <span class="str2">'8-14 days late'</span>
+    <span class="kw">ELSE</span> <span class="str2">'15+ days late'</span>
+  <span class="kw">END</span> <span class="kw">AS</span> delivery_category,
+  <span class="fn2">COUNT</span>(*) <span class="kw">AS</span> order_count,
+  <span class="fn2">ROUND</span>(<span class="fn2">AVG</span>(review_score), <span class="str2">2</span>) <span class="kw">AS</span> avg_review,
+  <span class="fn2">SUM</span>(<span class="kw">CASE WHEN</span> review_score >= <span class="str2">4</span> <span class="kw">THEN</span> <span class="str2">1</span> <span class="kw">ELSE</span> <span class="str2">0</span> <span class="kw">END</span>) <span class="kw">AS</span> positive_reviews,
+  <span class="fn2">SUM</span>(<span class="kw">CASE WHEN</span> review_score <= <span class="str2">2</span> <span class="kw">THEN</span> <span class="str2">1</span> <span class="kw">ELSE</span> <span class="str2">0</span> <span class="kw">END</span>) <span class="kw">AS</span> negative_reviews
+<span class="kw">FROM</span> vw_orders_master
+<span class="kw">WHERE</span> order_status = <span class="str2">'delivered'</span>
+  <span class="kw">AND</span> delivery_delay_days <span class="kw">IS NOT NULL</span>
+  <span class="kw">AND</span> review_score <span class="kw">IS NOT NULL</span>
+<span class="kw">GROUP BY</span> delivery_category
+<span class="kw">ORDER BY</span> <span class="fn2">AVG</span>(review_score) <span class="kw">DESC</span>;</code></pre>
+        <div class="callout callout-orange"><strong>Expected insight:</strong> Early deliveries average 4.3+ stars. Orders 15+ days late average below 2.5 stars. Clear correlation — and you can show it visually in the dashboard as a bar chart. This is the kind of insight that drives real business decisions.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ PHASE 4 ═══════════ -->
+  <div id="p4" class="phase">
+    <div class="phase-title">Phase 4 — Build the Dashboard</div>
+    <div class="phase-sub">Turn your SQL results into a 1-page interactive dashboard in Power BI or Tableau. This is what the interviewer will actually see.</div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">4.1</span>
+        <span class="step-title">Connect Power BI to your MySQL database</span>
+        <span class="step-tag tag-pbi">Power BI</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="content-text">
+          <strong>In Power BI Desktop:</strong><br>
+          1. Home → Get Data → MySQL database<br>
+          2. Enter: Server = <code>localhost</code>, Database = <code>olist_ecommerce</code><br>
+          3. Select your tables OR import the view <code>vw_orders_master</code> directly<br>
+          4. In Power Query, apply any final transformations (rename columns, change types)<br><br>
+          <strong>Alternative — Import from CSV:</strong><br>
+          Export your SQL query results as CSVs and import those. Faster for a portfolio project.
+        </div>
+        <div class="callout callout-blue"><strong>Pro tip:</strong> Import your 5 analysis query results as separate tables in Power BI — one per business question. Name them clearly: <code>monthly_revenue</code>, <code>category_performance</code>, etc.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">4.2</span>
+        <span class="step-title">Dashboard layout — exactly what visuals to build</span>
+        <span class="step-tag tag-pbi">Power BI</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="content-text">Build a <strong>single-page dashboard</strong> with these visuals. One page > multiple pages for portfolio projects — it shows you can tell a complete story in one view.</div>
+        <table class="dataset-table">
+          <thead><tr><th>Visual</th><th>Type</th><th>Answers</th></tr></thead>
+          <tbody>
+            <tr><td>KPI Cards (top row)</td><td>Card visuals</td><td>Total Revenue · Total Orders · Avg Order Value · Avg Review Score</td></tr>
+            <tr><td>Monthly Revenue Trend</td><td>Line chart</td><td>Is the business growing?</td></tr>
+            <tr><td>Top 10 Categories</td><td>Horizontal bar chart</td><td>Where does revenue come from?</td></tr>
+            <tr><td>Delivery Status Map</td><td>Filled map (Brazil states)</td><td>Which states have delivery problems?</td></tr>
+            <tr><td>Delay vs Review Score</td><td>Column chart</td><td>Does late delivery hurt ratings?</td></tr>
+            <tr><td>Customer Segments</td><td>Donut chart</td><td>Retention breakdown</td></tr>
+            <tr><td>Slicers</td><td>Dropdown/button</td><td>Year, State, Category filters</td></tr>
+          </tbody>
+        </table>
+        <div class="callout callout-green"><strong>Design principle:</strong> Top row = summary KPIs. Middle = trend + category breakdown. Bottom = geographic + correlation insight. Slicers on the side. This is the standard layout interviewers recognise as professional.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">4.3</span>
+        <span class="step-title">3 DAX measures to add to your dashboard</span>
+        <span class="step-tag tag-pbi">DAX</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="content-text">Add these DAX measures — they show you know Power BI beyond drag-and-drop:</div>
+<pre><code>Total Revenue = SUM(orders_master[total_order_value])
+
+Late Delivery % = 
+  DIVIDE(
+    COUNTROWS(FILTER(orders_master, orders_master[delivery_delay_days] > 0)),
+    COUNTROWS(orders_master),
+    0
+  ) * 100
+
+Avg Review Score = AVERAGE(orders_master[review_score])</code></pre>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ PHASE 5 ═══════════ -->
+  <div id="p5" class="phase">
+    <div class="phase-title">Phase 5 — Insights, Story & Presentation</div>
+    <div class="phase-sub">The most important phase. The insights YOU surface and how you communicate them is what gets you hired.</div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">5.1</span>
+        <span class="step-title">The 5 Key Insights to present (what the data actually shows)</span>
+        <span class="step-tag tag-insight">Insight</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="insight-card">
+          <div class="i-title">Insight 1 — Revenue Growth</div>
+          "Olist grew revenue 3x from 2017 to 2018, with a November 2017 spike of 47% MoM — clearly driven by Black Friday. Q3 2018 shows a plateau, which warrants investigation."
+        </div>
+        <div class="insight-card">
+          <div class="i-title">Insight 2 — Category Concentration Risk</div>
+          "Top 5 categories (bed/bath, electronics, sports, furniture, computing) contribute ~60% of revenue. High concentration in any 1–2 categories is a business risk if they face competition or regulation."
+        </div>
+        <div class="insight-card">
+          <div class="i-title">Insight 3 — Delivery is a Northern Problem</div>
+          "States in northern Brazil (AM, RR, PA) have 3–4x higher late delivery rates than Southeast states. Logistics investment in these regions could directly improve satisfaction scores."
+        </div>
+        <div class="insight-card">
+          <div class="i-title">Insight 4 — Retention Crisis</div>
+          "97% of customers made only 1 purchase. This is the single biggest growth lever — improving retention from 3% to even 8% could potentially double long-term revenue without acquiring new customers."
+        </div>
+        <div class="insight-card">
+          <div class="i-title">Insight 5 — Delay Kills Satisfaction</div>
+          "Orders delivered 15+ days late score an average of 2.4/5 stars vs 4.4/5 for early deliveries. Each week of delay correlates with a ~0.5 star drop. Improving logistics directly improves NPS."
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">5.2</span>
+        <span class="step-title">How to present this project in an interview (exact script)</span>
+        <span class="step-tag tag-insight">Presentation</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <div class="content-text">
+          <strong>Opening (30 seconds):</strong><br>
+          "I did an end-to-end analysis on the Olist Brazilian e-commerce dataset — about 100,000 real orders. I started by defining 5 business questions, then cleaned the data, wrote SQL queries to answer each question, and built a Power BI dashboard to visualise the findings."<br><br>
+          <strong>Data cleaning highlight (30 seconds):</strong><br>
+          "The data had real quality issues — about 17% of orders had NULL delivery dates because they were cancelled. The product names were in Portuguese, so I joined a translation table. I documented all issues and built a master view in SQL so my analysis queries were clean."<br><br>
+          <strong>Key insight (60 seconds):</strong><br>
+          "The most important finding was the retention rate — 97% of customers never ordered again. Combined with the fact that late delivery correlated directly with low review scores, my recommendation was: Olist should prioritise logistics improvement in northern states, because fixing delivery times would simultaneously improve reviews, word-of-mouth, and repeat purchase probability."<br><br>
+          <strong>Close:</strong><br>
+          "The dashboard has slicers for year, state, and category so the product and logistics teams can explore their specific areas."
+        </div>
+        <div class="callout callout-orange"><strong>Key principle:</strong> End with a recommendation tied to a business outcome, not just a chart description. "Late deliveries cause low reviews" → "Therefore, fix logistics in these 5 states first, targeting a 15% reduction in late delivery rate."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head" onclick="toggleStep(this)">
+        <span class="step-num">5.3</span>
+        <span class="step-title">Project deliverables checklist — what to have ready</span>
+        <span class="step-tag tag-insight">Checklist</span>
+        <span class="step-arrow">›</span>
+      </div>
+      <div class="step-body">
+        <ul class="checklist">
+          <li>README.md with project overview, business questions, tools used, key findings</li>
+          <li>analysis.sql file with all 5 analysis queries (clean, commented)</li>
+          <li>data_cleaning.sql file with exploration + cleaning queries</li>
+          <li>Power BI (.pbix) or Tableau (.twbx) dashboard file</li>
+          <li>Screenshots of dashboard (for resume / LinkedIn)</li>
+          <li>GitHub repository with all files above</li>
+          <li>Optional: Hashnode/Medium blog post explaining your findings (major portfolio booster)</li>
+        </ul>
+        <div class="callout callout-green"><strong>GitHub + Blog post = standout portfolio.</strong> Most freshers don't write about their projects. A 500-word blog post explaining one insight from this project can get more recruiter attention than the project itself.</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>End-to-End Data Analyst Project Guide · Olist E-Commerce Sales Analysis</footer>
+
+<script>
+function showPhase(id, btn) {
+  document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function toggleStep(el) {
+  el.parentElement.classList.toggle('open');
+}
+</script>
+</body>
+</html>

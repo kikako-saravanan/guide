@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Data Analyst Complete Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060810;--s1:#0b0f1a;--s2:#111827;--s3:#1a2235;
+  --b1:#1e2d45;--b2:#253450;
+  --sql:#4f9cf9;--excel:#34d399;--pbi:#fbbf24;--tab:#c084fc;
+  --stats:#fb923c;--proj:#22d3ee;--red:#f87171;--green:#4ade80;
+  --text:#e2e8f4;--mid:#7a8ba8;--dim:#3d4f68;--white:#fff;
+  --r:13px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:14.5px;line-height:1.7}
+
+/* LAYOUT */
+.wrap{display:flex;min-height:100vh}
+.sidebar{
+  width:248px;flex-shrink:0;background:var(--s1);
+  border-right:1px solid var(--b1);
+  position:fixed;top:0;left:0;height:100vh;overflow-y:auto;
+  display:flex;flex-direction:column;z-index:50
+}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px}
+.main{margin-left:248px;flex:1}
+
+/* SIDEBAR PARTS */
+.s-logo{padding:20px 16px 16px;border-bottom:1px solid var(--b1)}
+.s-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border-radius:3px;background:rgba(79,156,249,.12);color:var(--sql);border:1px solid rgba(79,156,249,.2);margin-bottom:7px}
+.s-title{font-size:15px;font-weight:800;color:var(--white);line-height:1.25}
+.s-sub{font-size:11px;color:var(--dim);margin-top:3px}
+
+.s-group{padding:14px 10px 4px}
+.s-glabel{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);padding:0 7px;margin-bottom:4px}
+.s-item{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 9px;border-radius:8px;cursor:pointer;
+  font-size:12.5px;font-weight:500;color:var(--mid);
+  border:1px solid transparent;margin-bottom:1px;transition:all .15s
+}
+.s-item:hover{background:var(--s2);color:var(--text)}
+.s-item.on{background:var(--s2);border-color:var(--b2);color:var(--white)}
+.s-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.s-cnt{margin-left:auto;font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace}
+
+.s-prog{padding:13px 16px;border-top:1px solid var(--b1);margin-top:auto}
+.s-plabel{font-size:11px;color:var(--mid);margin-bottom:5px;display:flex;justify-content:space-between}
+.s-ptrack{background:var(--s3);border-radius:3px;height:4px}
+.s-pfill{height:4px;border-radius:3px;background:linear-gradient(90deg,var(--sql),var(--tab));transition:width .4s}
+
+/* PAGE */
+.ph{display:none;padding:36px 44px 28px;background:linear-gradient(135deg,var(--bg),var(--s1));border-bottom:1px solid var(--b1)}
+.ph.on{display:block}
+.ph-eye{font-size:9.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.ph-d{width:5px;height:5px;border-radius:50%}
+.ph-title{font-size:clamp(22px,3vw,38px);font-weight:800;color:var(--white);line-height:1.1}
+.ph-sub{font-size:13.5px;color:var(--mid);margin-top:6px;max-width:560px;font-weight:300}
+.ph-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
+.ph-tag{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid}
+
+.ca{display:none;padding:30px 44px}
+.ca.on{display:block}
+
+/* CARDS */
+.grid{display:flex;flex-direction:column;gap:9px}
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
+.card:hover{border-color:var(--b2)}
+.card-head{display:flex;align-items:center;gap:12px;padding:14px 17px;cursor:pointer;user-select:none}
+.card-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.card-title{font-weight:600;font-size:13.5px;flex:1;color:var(--text)}
+.card-meta{font-size:11px;color:var(--dim);margin-top:1px}
+.card-bdgs{display:flex;gap:5px;align-items:center}
+.chev{color:var(--dim);font-size:17px;transition:transform .22s;flex-shrink:0}
+.card.open .chev{transform:rotate(90deg)}
+.card-body{display:none;padding:0 17px 17px;border-top:1px solid var(--b1);padding-top:14px}
+.card.open .card-body{display:block}
+
+/* BADGES */
+.bdg{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:20px;border:1px solid;white-space:nowrap}
+.easy{background:rgba(52,211,153,.08);color:#34d399;border-color:rgba(52,211,153,.2)}
+.med{background:rgba(251,191,36,.08);color:#fbbf24;border-color:rgba(251,191,36,.2)}
+.hard{background:rgba(248,113,113,.08);color:#f87171;border-color:rgba(248,113,113,.2)}
+.must{background:rgba(251,146,60,.08);color:#fb923c;border-color:rgba(251,146,60,.2)}
+.free{background:rgba(34,211,238,.08);color:#22d3ee;border-color:rgba(34,211,238,.2)}
+
+/* PROB LIST */
+.plist{display:flex;flex-direction:column;gap:7px}
+.pitem{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--s2);border:1px solid var(--b1);border-radius:9px;transition:border-color .15s}
+.pitem:hover{border-color:var(--b2)}
+.pnum{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;color:var(--dim);min-width:30px;margin-top:2px}
+.pcont{flex:1}
+.ptitle{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.pnote{font-size:11.5px;color:var(--mid)}
+.plnk{font-size:10.5px;font-weight:700;color:var(--sql);background:rgba(79,156,249,.08);border:1px solid rgba(79,156,249,.15);padding:2px 7px;border-radius:4px;text-decoration:none;white-space:nowrap;flex-shrink:0;margin-top:2px;transition:all .13s}
+.plnk:hover{background:rgba(79,156,249,.18)}
+.chkbox{width:17px;height:17px;border:2px solid var(--b2);border-radius:4px;flex-shrink:0;cursor:pointer;margin-top:3px;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.chkbox.done{background:var(--excel);border-color:var(--excel)}
+.chkbox.done::after{content:'✓';color:#fff;font-size:10px;font-weight:800}
+
+/* TEXT */
+.ctxt{font-size:12.5px;color:var(--mid);line-height:1.8}
+.ctxt strong{color:var(--text);font-weight:600}
+.ctxt code{font-family:'JetBrains Mono',monospace;background:var(--s3);border:1px solid var(--b1);color:#7dd3fc;padding:1px 5px;border-radius:3px;font-size:11.5px}
+pre{background:#04060c;border:1px solid var(--b1);border-radius:9px;padding:12px 14px;overflow-x:auto;margin:8px 0}
+pre code{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#93c5fd;line-height:1.7}
+.kw{color:#c084fc}.fn{color:#38bdf8}.str{color:#86efac}.cm{color:#374151;font-style:italic}
+.tip{border-radius:7px;padding:9px 12px;margin:9px 0;font-size:12px;line-height:1.7;display:flex;gap:8px}
+.t-sql{background:rgba(79,156,249,.06);border:1px solid rgba(79,156,249,.14);color:#93c5fd}
+.t-gr{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.14);color:#6ee7b7}
+.t-or{background:rgba(251,146,60,.06);border:1px solid rgba(251,146,60,.14);color:#fdba74}
+.t-pu{background:rgba(192,132,252,.06);border:1px solid rgba(192,132,252,.14);color:#d8b4fe}
+.tico{font-size:14px;flex-shrink:0}
+hr{border:none;border-top:1px solid var(--b1);margin:12px 0}
+
+/* PLAT GRID */
+.platgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.platcard{background:var(--s2);border:1px solid var(--b1);border-radius:9px;padding:13px 14px}
+.platname{font-size:13px;font-weight:700;color:var(--white);margin-bottom:3px}
+.platdesc{font-size:11.5px;color:var(--mid);margin-bottom:7px}
+.platlink{font-size:10.5px;font-weight:600;color:var(--sql);font-family:'JetBrains Mono',monospace;word-break:break-all}
+
+/* TABLE */
+.rtbl{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0}
+.rtbl th{text-align:left;padding:7px 10px;background:var(--s3);color:var(--text);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--b1)}
+.rtbl td{padding:7px 10px;border-bottom:1px solid var(--b1);color:var(--mid);vertical-align:top}
+.rtbl td:first-child{color:var(--text);font-weight:500}
+.rtbl tr:last-child td{border-bottom:none}
+.rtbl a{color:var(--sql);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:10.5px}
+
+/* TIMELINE */
+.tline{display:flex;flex-direction:column}
+.titem{display:flex;gap:13px;position:relative}
+.titem::before{content:'';position:absolute;left:17px;top:38px;width:2px;height:calc(100% - 6px);background:var(--b1)}
+.titem:last-child::before{display:none}
+.tdot{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;border:2px solid;background:var(--s1);font-family:'JetBrains Mono',monospace;margin-top:2px}
+.tcont{flex:1;padding-bottom:22px}
+.tweek{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.ttitle{font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px}
+.ttask{font-size:12px;color:var(--mid);display:flex;align-items:flex-start;gap:6px;padding:3px 0}
+.ttask::before{content:'›';color:var(--dim);flex-shrink:0;font-size:14px;margin-top:-1px}
+
+/* HOME GRID */
+.hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.hcard{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:17px;cursor:pointer;transition:all .2s;text-align:center}
+.hcard:hover{border-color:var(--b2);transform:translateY(-2px)}
+.hcard-ico{font-size:28px;margin-bottom:8px}
+.hcard-title{font-size:13px;font-weight:700;color:var(--white);margin-bottom:2px}
+.hcard-sub{font-size:11px;color:var(--mid)}
+.hcard-n{margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--dim)}
+
+/* CHECKLIST */
+.clist{list-style:none;display:flex;flex-direction:column;gap:4px;margin:8px 0}
+.clist li{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--mid);padding:4px 0}
+.clist li::before{content:'□';color:var(--sql);font-size:13px;flex-shrink:0;line-height:1.3}
+
+.scroll-up{position:fixed;bottom:20px;right:20px;width:36px;height:36px;border-radius:8px;background:var(--s2);border:1px solid var(--b2);color:var(--mid);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:200}
+.scroll-up:hover{background:var(--sql);color:#fff;border-color:var(--sql)}
+
+@media(max-width:740px){.sidebar{transform:translateX(-100%)}.main{margin-left:0}.ph,.ca{padding:20px 16px}.hgrid{grid-template-columns:1fr 1fr}.platgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="s-logo">
+    <div class="s-badge">DA Prep 2025</div>
+    <div class="s-title">Data Analyst<br>Master Guide</div>
+    <div class="s-sub">All tools · One place · Check off as you go</div>
+  </div>
+  <div class="s-group">
+    <div class="s-glabel">Start Here</div>
+    <div class="s-item on" onclick="gp('home')"><span class="s-dot" style="background:#475569"></span>Home & Roadmap</div>
+  </div>
+  <div class="s-group">
+    <div class="s-glabel">Core Skills</div>
+    <div class="s-item" onclick="gp('sql')"><span class="s-dot" style="background:var(--sql)"></span>SQL<span class="s-cnt">36 problems</span></div>
+    <div class="s-item" onclick="gp('excel')"><span class="s-dot" style="background:var(--excel)"></span>Excel<span class="s-cnt">21 exercises</span></div>
+    <div class="s-item" onclick="gp('pbi')"><span class="s-dot" style="background:var(--pbi)"></span>Power BI<span class="s-cnt">17 tasks</span></div>
+    <div class="s-item" onclick="gp('tableau')"><span class="s-dot" style="background:var(--tab)"></span>Tableau<span class="s-cnt">16 exercises</span></div>
+    <div class="s-item" onclick="gp('stats')"><span class="s-dot" style="background:var(--stats)"></span>Statistics & Analytics<span class="s-cnt">10 concepts</span></div>
+  </div>
+  <div class="s-group">
+    <div class="s-glabel">Practice Platforms</div>
+    <div class="s-item" onclick="gp('platforms')"><span class="s-dot" style="background:var(--proj)"></span>Where to Practice</div>
+    <div class="s-item" onclick="gp('leetcode')"><span class="s-dot" style="background:var(--red)"></span>LeetCode 13 Must-Solves<span class="s-cnt">13</span></div>
+    <div class="s-item" onclick="gp('stratascratch')"><span class="s-dot" style="background:#a78bfa"></span>StrataScratch Problems<span class="s-cnt">10</span></div>
+  </div>
+  <div class="s-group">
+    <div class="s-glabel">Portfolio</div>
+    <div class="s-item" onclick="gp('project')"><span class="s-dot" style="background:var(--proj)"></span>End-to-End Project</div>
+    <div class="s-item" onclick="gp('interview')"><span class="s-dot" style="background:var(--stats)"></span>Interview Scenarios</div>
+  </div>
+  <div class="s-prog">
+    <div class="s-plabel"><span>Problems completed</span><span id="pct">0%</span></div>
+    <div class="s-ptrack"><div class="s-pfill" id="pfill" style="width:0%"></div></div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+<!-- HOME PAGE -->
+<div class="ph on" id="hdr-home">
+  <div class="ph-eye"><span class="ph-d" style="background:#475569"></span>Start Here</div>
+  <div class="ph-title">Data Analyst Master Guide</div>
+  <div class="ph-sub">SQL · Excel · Power BI · Tableau · Statistics · LeetCode 13 · StrataScratch · Real Project — everything in one place. Tick off problems as you complete them.</div>
+  <div class="ph-tags">
+    <span class="ph-tag" style="color:var(--sql);border-color:rgba(79,156,249,.3);background:rgba(79,156,249,.07)">SQL</span>
+    <span class="ph-tag" style="color:var(--excel);border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.07)">Excel</span>
+    <span class="ph-tag" style="color:var(--pbi);border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.07)">Power BI</span>
+    <span class="ph-tag" style="color:var(--tab);border-color:rgba(192,132,252,.3);background:rgba(192,132,252,.07)">Tableau</span>
+    <span class="ph-tag" style="color:var(--stats);border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.07)">Statistics</span>
+  </div>
+</div>
+<div class="ca on" id="page-home">
+  <div class="hgrid">
+    <div class="hcard" onclick="gp('sql')"><div class="hcard-ico">🗄️</div><div class="hcard-title">SQL</div><div class="hcard-sub">Foundations → Window Functions → Real Interview Patterns</div><div class="hcard-n">36 checkable problems</div></div>
+    <div class="hcard" onclick="gp('excel')"><div class="hcard-ico">📊</div><div class="hcard-title">Excel</div><div class="hcard-sub">VLOOKUP, Pivot Tables, Power Query</div><div class="hcard-n">21 exercises</div></div>
+    <div class="hcard" onclick="gp('pbi')"><div class="hcard-ico">📈</div><div class="hcard-title">Power BI</div><div class="hcard-sub">Data Model, DAX Measures, Dashboard</div><div class="hcard-n">17 tasks</div></div>
+    <div class="hcard" onclick="gp('tableau')"><div class="hcard-ico">🎨</div><div class="hcard-title">Tableau</div><div class="hcard-sub">LOD Expressions, Filters, Dashboard Actions</div><div class="hcard-n">16 exercises</div></div>
+    <div class="hcard" onclick="gp('leetcode')"><div class="hcard-ico">💻</div><div class="hcard-title">LeetCode 13</div><div class="hcard-sub">The exact must-solve SQL problems</div><div class="hcard-n">13 must-solve problems</div></div>
+    <div class="hcard" onclick="gp('project')"><div class="hcard-ico">🚀</div><div class="hcard-title">Real Project</div><div class="hcard-sub">End-to-end Olist E-Commerce analysis</div><div class="hcard-n">5 phases to complete</div></div>
+  </div>
+
+  <div style="font-size:17px;font-weight:800;color:var(--white);margin-bottom:5px">8-Week Preparation Roadmap</div>
+  <div style="font-size:12px;color:var(--mid);margin-bottom:18px">Follow in order. Don't skip ahead — each week builds on the previous. Daily: 45 min SQL + 1 hr tool practice.</div>
+
+  <div class="tline">
+    <div class="titem">
+      <div class="tdot" style="color:var(--sql);border-color:rgba(79,156,249,.4)">W1</div>
+      <div class="tcont"><div class="tweek" style="color:var(--sql)">Week 1</div><div class="ttitle">SQL Foundations + Excel Basics</div>
+        <div class="ttask">SQL: SELECT, WHERE, GROUP BY, NULL handling — solve Problems 1–8 in SQL page</div>
+        <div class="ttask">Excel: VLOOKUP, SUMIF, Pivot Tables — complete E1–E9</div>
+        <div class="ttask">HackerRank: Complete all "Basic Select" + "Aggregation" challenges</div>
+      </div>
+    </div>
+    <div class="titem">
+      <div class="tdot" style="color:var(--sql);border-color:rgba(79,156,249,.4)">W2</div>
+      <div class="tcont"><div class="tweek" style="color:var(--sql)">Week 2</div><div class="ttitle">SQL JOINs + CTEs + Excel Advanced</div>
+        <div class="ttask">SQL: All JOINs, subqueries, CTEs — solve Problems 9–16</div>
+        <div class="ttask">Excel: INDEX-MATCH, Power Query, conditional formatting — E10–E21</div>
+        <div class="ttask">LeetCode: Solve #175, #176, #181, #184</div>
+      </div>
+    </div>
+    <div class="titem">
+      <div class="tdot" style="color:var(--pbi);border-color:rgba(251,191,36,.4)">W3</div>
+      <div class="tcont"><div class="tweek" style="color:var(--pbi)">Week 3</div><div class="ttitle">Window Functions + Power BI Foundations</div>
+        <div class="ttask">SQL: ROW_NUMBER, RANK, LAG, LEAD, running totals — Problems 17–24</div>
+        <div class="ttask">Power BI: Import data, build data model, first visuals — P1–P6</div>
+        <div class="ttask">LeetCode: Solve #178, #180, #185</div>
+      </div>
+    </div>
+    <div class="titem">
+      <div class="tdot" style="color:var(--pbi);border-color:rgba(251,191,36,.4)">W4</div>
+      <div class="tcont"><div class="tweek" style="color:var(--pbi)">Week 4</div><div class="ttitle">Power BI DAX + Tableau Start + Hard SQL</div>
+        <div class="ttask">Power BI: DAX, CALCULATE, time intelligence — P7–P17</div>
+        <div class="ttask">Tableau: Connect data, calculated fields, basic visuals — T1–T8</div>
+        <div class="ttask">SQL: CASE WHEN, hard real-world patterns — Problems 25–32</div>
+        <div class="ttask">LeetCode: Solve #177, #196, #197</div>
+      </div>
+    </div>
+    <div class="titem">
+      <div class="tdot" style="color:var(--tab);border-color:rgba(192,132,252,.4)">W5</div>
+      <div class="tcont"><div class="tweek" style="color:var(--tab)">Week 5</div><div class="ttitle">Tableau LOD + Statistics + Finish LeetCode 13</div>
+        <div class="ttask">Tableau: LOD expressions, filters, dashboard actions — T9–T16</div>
+        <div class="ttask">Statistics: All 10 concepts in Statistics page</div>
+        <div class="ttask">LeetCode: Solve #262, #1179, #1393 — now you've finished all 13</div>
+      </div>
+    </div>
+    <div class="titem">
+      <div class="tdot" style="color:var(--proj);border-color:rgba(34,211,238,.4)">W6</div>
+      <div class="tcont"><div class="tweek" style="color:var(--proj)">Week 6</div><div class="ttitle">Project: Setup + Cleaning + SQL Analysis</div>
+        <div class="ttask">Download Olist dataset from Kaggle, set up MySQL, import all 9 tables</div>
+        <div class="ttask">Complete Project Phase 1, 2, 3</div>
+        <div class="ttask">StrataScratch: Solve SS1–SS5</div>
+      </div>
+    </div>
+    <div class="titem">
+      <div class="tdot" style="color:var(--proj);border-color:rgba(34,211,238,.4)">W7</div>
+      <div class="tcont"><div class="tweek" style="color:var(--proj)">Week 7</div><div class="ttitle">Project: Dashboard + Portfolio</div>
+        <div class="ttask">Build Power BI / Tableau dashboard on Olist data</div>
+        <div class="ttask">Push to GitHub: README + SQL files + dashboard screenshot</div>
+        <div class="ttask">StrataScratch: Solve SS6–SS10</div>
+      </div>
+    </div>
+    <div class="titem">
+      <div class="tdot" style="color:var(--stats);border-color:rgba(251,146,60,.4)">W8</div>
+      <div class="tcont"><div class="tweek" style="color:var(--stats)">Week 8</div><div class="ttitle">Mock Interviews + Full Revision → Apply</div>
+        <div class="ttask">Re-solve all 13 LeetCode problems cold — no hints</div>
+        <div class="ttask">Practice 3-minute project presentation out loud, 5 times</div>
+        <div class="ttask">Review all scenarios in Interview page</div>
+        <div class="ttask">Apply to 10+ companies per day. You are ready.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- SQL PAGE -->
+<div class="ph" id="hdr-sql"><div class="ph-eye"><span class="ph-d" style="background:var(--sql)"></span>Core Skill</div><div class="ph-title" style="color:var(--sql)">SQL Practice</div><div class="ph-sub">36 problems in 7 sections. Work through in order. Open each card, read the concept, then solve every problem yourself before checking answers.</div></div>
+<div class="ca" id="page-sql"><div class="grid">
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(79,156,249,.1)">🔢</div><div><div class="card-title">1 · SELECT, WHERE, ORDER BY, LIMIT, DISTINCT</div><div class="card-meta">Foundation — write these without hesitation</div></div><div class="card-bdgs"><span class="bdg easy">Easy</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt"><strong>SELECT</strong> — choose columns. <strong>WHERE</strong> — filter rows (runs before GROUP BY). <strong>ORDER BY col DESC</strong> — sort descending. <strong>LIMIT n</strong> — first n rows only. <strong>DISTINCT</strong> — unique values.</div>
+<pre><code><span class="kw">SELECT</span> name, dept, salary <span class="kw">FROM</span> employees
+<span class="kw">WHERE</span> dept = <span class="str">'Sales'</span> <span class="kw">AND</span> salary > <span class="str">50000</span>
+<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span> <span class="kw">LIMIT</span> 10;</code></pre>
+<div class="tip t-sql"><span class="tico">💡</span><div>LIMIT without ORDER BY returns random rows. Always sort first for "Top N" queries.</div></div>
+<hr>
+<div class="plist">
+<div class="pitem"><span class="pnum">01</span><div class="pcont"><div class="ptitle">Get all employees from the 'HR' department ordered by salary descending</div><div class="pnote">WHERE + ORDER BY DESC</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">02</span><div class="pcont"><div class="ptitle">Top 5 highest paid employees — show only name and salary columns</div><div class="pnote">SELECT specific cols + ORDER BY + LIMIT 5</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">03</span><div class="pcont"><div class="ptitle">All unique department names from the employees table</div><div class="pnote">DISTINCT</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">04</span><div class="pcont"><div class="ptitle">Employees in Sales OR Marketing with salary between 40k and 80k</div><div class="pnote">IN() + BETWEEN + AND</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">05</span><div class="pcont"><div class="ptitle">All products whose name contains the word "Pro" anywhere</div><div class="pnote">LIKE '%Pro%'</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(79,156,249,.1)">🫙</div><div><div class="card-title">2 · NULL Handling — IS NULL, COALESCE, COUNT trick</div><div class="card-meta">Critical for every data cleaning query</div></div><div class="card-bdgs"><span class="bdg easy">Easy</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">NULL = unknown. <strong>Never use = NULL.</strong> Always <code>IS NULL</code> or <code>IS NOT NULL</code>.<br><strong>COALESCE(a,b)</strong> returns first non-null value.<br><strong>Interview trick:</strong> <code>COUNT(*) - COUNT(col)</code> = number of NULLs in that column.</div>
+<pre><code><span class="kw">SELECT</span> * <span class="kw">FROM</span> customers <span class="kw">WHERE</span> phone <span class="kw">IS NULL</span>;
+<span class="kw">SELECT</span> <span class="fn">COALESCE</span>(discount, <span class="str">0</span>) <span class="kw">FROM</span> orders;
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) - <span class="fn">COUNT</span>(email) <span class="kw">AS</span> missing <span class="kw">FROM</span> customers;</code></pre>
+<div class="plist">
+<div class="pitem"><span class="pnum">06</span><div class="pcont"><div class="ptitle">Find customers who have not provided their phone number</div><div class="pnote">IS NULL</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">07</span><div class="pcont"><div class="ptitle">Show all orders — replace NULL discount with 0</div><div class="pnote">COALESCE(discount, 0)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">08</span><div class="pcont"><div class="ptitle">In one query: how many NULLs in email column vs phone column</div><div class="pnote">COUNT(*) - COUNT(col) trick — try both in same SELECT</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(79,156,249,.1)">📊</div><div><div class="card-title">3 · GROUP BY + HAVING + Aggregate Functions</div><div class="card-meta">SUM, COUNT, AVG, MIN, MAX — most used in reporting</div></div><div class="card-bdgs"><span class="bdg easy">Easy</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">Rule: every column in SELECT must be in GROUP BY <strong>or</strong> inside an aggregate function.<br><strong>WHERE</strong> filters before grouping. <strong>HAVING</strong> filters after (use it with aggregates, not raw columns).</div>
+<pre><code><span class="kw">SELECT</span> dept, <span class="fn">COUNT</span>(*) n, <span class="fn">AVG</span>(salary) avg_sal
+<span class="kw">FROM</span> employees <span class="kw">WHERE</span> join_date > <span class="str">'2020-01-01'</span>
+<span class="kw">GROUP BY</span> dept <span class="kw">HAVING</span> <span class="fn">AVG</span>(salary) > <span class="str">50000</span>
+<span class="kw">ORDER BY</span> avg_sal <span class="kw">DESC</span>;</code></pre>
+<div class="plist">
+<div class="pitem"><span class="pnum">09</span><div class="pcont"><div class="ptitle">Total revenue and order count per product category, sorted by revenue desc</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">10</span><div class="pcont"><div class="ptitle">Categories with more than 100 orders AND average order above ₹500</div><div class="pnote">HAVING with two conditions</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">11</span><div class="pcont"><div class="ptitle">City with the highest total revenue in 2024 — top 1 only</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">12</span><div class="pcont"><div class="ptitle">Each department: headcount, avg salary, min salary, max salary — all in one query</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(79,156,249,.1)">🔗</div><div><div class="card-title">4 · JOINs — INNER, LEFT, SELF + 3-Table Joins</div><div class="card-meta">Combining tables — used in 90% of real queries</div></div><div class="card-bdgs"><span class="bdg med">Medium</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt"><strong>INNER JOIN</strong> — matching rows only. <strong>LEFT JOIN</strong> — all left rows + matching right (NULL if no match).<br><strong>Golden pattern: LEFT JOIN + WHERE right.col IS NULL = rows in A but NOT in B.</strong><br><strong>SELF JOIN</strong> — join table to itself with different aliases (hierarchical data).</div>
+<pre><code><span class="cm">-- Customers who NEVER ordered</span>
+<span class="kw">SELECT</span> c.name <span class="kw">FROM</span> customers c
+<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> c.id = o.cust_id
+<span class="kw">WHERE</span> o.order_id <span class="kw">IS NULL</span>;</code></pre>
+<div class="plist">
+<div class="pitem"><span class="pnum">13</span><div class="pcont"><div class="ptitle">Show each order with customer name and city</div><div class="pnote">Basic INNER JOIN</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">14</span><div class="pcont"><div class="ptitle">Find customers who have never placed an order</div><div class="pnote">LEFT JOIN + WHERE right IS NULL</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">15</span><div class="pcont"><div class="ptitle">Total revenue per customer — include customers with zero orders (show 0, not NULL)</div><div class="pnote">LEFT JOIN + COALESCE(SUM(amount), 0)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">16</span><div class="pcont"><div class="ptitle">3-table JOIN: each order with customer name, product name, and profit</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">17</span><div class="pcont"><div class="ptitle">Show each employee with their manager's name (same table, two aliases)</div><div class="pnote">Self JOIN — e1 JOIN e2 ON e1.manager_id = e2.id</div></div><a href="https://leetcode.com/problems/employees-earning-more-than-their-managers/" target="_blank" class="plnk">LC #181</a><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(79,156,249,.1)">📝</div><div><div class="card-title">5 · Subqueries + CTEs (WITH clause)</div><div class="card-meta">Multi-step query building — makes complex logic readable</div></div><div class="card-bdgs"><span class="bdg med">Medium</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt"><strong>Subquery</strong> — query inside another. Inner runs first.<br><strong>CTE (WITH name AS (...))</strong> — named temp result. Makes complex queries readable. Reference like a table.<br><strong>Correlated subquery</strong> — inner query references the outer row. Runs once per outer row.</div>
+<pre><code><span class="kw">WITH</span> monthly <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> <span class="fn">DATE_FORMAT</span>(dt,<span class="str">'%Y-%m'</span>) mo, <span class="fn">SUM</span>(amt) rev
+  <span class="kw">FROM</span> orders <span class="kw">GROUP BY</span> 1
+)
+<span class="kw">SELECT</span> mo, rev, <span class="fn">LAG</span>(rev) <span class="kw">OVER</span>(<span class="kw">ORDER BY</span> mo) prev
+<span class="kw">FROM</span> monthly;</code></pre>
+<div class="plist">
+<div class="pitem"><span class="pnum">18</span><div class="pcont"><div class="ptitle">Employees who earn more than the average salary of their own department</div><div class="pnote">Correlated subquery — inner WHERE e2.dept = e1.dept</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">19</span><div class="pcont"><div class="ptitle">Products that have NEVER been ordered — try both NOT IN and NOT EXISTS</div><div class="pnote">Note: NOT EXISTS is safer when subquery might contain NULLs</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">20</span><div class="pcont"><div class="ptitle">Second highest salary — return NULL if there is no second highest (no shortcuts)</div></div><a href="https://leetcode.com/problems/second-highest-salary/" target="_blank" class="plnk">LC #176</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">21</span><div class="pcont"><div class="ptitle">Using CTE: top salesperson by total revenue in each region</div><div class="pnote">CTE → aggregate → ROW_NUMBER to pick top 1 per region</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(79,156,249,.1)">🪟</div><div><div class="card-title">6 · Window Functions — ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD, SUM OVER</div><div class="card-meta">Most tested advanced SQL topic in product company interviews</div></div><div class="card-bdgs"><span class="bdg hard">Hard</span><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">Window functions compute across rows <em>without collapsing them</em> like GROUP BY.<br><strong>ROW_NUMBER()</strong> — unique 1,2,3,4 (no ties). Use for deduplication.<br><strong>DENSE_RANK()</strong> — ties share rank, no gap: 1,2,2,3. Use for Top N per group.<br><strong>LAG(col,n)</strong> — value n rows before. <strong>LEAD(col,n)</strong> — value n rows after.<br><strong>SUM/AVG OVER (ROWS BETWEEN ...)</strong> — running total, moving average.</div>
+<pre><code><span class="cm">-- Top 3 salary per department</span>
+<span class="kw">WITH</span> r <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> name, dept, salary,
+    <span class="fn">DENSE_RANK</span>() <span class="kw">OVER</span>(<span class="kw">PARTITION BY</span> dept <span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) rnk
+  <span class="kw">FROM</span> employees)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> r <span class="kw">WHERE</span> rnk &lt;= 3;</code></pre>
+<div class="plist">
+<div class="pitem"><span class="pnum">22</span><div class="pcont"><div class="ptitle">Top 3 employees by salary in each department — handle ties correctly</div><div class="pnote">DENSE_RANK() OVER (PARTITION BY dept ORDER BY salary DESC), filter rnk ≤ 3</div></div><a href="https://leetcode.com/problems/department-top-three-salaries/" target="_blank" class="plnk">LC #185</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">23</span><div class="pcont"><div class="ptitle">Remove duplicate orders — keep only the most recent order per customer</div><div class="pnote">ROW_NUMBER() OVER (PARTITION BY cust_id ORDER BY order_date DESC), keep rn=1</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">24</span><div class="pcont"><div class="ptitle">Monthly revenue with previous month's revenue and MoM % growth</div><div class="pnote">LAG(rev) OVER (ORDER BY month) — then (rev - prev)/prev * 100</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">25</span><div class="pcont"><div class="ptitle">Find all months where revenue DECREASED vs the previous month</div><div class="pnote">Build on #24 — wrap in CTE, then WHERE rev &lt; prev_rev</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">26</span><div class="pcont"><div class="ptitle">Running cumulative total of daily sales for January 2024</div><div class="pnote">SUM(revenue) OVER (ORDER BY day) — no PARTITION BY needed</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">27</span><div class="pcont"><div class="ptitle">3-day moving average of daily revenue</div><div class="pnote">AVG(rev) OVER (ORDER BY day ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">28</span><div class="pcont"><div class="ptitle">Rank scores so that same score gets same rank with no gap</div><div class="pnote">DENSE_RANK() OVER (ORDER BY score DESC)</div></div><a href="https://leetcode.com/problems/rank-scores/" target="_blank" class="plnk">LC #178</a><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(79,156,249,.1)">🎯</div><div><div class="card-title">7 · Hard Real-World Patterns — Retention, Cohort, CASE WHEN, Pivot</div><div class="card-meta">Final round patterns at Swiggy, Zepto, Razorpay, Amazon</div></div><div class="card-bdgs"><span class="bdg hard">Hard</span><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body">
+<div class="tip t-or"><span class="tico">🎯</span><div>These are exactly what product company interviews look like. Master all 8 and you'll be in the top 5% of DA candidates for SQL.</div></div>
+<div class="plist">
+<div class="pitem"><span class="pnum">29</span><div class="pcont"><div class="ptitle">Classify customers: Active (&lt;30 days since last order), At Risk (31–90), Churned (&gt;90)</div><div class="pnote">CASE WHEN DATEDIFF(CURDATE(), MAX(order_date)) THEN ... END — GROUP BY first</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">30</span><div class="pcont"><div class="ptitle">Per month: count NEW customers (first-ever order that month) vs RETURNING customers</div><div class="pnote">Find MIN(order_date) per customer, label each as new or returning</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">31</span><div class="pcont"><div class="ptitle">Customers who ordered in January 2024 but NOT in February 2024</div><div class="pnote">NOT IN subquery — or LEFT JOIN + IS NULL approach</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">32</span><div class="pcont"><div class="ptitle">Monthly sales pivot: one row per category, columns Jan / Feb / Mar totals</div><div class="pnote">SUM(CASE WHEN MONTH(date)=1 THEN amount ELSE 0 END) AS jan — repeat for each month</div></div><a href="https://leetcode.com/problems/reformat-department-table/" target="_blank" class="plnk">LC #1179</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">33</span><div class="pcont"><div class="ptitle">Find 3 or more consecutive log IDs with the same number</div><div class="pnote">Self JOIN l1 JOIN l2 ON l1.id+1=l2.id JOIN l3 ON l2.id+1=l3.id WHERE all nums equal</div></div><a href="https://leetcode.com/problems/consecutive-numbers/" target="_blank" class="plnk">LC #180</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">34</span><div class="pcont"><div class="ptitle">Cancellation rate of trips with non-banned users, per day in a date range</div><div class="pnote">JOIN to filter banned users → GROUP BY day → ROUND(SUM(cancelled)/COUNT(*), 2)</div></div><a href="https://leetcode.com/problems/trips-and-users/" target="_blank" class="plnk">LC #262</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">35</span><div class="pcont"><div class="ptitle">Total capital gain/loss per stock using conditional SUM</div><div class="pnote">SUM(CASE WHEN op='Buy' THEN -price ELSE price END) per stock_name</div></div><a href="https://leetcode.com/problems/capital-gainloss/" target="_blank" class="plnk">LC #1393</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">36</span><div class="pcont"><div class="ptitle">Nth highest salary using a parameterized function (works for any N)</div><div class="pnote">CREATE FUNCTION getNthHighestSalary(N INT) — LIMIT N-1,1 inside function body</div></div><a href="https://leetcode.com/problems/nth-highest-salary/" target="_blank" class="plnk">LC #177</a><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+</div></div>
+<!-- EXCEL PAGE -->
+<div class="ph" id="hdr-excel"><div class="ph-eye"><span class="ph-d" style="background:var(--excel)"></span>Core Skill</div><div class="ph-title" style="color:var(--excel)">Excel Mastery</div><div class="ph-sub">21 hands-on exercises. Download the Superstore dataset from Kaggle and practice every exercise in actual Excel — reading alone won't help.</div></div>
+<div class="ca" id="page-excel">
+<div class="tip t-gr"><span class="tico">📥</span><div><strong>Dataset:</strong> kaggle.com → search "Superstore Sales Dataset" → download Excel file. Real data: 10,000 orders, products, regions. Use this for all 21 exercises.</div></div>
+<div class="grid" style="margin-top:12px">
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(52,211,153,.1)">🔍</div><div><div class="card-title">Lookup Functions — VLOOKUP, INDEX-MATCH, XLOOKUP</div><div class="card-meta">Most common Excel interview test — you will be asked to demonstrate this</div></div><div class="card-bdgs"><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>VLOOKUP:</strong> looks left→right only. Breaks when columns are inserted. <code>=VLOOKUP(val, table, col_num, FALSE)</code><br>
+<strong>INDEX-MATCH:</strong> flexible, any direction, robust. <code>=INDEX(return_range, MATCH(val, search_range, 0))</code><br>
+<strong>XLOOKUP</strong> (Excel 365): simplest. <code>=XLOOKUP(val, lookup_arr, return_arr, "Not Found")</code>
+</div>
+<div class="plist">
+<div class="pitem"><span class="pnum">E01</span><div class="pcont"><div class="ptitle">VLOOKUP: pull the manager name from a lookup sheet into each employee row</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E02</span><div class="pcont"><div class="ptitle">Rewrite E01 using INDEX-MATCH — verify both give identical results</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E03</span><div class="pcont"><div class="ptitle">INDEX-MATCH: look up a value in a column to the LEFT of the search column (impossible with VLOOKUP)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E04</span><div class="pcont"><div class="ptitle">XLOOKUP with "Not Found" for missing IDs — confirm it shows cleanly instead of errors</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(52,211,153,.1)">📋</div><div><div class="card-title">Pivot Tables — Build, Group, Slicer, Pivot Chart</div><div class="card-meta">Drag-and-drop GROUP BY — fastest way to answer "by group" questions</div></div><div class="card-bdgs"><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt"><strong>Rows</strong> = group by dimension. <strong>Values</strong> = aggregate (SUM/COUNT/AVG). <strong>Columns</strong> = cross-tab. <strong>Slicers</strong> = interactive filter buttons the user can click.</div>
+<div class="plist">
+<div class="pitem"><span class="pnum">E05</span><div class="pcont"><div class="ptitle">Pivot Table: Total Sales by Region (rows) and Category (columns)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E06</span><div class="pcont"><div class="ptitle">Add a Year Slicer — click 2023 vs 2024 and see the pivot update</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E07</span><div class="pcont"><div class="ptitle">Group Order Date by Month in the pivot — display monthly revenue trend</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E08</span><div class="pcont"><div class="ptitle">Change Values field to show "% of Column Total" instead of raw numbers</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E09</span><div class="pcont"><div class="ptitle">Insert a Pivot Chart (clustered bar) directly from your Pivot Table</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(52,211,153,.1)">➕</div><div><div class="card-title">SUMIF, COUNTIF, AVERAGEIF + Multi-condition variants</div><div class="card-meta">Conditional aggregation — used constantly in every reporting role</div></div><div class="card-bdgs"><span class="bdg easy">Easy</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<code>=SUMIF(range, criteria, sum_range)</code> — one condition<br>
+<code>=SUMIFS(sum_range, range1, crit1, range2, crit2)</code> — multiple conditions<br>
+Same pattern for COUNTIFS and AVERAGEIFS.
+</div>
+<div class="plist">
+<div class="pitem"><span class="pnum">E10</span><div class="pcont"><div class="ptitle">Total sales for "Electronics" category only using SUMIF</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E11</span><div class="pcont"><div class="ptitle">Count orders from Delhi with status "Delivered" using COUNTIFS (two conditions)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E12</span><div class="pcont"><div class="ptitle">Summary table: total sales per region using SUMIF against a region list column</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(52,211,153,.1)">⚡</div><div><div class="card-title">Power Query — Import, Clean, Unpivot, Merge</div><div class="card-meta">Modern ETL inside Excel — replaces all manual copy-paste data prep</div></div><div class="card-bdgs"><span class="bdg med">Medium</span><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">Power Query records every step as a transformation. When source data refreshes, all steps replay automatically. Access via: <strong>Data → Get Data → From File → From CSV/Excel.</strong></div>
+<div class="tip t-gr"><span class="tico">💡</span><div>Everything done in Power Query is reproducible and auditable. This is how professional data teams work — no more "I manually fixed this column" excuses.</div></div>
+<div class="plist">
+<div class="pitem"><span class="pnum">E13</span><div class="pcont"><div class="ptitle">Import a CSV file using Power Query (not the regular import) and load it as a table</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E14</span><div class="pcont"><div class="ptitle">In Power Query: remove duplicate rows, filter blank rows, rename columns</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E15</span><div class="pcont"><div class="ptitle">Split a "Full Name" column into First Name and Last Name columns</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E16</span><div class="pcont"><div class="ptitle">Unpivot: wide format (Jan/Feb/Mar as columns) → long format (Month, Value as rows)</div><div class="pnote">Select month columns → Transform → Unpivot Columns</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E17</span><div class="pcont"><div class="ptitle">Merge two queries on a common key column — exactly like a SQL LEFT JOIN</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(52,211,153,.1)">🎨</div><div><div class="card-title">Conditional Formatting + Charts + Data Validation</div></div><div class="card-bdgs"><span class="bdg easy">Easy</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="plist">
+<div class="pitem"><span class="pnum">E18</span><div class="pcont"><div class="ptitle">Color-scale conditional formatting on sales column: green=high, red=low</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E19</span><div class="pcont"><div class="ptitle">Highlight duplicate Order IDs using conditional formatting (Highlight Cell Rules → Duplicate)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E20</span><div class="pcont"><div class="ptitle">Line chart of monthly revenue with data labels and a linear trendline</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">E21</span><div class="pcont"><div class="ptitle">Data validation drop-down list on a Status cell: Pending / Delivered / Cancelled</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+</div></div>
+
+<!-- POWER BI PAGE -->
+<div class="ph" id="hdr-pbi"><div class="ph-eye"><span class="ph-d" style="background:var(--pbi)"></span>Core Skill</div><div class="ph-title" style="color:var(--pbi)">Power BI</div><div class="ph-sub">Download Power BI Desktop free from microsoft.com/powerbi. Build everything hands-on — watching tutorials is not practice.</div></div>
+<div class="ca" id="page-pbi"><div class="grid">
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,191,36,.1)">🔌</div><div><div class="card-title">Data Connection + Power Query in Power BI</div></div><div class="card-bdgs"><span class="bdg easy">Easy</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="plist">
+<div class="pitem"><span class="pnum">P01</span><div class="pcont"><div class="ptitle">Import 3 CSV files (orders, customers, products) via Get Data → Text/CSV</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P02</span><div class="pcont"><div class="ptitle">Power Query: rename columns, remove nulls, change order_date column type to Date</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P03</span><div class="pcont"><div class="ptitle">Create a Date table in Power Query with Year, Month, Quarter, DayOfWeek columns</div><div class="pnote">= List.Dates(#date(2022,1,1), 365*3, #duration(1,0,0,0)) → Table.FromList → add columns</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,191,36,.1)">⭐</div><div><div class="card-title">Data Model — Star Schema + Relationships</div><div class="card-meta">Foundation of every professional Power BI report</div></div><div class="card-bdgs"><span class="bdg med">Medium</span><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt"><strong>Star Schema:</strong> one central Fact table (orders/transactions) → surrounded by Dimension tables (customers, products, dates). Connect via one-to-many relationships. Slicers filter across all visuals through these relationships.</div>
+<div class="plist">
+<div class="pitem"><span class="pnum">P04</span><div class="pcont"><div class="ptitle">Model view: create relationships — orders→customers, orders→products, orders→dates</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P05</span><div class="pcont"><div class="ptitle">Verify all relationships show "1" on dim side and "*" on fact side (One-to-Many)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P06</span><div class="pcont"><div class="ptitle">Set cross-filter direction to Single on all relationships — confirm slicers work correctly</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,191,36,.1)">🧮</div><div><div class="card-title">DAX Measures — SUM, CALCULATE, Time Intelligence</div><div class="card-meta">The most important Power BI skill to demonstrate in interviews</div></div><div class="card-bdgs"><span class="bdg hard">Hard</span><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>Measures</strong> are dynamic — they recalculate based on the current filter context from slicers and visuals.<br>
+<strong>CALCULATE(expression, filter)</strong> — evaluates expression with modified filter context. Most powerful DAX function.<br>
+<strong>DIVIDE(numerator, denominator, 0)</strong> — safe division that returns 0 instead of error on divide-by-zero.<br>
+<strong>TOTALYTD, SAMEPERIODLASTYEAR</strong> — time intelligence functions (require Date table).
+</div>
+<pre><code>Total Revenue = SUM(orders[amount])
+Avg Order = DIVIDE([Total Revenue], COUNTROWS(orders), 0)
+Revenue LY = CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(dates[date]))
+YoY % = DIVIDE([Total Revenue] - [Revenue LY], [Revenue LY], 0)</code></pre>
+<div class="plist">
+<div class="pitem"><span class="pnum">P07</span><div class="pcont"><div class="ptitle">Create measure: Total Revenue = SUM of order amounts</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P08</span><div class="pcont"><div class="ptitle">Create measure: Avg Order Value using DIVIDE (not division operator)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P09</span><div class="pcont"><div class="ptitle">Create measure: Revenue YTD using TOTALYTD</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P10</span><div class="pcont"><div class="ptitle">Create measure: Revenue Last Year using CALCULATE + SAMEPERIODLASTYEAR</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P11</span><div class="pcont"><div class="ptitle">Create measure: YoY % Change = DIVIDE(current – last year, last year, 0)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P12</span><div class="pcont"><div class="ptitle">Use CALCULATE to show Electronics-only revenue in a card regardless of category slicer selection</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,191,36,.1)">📊</div><div><div class="card-title">Dashboard Building — Visuals, Slicers, RLS</div><div class="card-meta">What the interviewer actually sees — make it polished</div></div><div class="card-bdgs"><span class="bdg med">Medium</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="plist">
+<div class="pitem"><span class="pnum">P13</span><div class="pcont"><div class="ptitle">4 KPI cards: Total Revenue, Total Orders, Avg Order Value, Avg Review Score</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P14</span><div class="pcont"><div class="ptitle">Line chart: Monthly Revenue Trend with data labels</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P15</span><div class="pcont"><div class="ptitle">Horizontal bar chart: Top 10 Categories by Revenue (sorted descending)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P16</span><div class="pcont"><div class="ptitle">Add Slicers for Year and Category — verify they filter ALL visuals on the page</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">P17</span><div class="pcont"><div class="ptitle">Row-Level Security: create a "South" role that filters to Southern region only — test with View As</div><div class="pnote">Modeling → Manage Roles → add DAX filter [Region] = "South"</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+</div></div>
+<!-- TABLEAU PAGE -->
+<div class="ph" id="hdr-tableau"><div class="ph-eye"><span class="ph-d" style="background:var(--tab)"></span>Core Skill</div><div class="ph-title" style="color:var(--tab)">Tableau</div><div class="ph-sub">Download Tableau Public (free) from public.tableau.com. The Superstore sample dataset comes built-in — use it for all exercises.</div></div>
+<div class="ca" id="page-tableau"><div class="grid">
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(192,132,252,.1)">📐</div><div><div class="card-title">Core Skills — Dimensions, Measures, Calculated Fields, Basic Charts</div></div><div class="card-bdgs"><span class="bdg easy">Easy</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt"><strong>Dimensions</strong> = categorical (text, dates). <strong>Measures</strong> = numeric (aggregated). Tableau auto-classifies — always verify.<br><strong>Calculated field</strong> = custom formula added as a new field: Analyze → Create Calculated Field.</div>
+<div class="plist">
+<div class="pitem"><span class="pnum">T01</span><div class="pcont"><div class="ptitle">Connect to Superstore — identify all Dimensions and Measures. Fix any misclassified fields.</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T02</span><div class="pcont"><div class="ptitle">Calculated field: Profit Margin = SUM([Profit]) / SUM([Sales])</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T03</span><div class="pcont"><div class="ptitle">Calculated field: Days to Ship = DATEDIFF('day', [Order Date], [Ship Date])</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T04</span><div class="pcont"><div class="ptitle">Bar chart: Sales by Sub-Category, sorted descending</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T05</span><div class="pcont"><div class="ptitle">Line chart: Monthly Sales trend — drag Order Date to Columns and group by Month</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(192,132,252,.1)">🔽</div><div><div class="card-title">Filters + Context Filters + Top N</div><div class="card-meta">Controlling exactly what data each visual shows</div></div><div class="card-bdgs"><span class="bdg med">Medium</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>Regular filter</strong> — applied after all calculations. Independent per worksheet.<br>
+<strong>Context filter</strong> — runs first; other filters run within it. Essential for correct Top N per group.<br>
+To add context: right-click filter → Add to Context.
+</div>
+<div class="tip t-pu"><span class="tico">⚠️</span><div>Without a Context Filter, "Top 5 per Category" will give the global top 5 across all categories — not 5 per category. Always add Category as context when doing per-group Top N.</div></div>
+<div class="plist">
+<div class="pitem"><span class="pnum">T06</span><div class="pcont"><div class="ptitle">Top 5 products by Sales in each Category — add Category as a Context Filter</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T07</span><div class="pcont"><div class="ptitle">Quick Filter for Region applied to ALL worksheets in the dashboard</div><div class="pnote">Right-click filter → Apply to Worksheets → All Using This Data Source</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T08</span><div class="pcont"><div class="ptitle">Filter to show only profitable orders (Profit > 0) using a calculated field filter</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(192,132,252,.1)">⚡</div><div><div class="card-title">LOD Expressions — FIXED, INCLUDE, EXCLUDE</div><div class="card-meta">Most asked advanced Tableau topic in interviews</div></div><div class="card-bdgs"><span class="bdg hard">Hard</span><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">LOD = Level of Detail. Computes aggregations at a granularity <em>you specify</em>, independent of the current view.<br><br>
+<strong>FIXED</strong> — compute at stated dimension only, ignores view filters (except Context).<br>
+<code>{ FIXED [Customer ID] : SUM([Sales]) }</code> = total sales per customer, always<br><br>
+<strong>INCLUDE</strong> — compute at finer grain than the view.<br>
+<strong>EXCLUDE</strong> — compute at coarser grain than the view.<br>
+<code>{ EXCLUDE [Region] : SUM([Sales]) }</code> = national total, shown alongside regional breakdown</div>
+<div class="plist">
+<div class="pitem"><span class="pnum">T09</span><div class="pcont"><div class="ptitle">LOD: total sales per customer regardless of any current view filters</div><div class="pnote">{ FIXED [Customer ID] : SUM([Sales]) }</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T10</span><div class="pcont"><div class="ptitle">LOD: each customer's first order date</div><div class="pnote">{ FIXED [Customer ID] : MIN([Order Date]) }</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T11</span><div class="pcont"><div class="ptitle">EXCLUDE LOD: show national total sales alongside regional totals in the same view</div><div class="pnote">{ EXCLUDE [Region] : SUM([Sales]) } — add as a reference line or dual axis</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T12</span><div class="pcont"><div class="ptitle">Flag "New Customer" vs "Returning Customer" using FIXED LOD for first order date</div><div class="pnote">IF [Order Date] = { FIXED [Customer ID] : MIN([Order Date]) } THEN "New" ELSE "Returning" END</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(192,132,252,.1)">🖥️</div><div><div class="card-title">Dashboard — Actions, Layout, Publish to Tableau Public</div><div class="card-meta">Your final portfolio piece — this becomes your project URL</div></div><div class="card-bdgs"><span class="bdg med">Medium</span></div><span class="chev">›</span></div>
+<div class="card-body">
+<div class="tip t-pu"><span class="tico">🎯</span><div>After publishing to Tableau Public, copy the URL and add it to your resume under Projects. This is a live, interactive portfolio piece any interviewer can click.</div></div>
+<div class="plist">
+<div class="pitem"><span class="pnum">T13</span><div class="pcont"><div class="ptitle">Dashboard: KPI text tiles, monthly trend line, category bar chart, geographic map — all on one page</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T14</span><div class="pcont"><div class="ptitle">Filter Action: clicking a bar in the category chart filters the map to that category only</div><div class="pnote">Dashboard → Actions → Add Filter Action</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T15</span><div class="pcont"><div class="ptitle">Highlight Action: hovering a region highlights it consistently across all charts</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">T16</span><div class="pcont"><div class="ptitle">Publish dashboard to Tableau Public — copy the URL for your resume and GitHub README</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+</div></div>
+
+<!-- STATISTICS PAGE -->
+<div class="ph" id="hdr-stats"><div class="ph-eye"><span class="ph-d" style="background:var(--stats)"></span>Core Skill</div><div class="ph-title" style="color:var(--stats)">Statistics & Analytics Concepts</div><div class="ph-sub">These aren't just theory — interviewers test whether you apply statistical thinking to real data problems. Every concept here has come up in interviews.</div></div>
+<div class="ca" id="page-stats"><div class="grid">
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,146,60,.1)">📐</div><div><div class="card-title">Descriptive Statistics — Mean, Median, Mode, Std Dev, Percentile</div></div><div class="card-bdgs"><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>Mean</strong> — sum / count. Sensitive to outliers. Use for symmetric distributions.<br>
+<strong>Median</strong> — middle value. Robust to outliers. <em>Always use for salary / income data.</em><br>
+<strong>Mode</strong> — most frequent value. Use for categories ("most popular product").<br>
+<strong>Std Deviation</strong> — spread around mean. Low = data clustered, High = data spread out.<br>
+<strong>Percentile</strong> — P90 salary = 90% of people earn less than this value.
+</div>
+<div class="tip t-or"><span class="tico">🎯</span><div>Interview: "What's the average salary?" → Always clarify: "Mean or median? For salary, median is more meaningful — a few executives skew the mean significantly."</div></div>
+<div class="plist">
+<div class="pitem"><span class="pnum">S01</span><div class="pcont"><div class="ptitle">In SQL: compute mean, min, max, P25, P75, P90 of order amounts in one query</div><div class="pnote">MySQL: use PERCENT_RANK() in a subquery. PostgreSQL has PERCENTILE_CONT directly.</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">S02</span><div class="pcont"><div class="ptitle">In Excel: AVERAGE, MEDIAN, MODE, STDEV on a salary column — compare mean vs median</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,146,60,.1)">🔗</div><div><div class="card-title">Correlation vs Causation + Confounding Variables</div></div><div class="card-bdgs"><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>Correlation</strong> — two things move together (-1 to +1).<br>
+<strong>Causation</strong> — one directly causes the other.<br>
+<strong>Confounding variable</strong> — a hidden third variable causing both.<br><br>
+Classic: ice cream sales and drowning both spike in summer. Hot weather (confounder) causes both.
+</div>
+<div class="tip t-or"><span class="tico">🎯</span><div>Interview trap: "Users who get push notifications buy more. Should we send more?" — Wrong. Maybe we sent notifications only to already-engaged users (selection bias). Always ask: what else could explain this?</div></div>
+<div class="plist">
+<div class="pitem"><span class="pnum">S03</span><div class="pcont"><div class="ptitle">Identify the confounding variable: "Cities with more hospitals have higher death rates"</div><div class="pnote">Answer: Sicker people travel to cities with hospitals — illness is the confounder</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">S04</span><div class="pcont"><div class="ptitle">In your Olist project: late delivery correlates with low review scores — explain why this isn't necessarily causation</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,146,60,.1)">🧪</div><div><div class="card-title">A/B Testing — Hypothesis, P-Value, Sample Size</div></div><div class="card-bdgs"><span class="bdg med">Medium</span><span class="bdg must">Must Know</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>Steps:</strong> Define hypothesis → Calculate required sample size → Run test (random 50/50 split) → Wait long enough → Analyse with p-value → Decide.<br><br>
+<strong>P-value &lt; 0.05</strong> = statistically significant = less than 5% chance the result is random noise.<br>
+<strong>Confidence interval</strong> = range where true effect likely falls ("1.2% to 3.4% improvement").<br><br>
+<strong>Common mistakes:</strong> Stopping too early (peeking problem), sample too small, testing too many things simultaneously, ignoring weekly seasonality.
+</div>
+<div class="plist">
+<div class="pitem"><span class="pnum">S05</span><div class="pcont"><div class="ptitle">Write a hypothesis for: "We changed the checkout button from grey to orange"</div><div class="pnote">Format: "Changing X will increase [metric] by approximately Y% because [reason]"</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">S06</span><div class="pcont"><div class="ptitle">A test ran 3 days, showed p=0.03. Manager says ship it. What concerns would you raise?</div><div class="pnote">Think: sample size too small, novelty effect, day-of-week bias, didn't run a full week</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,146,60,.1)">📊</div><div><div class="card-title">Analytics Frameworks — KPIs, Funnels, Cohorts, AARRR</div></div><div class="card-bdgs"><span class="bdg med">Medium</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>KPI</strong> — Key Performance Indicator. Must be specific, measurable, actionable, time-bound.<br>
+<strong>Funnel analysis</strong> — tracks conversion at each step: Visit → Add to Cart → Checkout → Purchase. Drop-off reveals where to focus.<br>
+<strong>Cohort analysis</strong> — group users by when they joined. Track behaviour over time per group. Used for retention.<br>
+<strong>AARRR (Pirate Metrics):</strong> Acquisition → Activation → Retention → Revenue → Referral.
+</div>
+<div class="plist">
+<div class="pitem"><span class="pnum">S07</span><div class="pcont"><div class="ptitle">Define 3 KPIs each for: an e-commerce company, a food delivery app, and a SaaS product</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">S08</span><div class="pcont"><div class="ptitle">In SQL: compute conversion rate at each funnel step from an events table</div><div class="pnote">Table: events(user_id, event_type, ts) — events: view_product, add_cart, checkout, purchase. Use COUNT(DISTINCT user_id) per step.</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,146,60,.1)">🧹</div><div><div class="card-title">Outliers, Skewness, Distributions</div></div><div class="card-bdgs"><span class="bdg med">Medium</span></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>Outlier</strong> — data point far from others. Detect with IQR (beyond 1.5× IQR from Q1/Q3) or Z-score (beyond ±3 std dev). <em>Never blindly remove — first understand if it's an error or a real extreme event.</em><br><br>
+<strong>Normal distribution</strong> — symmetric bell curve. Mean = Median.<br>
+<strong>Right-skewed</strong> — long tail right. Mean &gt; Median (salary distributions).<br>
+<strong>Left-skewed</strong> — long tail left. Mean &lt; Median.
+</div>
+<div class="plist">
+<div class="pitem"><span class="pnum">S09</span><div class="pcont"><div class="ptitle">SQL: find all orders where amount is an outlier using the IQR method</div><div class="pnote">Find Q1 and Q3 using PERCENTILE_CONT (or approximation), compute IQR, flag rows beyond Q3 + 1.5*IQR</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">S10</span><div class="pcont"><div class="ptitle">Excel: use a histogram (Data Analysis ToolPak) to visualise the distribution of order amounts</div><div class="pnote">Data → Data Analysis → Histogram. Describe: is it normal, right-skewed, or left-skewed?</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div></div></div>
+</div></div>
+<!-- PLATFORMS PAGE -->
+<div class="ph" id="hdr-platforms"><div class="ph-eye"><span class="ph-d" style="background:var(--proj)"></span>Practice</div><div class="ph-title" style="color:var(--proj)">Where to Practice</div><div class="ph-sub">Use these in order. Don't skip HackerRank — it builds the volume and speed that makes interviews feel easy.</div></div>
+<div class="ca" id="page-platforms">
+<div class="platgrid">
+<div class="platcard"><div class="platname">1. HackerRank SQL</div><div class="platdesc">Best for beginners. Auto-graded. Structured track from Basic → Advanced. Complete ALL Easy + Medium. ~60 problems total.</div><div class="platlink">hackerrank.com/domains/sql</div><div style="margin-top:8px"><span class="bdg free">Free</span></div></div>
+<div class="platcard"><div class="platname">2. StrataScratch</div><div class="platdesc">Actual questions from Google, Amazon, Uber, Netflix, Meta. Filter by company. Closest to real product company interviews.</div><div class="platlink">stratascratch.com</div><div style="margin-top:8px"><span class="bdg free">Free tier</span></div></div>
+<div class="platcard"><div class="platname">3. LeetCode Database</div><div class="platdesc">The 13 must-solve problems below cover 90% of what companies test. Only do the specific 13 — don't get distracted by others.</div><div class="platlink">leetcode.com/problemset/database</div><div style="margin-top:8px"><span class="bdg free">Free tier</span></div></div>
+<div class="platcard"><div class="platname">Mode Analytics SQL Tutorial</div><div class="platdesc">Free interactive lessons with real datasets. Best for learning window functions interactively.</div><div class="platlink">mode.com/sql-tutorial</div><div style="margin-top:8px"><span class="bdg free">Free</span></div></div>
+<div class="platcard"><div class="platname">Kaggle Datasets</div><div class="platdesc">Download real datasets. Olist, Superstore, Zomato, IPL, COVID — all free. Use for your project and extra SQL practice.</div><div class="platlink">kaggle.com/datasets</div><div style="margin-top:8px"><span class="bdg free">Free</span></div></div>
+<div class="platcard"><div class="platname">W3Schools SQL</div><div class="platdesc">Quick syntax reference. Use when you forget the exact function name. Not for practice — for lookup only.</div><div class="platlink">w3schools.com/sql</div><div style="margin-top:8px"><span class="bdg free">Free</span></div></div>
+</div>
+
+<div style="font-size:15px;font-weight:800;color:var(--white);margin:22px 0 10px">HackerRank Completion Target</div>
+<table class="rtbl">
+<thead><tr><th>Category</th><th>Problems</th><th>When to do</th><th>Target</th></tr></thead>
+<tbody>
+<tr><td>Basic Select</td><td>~20</td><td>Week 1</td><td>All of them</td></tr>
+<tr><td>Advanced Select</td><td>~5</td><td>Week 1</td><td>All of them</td></tr>
+<tr><td>Aggregation</td><td>~20</td><td>Week 1–2</td><td>All of them</td></tr>
+<tr><td>Basic Join</td><td>~8</td><td>Week 2</td><td>All of them</td></tr>
+<tr><td>Advanced Join</td><td>~5</td><td>Week 2–3</td><td>All of them</td></tr>
+<tr><td>Alternative Queries</td><td>~4</td><td>Week 3</td><td>All of them</td></tr>
+</tbody>
+</table>
+
+<div style="font-size:15px;font-weight:800;color:var(--white);margin:22px 0 10px">Excel & BI Learning Resources</div>
+<table class="rtbl">
+<thead><tr><th>Tool</th><th>Resource</th><th>What to do</th></tr></thead>
+<tbody>
+<tr><td>Excel</td><td><a href="https://exceljet.net" target="_blank">exceljet.net</a></td><td>Best reference for every Excel function with examples. Bookmark this.</td></tr>
+<tr><td>Power BI</td><td><a href="https://learn.microsoft.com/en-us/power-bi/" target="_blank">learn.microsoft.com/power-bi</a></td><td>Free official learning path. Complete the "Power BI fundamentals" path.</td></tr>
+<tr><td>Tableau</td><td><a href="https://public.tableau.com/gallery" target="_blank">public.tableau.com/gallery</a></td><td>Browse others' dashboards — click "reverse engineer" ones you like.</td></tr>
+<tr><td>Statistics</td><td><a href="https://www.khanacademy.org/math/statistics-probability" target="_blank">khanacademy.org/statistics</a></td><td>Free videos. Watch: descriptive stats, distributions, hypothesis testing.</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- LEETCODE PAGE -->
+<div class="ph" id="hdr-leetcode"><div class="ph-eye"><span class="ph-d" style="background:var(--red)"></span>Must Solve</div><div class="ph-title" style="color:var(--red)">LeetCode 13 Must-Solves</div><div class="ph-sub">These 13 problems cover 90% of what product companies test in SQL rounds. Complete all of them — in order — before any technical interview.</div></div>
+<div class="ca" id="page-leetcode">
+<div class="tip t-sql"><span class="tico">⚠️</span><div><strong>Rule:</strong> Spend at least 20 minutes on every problem before looking at any solution. The struggle is where learning actually happens. Mark problems you needed hints on — re-solve them in Week 8 cold.</div></div>
+<div class="plist" style="margin-top:12px">
+<div class="pitem"><span class="pnum">#175</span><div class="pcont"><div class="ptitle">Combine Two Tables</div><div class="pnote">LEFT JOIN — include persons who have no address. Start here — easiest of the 13.</div></div><span class="bdg easy">Easy</span><a href="https://leetcode.com/problems/combine-two-tables/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#176</span><div class="pcont"><div class="ptitle">Second Highest Salary</div><div class="pnote">Return NULL when no second salary exists — key: handle the edge case correctly.</div></div><span class="bdg med">Med</span><a href="https://leetcode.com/problems/second-highest-salary/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#177</span><div class="pcont"><div class="ptitle">Nth Highest Salary</div><div class="pnote">Parameterised version of #176. Uses a function with LIMIT N-1, 1 inside the body.</div></div><span class="bdg med">Med</span><a href="https://leetcode.com/problems/nth-highest-salary/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#178</span><div class="pcont"><div class="ptitle">Rank Scores</div><div class="pnote">DENSE_RANK — same score = same rank, no gap. Must use window function.</div></div><span class="bdg med">Med</span><a href="https://leetcode.com/problems/rank-scores/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#180</span><div class="pcont"><div class="ptitle">Consecutive Numbers</div><div class="pnote">Find numbers appearing 3+ times consecutively. Self JOIN (l1 JOIN l2 ON l1.id+1=l2.id) or LAG approach.</div></div><span class="bdg med">Med</span><a href="https://leetcode.com/problems/consecutive-numbers/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#181</span><div class="pcont"><div class="ptitle">Employees Earning More Than Their Managers</div><div class="pnote">Self JOIN on the same table with two aliases (e1 for employee, e2 for manager).</div></div><span class="bdg easy">Easy</span><a href="https://leetcode.com/problems/employees-earning-more-than-their-managers/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#184</span><div class="pcont"><div class="ptitle">Department Highest Salary</div><div class="pnote">Find max salary per department, join back to find which employee has that salary.</div></div><span class="bdg med">Med</span><a href="https://leetcode.com/problems/department-highest-salary/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#185</span><div class="pcont"><div class="ptitle">Department Top Three Salaries</div><div class="pnote">DENSE_RANK() OVER (PARTITION BY dept ORDER BY salary DESC) — filter rnk ≤ 3. Classic.</div></div><span class="bdg hard">Hard</span><a href="https://leetcode.com/problems/department-top-three-salaries/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#196</span><div class="pcont"><div class="ptitle">Delete Duplicate Emails</div><div class="pnote">DELETE + subquery — keep the row with smallest id per email address.</div></div><span class="bdg easy">Easy</span><a href="https://leetcode.com/problems/delete-duplicate-emails/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#197</span><div class="pcont"><div class="ptitle">Rising Temperature</div><div class="pnote">Compare today's temp to yesterday's. Use DATE_SUB(date, INTERVAL 1 DAY) or self JOIN.</div></div><span class="bdg easy">Easy</span><a href="https://leetcode.com/problems/rising-temperature/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#262</span><div class="pcont"><div class="ptitle">Trips and Users</div><div class="pnote">Cancellation rate excluding banned users. Complex JOIN + GROUP BY. Hardest of the 13 — do last.</div></div><span class="bdg hard">Hard</span><a href="https://leetcode.com/problems/trips-and-users/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#1179</span><div class="pcont"><div class="ptitle">Reformat Department Table</div><div class="pnote">Pivot: SUM(CASE WHEN month='Jan' THEN revenue END) repeated for each month column.</div></div><span class="bdg easy">Easy</span><a href="https://leetcode.com/problems/reformat-department-table/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">#1393</span><div class="pcont"><div class="ptitle">Capital Gain/Loss</div><div class="pnote">SUM(CASE WHEN operation='Buy' THEN -price ELSE price END) per stock — conditional aggregation.</div></div><span class="bdg med">Med</span><a href="https://leetcode.com/problems/capital-gainloss/" target="_blank" class="plnk">Solve →</a><div class="chkbox" onclick="chk(this)"></div></div>
+</div>
+</div>
+
+<!-- STRATASCRATCH PAGE -->
+<div class="ph" id="hdr-stratascratch"><div class="ph-eye"><span class="ph-d" style="background:#a78bfa"></span>Practice</div><div class="ph-title" style="color:#a78bfa">StrataScratch — Real Company Questions</div><div class="ph-sub">Actual interview questions from top companies. Do these in Weeks 6–8 after SQL foundations are solid. Go to stratascratch.com → filter SQL → Medium → target company.</div></div>
+<div class="ca" id="page-stratascratch">
+<div class="tip t-pu"><span class="tico">🔗</span><div><strong>stratascratch.com</strong> → Language: SQL → Difficulty: Medium → Company: your target. These are the closest to what real interviews look like.</div></div>
+<div class="plist" style="margin-top:12px">
+<div class="pitem"><span class="pnum">SS01</span><div class="pcont"><div class="ptitle">Number of employees in each department</div><div class="pnote">Amazon · Easy — GROUP BY + COUNT(*)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">SS02</span><div class="pcont"><div class="ptitle">Order details of the most recent order for each customer</div><div class="pnote">Amazon · Medium — ROW_NUMBER() OVER (PARTITION BY customer ORDER BY date DESC) = 1</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">SS03</span><div class="pcont"><div class="ptitle">Users who were active for 3 or more consecutive days</div><div class="pnote">Google · Hard — LAG or dense rank with ROW_NUMBER - date trick</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">SS04</span><div class="pcont"><div class="ptitle">Top 5 highest earning employees in each department</div><div class="pnote">Various · Medium — DENSE_RANK() OVER (PARTITION BY dept ORDER BY salary DESC)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">SS05</span><div class="pcont"><div class="ptitle">7-day rolling average of daily signups</div><div class="pnote">Various · Medium — AVG() OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">SS06</span><div class="pcont"><div class="ptitle">Percentage of revenue from each product category</div><div class="pnote">Airbnb · Medium — SUM(rev) / SUM(rev) OVER () * 100</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">SS07</span><div class="pcont"><div class="ptitle">Month-over-month revenue growth rate</div><div class="pnote">Various · Medium — LAG(rev) OVER (ORDER BY month) for previous month comparison</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">SS08</span><div class="pcont"><div class="ptitle">Customers whose second purchase was within 30 days of their first</div><div class="pnote">E-commerce · Hard — LEAD() + DATEDIFF on ranked orders per customer</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">SS09</span><div class="pcont"><div class="ptitle">New vs returning user revenue split per month</div><div class="pnote">Various · Hard — FIXED first order date per user, then label new vs returning</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+<div class="pitem"><span class="pnum">SS10</span><div class="pcont"><div class="ptitle">Median salary per department without using MEDIAN function</div><div class="pnote">Various · Hard — PERCENTILE_CONT(0.5) or ROW_NUMBER self-join approach</div></div><div class="chkbox" onclick="chk(this)"></div></div>
+</div>
+<div class="tip t-pu" style="margin-top:12px"><span class="tico">📌</span><div>After these 10, explore 20 more filtering to your target companies. Depth on 30 real company problems beats breadth on 100 generic ones.</div></div>
+</div>
+<!-- PROJECT PAGE -->
+<div class="ph" id="hdr-project"><div class="ph-eye"><span class="ph-d" style="background:var(--proj)"></span>Portfolio</div><div class="ph-title" style="color:var(--proj)">End-to-End Project — Olist Brazilian E-Commerce</div><div class="ph-sub">One complete project done well outweighs 10 certificates. This is what actually gets you hired.</div></div>
+<div class="ca" id="page-project">
+<div class="tip t-sql"><span class="tico">📥</span><div><strong>Download:</strong> kaggle.com → search "Brazilian E-Commerce Public Dataset by Olist" → Download all CSVs. 100,000 orders, 9 related tables, real data.</div></div>
+<div class="grid" style="margin-top:12px">
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(34,211,238,.1)">📁</div><div><div class="card-title">Phase 1 — Setup & Data Exploration</div><div class="card-meta">Week 6, Days 1–2</div></div><span class="chev">›</span></div>
+<div class="card-body"><ul class="clist">
+<li>Download all 9 Olist CSV files from Kaggle</li>
+<li>Set up MySQL Workbench or DB Browser for SQLite (simpler)</li>
+<li>Import all CSVs as separate tables — verify with COUNT(*) on each</li>
+<li>Check NULLs in every important column: COUNT(*) - COUNT(col)</li>
+<li>Run SELECT DISTINCT on status and category columns to see all unique values</li>
+<li>Check date ranges: MIN and MAX of order_purchase_timestamp</li>
+<li>Write down your "5 Business Questions I will answer with this data"</li>
+</ul></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(34,211,238,.1)">🧹</div><div><div class="card-title">Phase 2 — Data Cleaning & Master View</div><div class="card-meta">Week 6, Days 3–4</div></div><span class="chev">›</span></div>
+<div class="card-body"><ul class="clist">
+<li>Document all data quality issues found in Phase 1</li>
+<li>JOIN the Portuguese category name translation table to get English names</li>
+<li>Create delivery_delay_days = DATEDIFF(order_delivered_customer_date, order_estimated_delivery_date)</li>
+<li>Create delivery_status: "On Time" / "Late" using CASE WHEN on delay days</li>
+<li>Create master VIEW joining all key tables: vw_orders_master</li>
+<li>Validate: run COUNT(*) and SUM(payment_value) on the view to confirm it works</li>
+</ul></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(34,211,238,.1)">🔍</div><div><div class="card-title">Phase 3 — SQL Analysis (5 Business Questions)</div><div class="card-meta">Week 6 Day 5 → Week 7 Day 1</div></div><span class="chev">›</span></div>
+<div class="card-body">
+<div class="tip t-sql"><span class="tico">💡</span><div>Save all queries in a clean <strong>analysis.sql</strong> file with comments explaining each question. This file goes on GitHub and interviewers will read it.</div></div>
+<ul class="clist">
+<li>Q1: Monthly revenue trend 2017–2018 with MoM % growth using LAG function</li>
+<li>Q2: Top 15 product categories by revenue, order count, avg order value, avg review score</li>
+<li>Q3: Delivery performance by state — late delivery % and avg delay days</li>
+<li>Q4: Customer retention — how many customers ordered 1 time vs 2+ times?</li>
+<li>Q5: Delivery delay bands (0 days, 1–7, 8–30, 30+) vs average review score for each band</li>
+<li>Export all results to CSV files for Power BI / Tableau import</li>
+</ul></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(34,211,238,.1)">📊</div><div><div class="card-title">Phase 4 — Dashboard (Power BI or Tableau)</div><div class="card-meta">Week 7, Days 2–4</div></div><span class="chev">›</span></div>
+<div class="card-body"><ul class="clist">
+<li>4 KPI cards: Total Revenue, Total Orders, Avg Order Value, Avg Review Score</li>
+<li>Line chart: Monthly Revenue Trend (Jan 2017 – Aug 2018)</li>
+<li>Horizontal bar chart: Top 10 Product Categories by Revenue</li>
+<li>Map: Late delivery % by Brazilian state (choropleth)</li>
+<li>Column chart: Delivery delay band vs avg review score (Q5 result)</li>
+<li>Donut: One-time customers vs returning customers</li>
+<li>Slicers: Year, State, Category — verify they filter all visuals</li>
+<li>Clean layout: KPIs top row, charts below, slicers on right side panel</li>
+</ul></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(34,211,238,.1)">🚀</div><div><div class="card-title">Phase 5 — Portfolio & Presentation</div><div class="card-meta">Week 7, Day 5 — this is the deliverable</div></div><span class="chev">›</span></div>
+<div class="card-body">
+<div class="tip t-sql"><span class="tico">🎯</span><div>The project README is what interviewers read first. Write it like you're explaining to a smart non-technical person — clear problem, clear approach, clear findings, clear recommendations.</div></div>
+<ul class="clist">
+<li>Write README.md: project overview, tools used, business questions, key findings, recommendations</li>
+<li>Push to GitHub: README + analysis.sql + cleaning.sql + screenshot of dashboard</li>
+<li>Publish dashboard to Tableau Public OR save .pbix to include in portfolio</li>
+<li>Practice 3-minute verbal presentation of insights — out loud, not just in your head</li>
+<li>Optional but powerful: Write a Hashnode/Medium blog post about one key insight from the data</li>
+<li>Add GitHub project link to resume under "Projects" section</li>
+</ul></div></div>
+</div></div>
+
+<!-- INTERVIEW PAGE -->
+<div class="ph" id="hdr-interview"><div class="ph-eye"><span class="ph-d" style="background:var(--stats)"></span>Final Prep</div><div class="ph-title" style="color:var(--stats)">Interview Scenarios</div><div class="ph-sub">These questions filter candidates in final rounds. Practice answering them out loud — not just reading them. Saying it out loud reveals gaps that reading hides.</div></div>
+<div class="ca" id="page-interview"><div class="grid">
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,146,60,.1)">📉</div><div><div class="card-title">"Revenue dropped 20% last month. How would you investigate?"</div><div class="card-meta">Most common product analyst scenario — expected at every company</div></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>Step 1 — Verify it's real:</strong> Check if it's a data pipeline issue, tracking error, or calendar difference (fewer working days last month vs the month before).<br><br>
+<strong>Step 2 — Segment the drop:</strong> Break by product category, geography, customer segment, channel (app/web/paid/organic). Find where the drop is concentrated.<br><br>
+<strong>Step 3 — Check funnel metrics:</strong> Did traffic drop? Did conversion rate drop? Did average order value drop? Which one changed most tells you where to focus.<br><br>
+<strong>Step 4 — External factors:</strong> Competitor launch, platform outage, marketing campaign change, pricing change, macro event (holiday, strike, news event).<br><br>
+<strong>Step 5 — Hypothesis + query:</strong> "I believe it's X because I see Y in the data. Here's the SQL I'd run to confirm."
+</div>
+<div class="tip t-or"><span class="tico">🎯</span><div>Never answer "I'd look at the data." Show structured decomposition into sub-problems. The interviewer is testing whether you think systematically, not whether you know SQL.</div></div>
+</div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,146,60,.1)">📊</div><div><div class="card-title">"Walk me through your approach to a new analysis from scratch"</div></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>1.</strong> Understand the business question — what decision does this analysis support?<br>
+<strong>2.</strong> Identify data sources — tables, time range, granularity needed<br>
+<strong>3.</strong> Explore + assess quality — nulls, duplicates, date ranges, outliers<br>
+<strong>4.</strong> Clean and prepare — handle nulls, create derived columns<br>
+<strong>5.</strong> Analyse — aggregate, segment, compare, trend over time<br>
+<strong>6.</strong> Visualise — choose the chart type that best shows the insight<br>
+<strong>7.</strong> Derive insights — what's the story? what's surprising or actionable?<br>
+<strong>8.</strong> Recommend — what should the business do? Quantify impact if possible.<br>
+<strong>9.</strong> Communicate — present at the right level for the audience
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,146,60,.1)">🧪</div><div><div class="card-title">"Design an A/B test for a new checkout page"</div></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>1. Hypothesis:</strong> "Changing the CTA from 'Buy Now' to 'Complete Purchase' will increase checkout conversion rate by ~2% because it sounds less pushy."<br><br>
+<strong>2. Metric:</strong> Primary = checkout conversion rate. Secondary = revenue per session.<br><br>
+<strong>3. Sample size:</strong> Need: baseline conversion rate, minimum detectable effect (2%), statistical power (80%). Calculate required sample size before starting.<br><br>
+<strong>4. Random split:</strong> 50% see A (current), 50% see B (new). Assignment must be random and sticky (same user always sees same version).<br><br>
+<strong>5. Duration:</strong> At least 1–2 full weeks to capture weekly seasonality patterns.<br><br>
+<strong>6. Analysis:</strong> Is p-value &lt; 0.05? Is the confidence interval fully above 0%? Only then declare a winner.
+</div></div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,146,60,.1)">💬</div><div><div class="card-title">"Tell me about a time you found a meaningful insight from data" (STAR method)</div></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>STAR format:</strong><br>
+<strong>Situation —</strong> "In my Olist project, I was analysing e-commerce customer behaviour."<br>
+<strong>Task —</strong> "I wanted to understand why average review scores were low."<br>
+<strong>Action —</strong> "I wrote SQL joining orders, deliveries, and reviews. I grouped delivery delay into bands (on time, 1–7 days late, 8–30 days, 30+ days) and computed average review score per band."<br>
+<strong>Result —</strong> "I found orders delayed 30+ days received a 1.9 average score vs 4.2 for on-time orders. 60% of delayed orders came from only 3 states. My recommendation: prioritise last-mile logistics improvement in those 3 states — it would improve reviews, reduce complaints, and likely improve retention simultaneously."
+</div>
+<div class="tip t-or"><span class="tico">🎯</span><div>Know your project numbers cold. "Around 40%" is weak. "39.2% of late orders came from São Paulo and Minas Gerais" is strong. Precision builds credibility.</div></div>
+</div></div>
+
+<div class="card"><div class="card-head" onclick="tog(this)"><div class="card-ico" style="background:rgba(251,146,60,.1)">🗣️</div><div><div class="card-title">"Explain your dashboard to a non-technical manager"</div></div><span class="chev">›</span></div>
+<div class="card-body"><div class="ctxt">
+<strong>Rules for communicating to non-technical stakeholders:</strong><br><br>
+1. Lead with the insight, not the method: "Revenue grew 47% in November" — not "I ran a GROUP BY query."<br>
+2. Use plain language: no SQL terms, no "p-value," no "NULL," no "ETL."<br>
+3. One clear takeaway per visual — don't put 6 things on one chart.<br>
+4. Give business context: "This means we lost approximately 2,000 orders compared to last month."<br>
+5. Always end with a recommendation: "Based on this, I suggest we prioritise X."<br><br>
+<strong>Practice exercise:</strong> Explain your Olist dashboard to a family member who knows nothing about data. If they understand the key insight, you've done it right. If they're confused, your communication needs work — not your analysis.
+</div></div></div>
+</div></div>
+
+</main>
+</div>
+
+<button class="scroll-up" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function gp(id){
+  document.querySelectorAll('.ph,.ca,.s-item').forEach(el=>{
+    el.classList.remove('on');
+  });
+  document.getElementById('hdr-'+id).classList.add('on');
+  document.getElementById('page-'+id).classList.add('on');
+  const items=document.querySelectorAll('.s-item');
+  items.forEach(el=>{
+    const fn=el.getAttribute('onclick')||'';
+    if(fn.includes("'"+id+"'")||fn.includes('"'+id+'"'))el.classList.add('on');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function tog(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+function chk(el){
+  el.classList.toggle('done');
+  updateProg();
+}
+
+function updateProg(){
+  const all=document.querySelectorAll('.chkbox').length;
+  const done=document.querySelectorAll('.chkbox.done').length;
+  const pct=Math.round(done*100/all);
+  document.getElementById('pct').textContent=pct+'%';
+  document.getElementById('pfill').style.width=pct+'%';
+  try{
+    const state=Array.from(document.querySelectorAll('.chkbox')).map(e=>e.classList.contains('done'));
+    localStorage.setItem('da_guide_progress',JSON.stringify(state));
+  }catch(e){}
+}
+
+window.addEventListener('load',()=>{
+  try{
+    const saved=JSON.parse(localStorage.getItem('da_guide_progress')||'[]');
+    const boxes=document.querySelectorAll('.chkbox');
+    saved.forEach((v,i)=>{if(v&&boxes[i])boxes[i].classList.add('done');});
+    updateProg();
+  }catch(e){}
+});
+</script>
+</body>
+</html>
